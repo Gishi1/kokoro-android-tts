@@ -107,6 +107,26 @@ python3 tools/waveform.py kokoro_dump.pcm --out dump.png
 It writes to the app's own external files directory, so no storage permission is
 needed. Off by default; it grows a file per session.
 
+## A captured real session
+
+`docs/experiments/2026-10-13-librera-capture.md` analyses 91.7 s captured from Librera
+Reader on a real phone, through this engine:
+
+| | |
+| --- | ---: |
+| silence overall | 29.3 % |
+| pauses ≥150 ms | **23** (longest 593 ms) |
+| silence the engine inserted | **0 ms** |
+| largest sample jump vs peak | 43 % (no clipping) |
+
+So the model, not the driver, produces roughly one noticeable pause every four
+seconds — which is what "random silence" sounds like. Cap them with *Longest pause
+allowed inside Kokoro's own audio*.
+
+The capture also shows Librera's own *"short pause after `… ! ?`"* setting adding to
+it, and that Librera sends sentences run together (`announcing.Turning`), a text
+extraction artefact on the app's side.
+
 ## Inspecting the audio
 
 `tools/waveform.py` renders a waveform PNG so audio can be looked at rather than only
