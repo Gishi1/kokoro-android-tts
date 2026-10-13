@@ -40,11 +40,20 @@ Builds:
   - versionName: '1.0'
     versionCode: 1
     commit: 4e457255a791fc38f1b254b4d81f344153310b7d
+    # The build-server image ships only the legacy `tools;25.2.5` package -- no
+    # platforms and no build-tools -- because Gradle apps are expected to fetch
+    # their own. This app has no Gradle, so the recipe installs exactly the two
+    # components it compiles against. (buildserver/provision-android-sdk ends with
+    # `packages=$@`, so the Docker image's "tools;25.2.5" argument *replaces* the
+    # long platform list that makebuildserver's Vagrant box gets. Without this,
+    # build.py finds /opt/android-sdk but no android.jar in it.)
+    sudo:
+      - sdkmanager "platforms;android-34" "build-tools;34.0.0"
     # No Gradle: android/build.py drives aapt2 -> javac -> d8 -> zipalign itself. It
     # needs only a JDK and the Android SDK, takes minSdk/targetSdk from the manifest,
-    # and compiles against whichever build-tools and platform the build server has,
-    # so nothing needs pinning and no sudo is required. `--unsigned` because F-Droid
-    # signs the APK with its own key and `output:` expects an unsigned one.
+    # and compiles against whichever build-tools and platform are installed above.
+    # `--unsigned` because F-Droid signs the APK with its own key and `output:`
+    # expects an unsigned one.
     #
     # APP_VERSION_* carries the metadata's declared version into the build, and
     # build.py passes aapt2 --replace-version so it wins over the manifest.
