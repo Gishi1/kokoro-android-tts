@@ -13,6 +13,7 @@ import android.speech.tts.Voice;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -51,6 +52,7 @@ public class KokoroTtsService extends TextToSpeechService {
     private static final String KEY_CONNECT_TIMEOUT_MS = "connect_timeout_ms";
     private static final String KEY_READ_TIMEOUT_MS = "read_timeout_ms";
     private static final String KEY_STRIP_EMOJI = "strip_emoji";
+    private static final String KEY_VOICE_LIST = "voice_list";
 
     static final String DEFAULT_ENDPOINT = "http://10.0.2.2:8880/v1/audio/speech";
     static final String DEFAULT_VOICE = "af_heart";
@@ -75,12 +77,47 @@ public class KokoroTtsService extends TextToSpeechService {
 
     // ---------------------------------------------------------------- config
 
+    /**
+     * Type-safe reads.
+     *
+     * <p>SharedPreferences getters throw {@link ClassCastException} when the stored
+     * value has a different type than requested, and an exception escaping
+     * {@link #onSynthesizeText} kills the whole engine process — observed on a real
+     * device when a helper script wrote {@code strip_emoji} as a string. A malformed
+     * preference must degrade to the default, never take the engine down.
+     */
     private String pref(String key, String def) {
-        return prefs.getString(key, def);
+        try {
+            String v = prefs.getString(key, def);
+            return v == null ? def : v;
+        } catch (ClassCastException e) {
+            Log.w(TAG, "preference '" + key + "' has the wrong type; using default '" + def + "'");
+            return def;
+        }
     }
 
     private int prefInt(String key, int def) {
-        return prefs.getInt(key, def);
+        try {
+            return prefs.getInt(key, def);
+        } catch (ClassCastException e) {
+            // Accept a numeric string too, so an adb-written file still works.
+            try {
+                return Integer.parseInt(pref(key, String.valueOf(def)).trim());
+            } catch (RuntimeException ignored) {
+                Log.w(TAG, "preference '" + key + "' has the wrong type; using default " + def);
+                return def;
+            }
+        }
+    }
+
+    private boolean prefBool(String key, boolean def) {
+        try {
+            return prefs.getBoolean(key, def);
+        } catch (ClassCastException e) {
+            String v = pref(key, String.valueOf(def)).trim();
+            Log.w(TAG, "preference '" + key + "' has the wrong type; using " + v);
+            return Boolean.parseBoolean(v);
+        }
     }
 
     private String endpoint() {
@@ -100,7 +137,7 @@ public class KokoroTtsService extends TextToSpeechService {
                 prefInt(KEY_TARGET_MIN, KokoroSplitter.DEFAULT_TARGET_MIN),
                 prefInt(KEY_TARGET_MAX, KokoroSplitter.DEFAULT_TARGET_MAX),
                 prefInt(KEY_HARD_CAP, KokoroSplitter.DEFAULT_HARD_CAP),
-                prefs.getBoolean(KEY_STRIP_EMOJI, true));
+                prefBool(KEY_STRIP_EMOJI, true));
     }
 
     // ------------------------------------------------------- framework hooks
@@ -120,15 +157,27 @@ public class KokoroTtsService extends TextToSpeechService {
         return TextToSpeech.LANG_AVAILABLE;
     }
 
+    /**
+     * Advertise the voices this engine can actually speak.
+     *
+     * <p>The list is whatever the settings screen last fetched from the server's
+     * {@code /v1/audio/voices} and cached here, because a Kokoro deployment's
+     * voices belong to the server, not to this client — the server this was built
+     * against offers 67, against the 11 a hardcoded array would have shown. Falls
+     * back to a small built-in list until the settings screen has run once.
+     */
     @Override
     public List<Voice> onGetVoices() {
         List<Voice> out = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Set<String> features = new java.util.HashSet<>();
-            for (String name : VOICES) {
-                out.add(new Voice(name, Locale.US, Voice.QUALITY_VERY_HIGH,
-                        Voice.LATENCY_NORMAL, false, features));
-            }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return out;
+
+        List<String> names = SettingsActivity.split(pref(KEY_VOICE_LIST, null));
+        if (names.isEmpty()) names = Arrays.asList(VOICES);
+
+        Set<String> features = new java.util.HashSet<>();
+        for (String name : names) {
+            out.add(new Voice(name, Locale.US, Voice.QUALITY_VERY_HIGH,
+                    Voice.LATENCY_NORMAL, false, features));
         }
         return out;
     }
@@ -160,6 +209,24 @@ public class KokoroTtsService extends TextToSpeechService {
 
     @Override
     protected void onSynthesizeText(SynthesisRequest request, SynthesisCallback callback) {
+        // Nothing may escape here. An unchecked exception from onSynthesizeText
+        // propagates into the TTS framework and kills the engine process, which
+        // the user experiences as the voice disappearing entirely. Every failure
+        // must end in callback.error() instead.
+        try {
+            synthesize(request, callback);
+        } catch (Throwable t) {
+            Log.e(TAG, "synthesis aborted by an unexpected error", t);
+            try {
+                callback.error(-1);
+            } catch (Throwable ignored) {
+                // the callback may already be closed; nothing useful left to do
+            }
+        }
+    }
+
+    private void synthesize(SynthesisRequest request, SynthesisCallback callback)
+            throws Exception {
         stopped = false;
         CharSequence cs = request.getCharSequenceText();
         String text = cs == null ? "" : cs.toString();

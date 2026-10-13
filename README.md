@@ -70,6 +70,26 @@ java -cp core/build/classes:core/build/test-classes dev.kokoro.tts.SplitterSelfT
     --out docs/research/conformance-model.json --check-lossless
 ```
 
+## Changing the voice
+
+**On the phone:** Settings > System > Languages & input > Text-to-speech output >
+**Kokoro TTS** (the gear icon). The screen fetches the voice list live from the
+server's `/v1/audio/voices` — the server this was built against offers **67**
+voices, so nothing is hardcoded — and has a *Speak a test sentence* button so you
+can hear each one before committing. Tapping a voice applies it immediately: the
+settings screen and the engine share one process, so the engine sees the new
+value on the next utterance.
+
+![voice picker](docs/experiments/img/settings-voice-picker.png)
+
+**From a shell:** `tools/set-voice.sh --list` to see what the server offers, then
+`tools/set-voice.sh bm_george`. This writes the preference file directly, which the
+running process has cached in memory, so the script force-stops the app afterwards
+to make it re-read.
+
+The engine also advertises the fetched list through `onGetVoices()`, so any app
+that picks a TTS voice sees all of them rather than a built-in subset.
+
 ## Configure the engine
 
 Configuration is read from SharedPreferences (`kokoro`), so it can be set over adb
@@ -85,6 +105,10 @@ without a settings UI. Defaults:
 | `target_min` / `target_max` | `240` / `360` |
 | `mid_sentence_gap_ms` | `90` (seam cut mid-sentence) |
 | `paragraph_gap_ms` | `280` (seam at a paragraph break) |
+
+A preference with the wrong type degrades to its default and logs a warning; it never
+crashes the engine. That is deliberate — a malformed preference written by hand took the
+whole TTS service down on a real device before this was fixed.
 
 ### Why the cap is 360 and not 450
 

@@ -12,6 +12,11 @@
         android:debuggable="true">
 
         <activity
+            android:name="dev.kokoro.tts.SettingsActivity"
+            android:exported="true"
+            android:label="Kokoro TTS settings" />
+
+        <activity
             android:name="dev.kokoro.tts.EngineTestActivity"
             android:exported="true"
             android:label="Kokoro engine test"

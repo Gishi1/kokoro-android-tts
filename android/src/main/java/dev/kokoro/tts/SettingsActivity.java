@@ -1,0 +1,265 @@
+package dev.kokoro.tts;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.speech.tts.TextToSpeech;
+import android.text.InputType;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Settings screen for the Kokoro TTS engine.
+ *
+ * <p>Reached from Android Settings &gt; System &gt; Languages &amp; input &gt;
+ * Text-to-speech output &gt; Kokoro TTS, via the {@code settingsActivity}
+ * attribute in {@code res/xml/tts_engine.xml}.
+ *
+ * <p>The voice list is fetched from the server's {@code /v1/audio/voices} rather
+ * than hardcoded, because a Kokoro deployment's voices are a property of the
+ * server, not of this client: the server attached during development offers 67,
+ * against the 11 a hardcoded list would have shown.
+ *
+ * <p>Changing the voice here takes effect immediately. This activity runs in the
+ * same process as {@link KokoroTtsService}, so they share one
+ * {@link SharedPreferences} instance and the engine sees the new value on the
+ * next utterance. (Changing the file externally with adb does <em>not</em> have
+ * that property — the process caches it, which is why
+ * {@code tools/set-voice.sh} force-stops the app.)
+ */
+public class SettingsActivity extends Activity {
+
+    private static final String PREFS = "kokoro";
+    private static final String KEY_ENDPOINT = "endpoint";
+    private static final String KEY_VOICE = "voice";
+    private static final String KEY_VOICE_LIST = "voice_list";
+
+    /** Shown only until the server answers; not a claim about what the server has. */
+    private static final String[] FALLBACK_VOICES = {
+            "af_heart", "af_bella", "af_nicole", "am_adam", "am_michael",
+            "bf_emma", "bm_george",
+    };
+
+    private static final String SAMPLE =
+            "This is how this voice sounds reading an ordinary sentence.";
+
+    private SharedPreferences prefs;
+    private EditText endpointField;
+    private TextView status;
+    private ListView list;
+    private ArrayAdapter<String> adapter;
+    private final List<String> voices = new ArrayList<>();
+    private TextToSpeech tts;
+    private final Handler ui = new Handler(Looper.getMainLooper());
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        setContentView(buildUi());
+        loadVoices();
+        tts = new TextToSpeech(this, null, getPackageName());
+    }
+
+    // ------------------------------------------------------------------- UI
+
+    private View buildUi() {
+        int pad = (int) (16 * getResources().getDisplayMetrics().density);
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setPadding(pad, pad, pad, pad);
+
+        TextView title = new TextView(this);
+        title.setText("Kokoro TTS");
+        title.setTextSize(22);
+        title.setPadding(0, 0, 0, pad / 2);
+        root.addView(title);
+
+        TextView endpointLabel = new TextView(this);
+        endpointLabel.setText("Server endpoint");
+        root.addView(endpointLabel);
+
+        endpointField = new EditText(this);
+        endpointField.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
+        endpointField.setText(prefs.getString(KEY_ENDPOINT, KokoroTtsService.DEFAULT_ENDPOINT));
+        root.addView(endpointField);
+
+        Button reload = new Button(this);
+        reload.setText("Save endpoint and reload voices");
+        reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prefs.edit()
+                        .putString(KEY_ENDPOINT, endpointField.getText().toString().trim())
+                        .apply();
+                loadVoices();
+            }
+        });
+        root.addView(reload);
+
+        status = new TextView(this);
+        status.setPadding(0, pad / 2, 0, pad / 2);
+        root.addView(status);
+
+        Button test = new Button(this);
+        test.setText("Speak a test sentence in the selected voice");
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tts == null) return;
+                Bundle params = new Bundle();
+                tts.speak(SAMPLE, TextToSpeech.QUEUE_FLUSH, params, "kokoro-preview");
+            }
+        });
+        root.addView(test);
+
+        list = new ListView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f);
+        list.setLayoutParams(lp);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, voices);
+        list.setAdapter(adapter);
+        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String chosen = voices.get(position);
+                prefs.edit().putString(KEY_VOICE, chosen).apply();
+                Toast.makeText(SettingsActivity.this, "Voice: " + chosen,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        root.addView(list);
+        return root;
+    }
+
+    private void markCurrent() {
+        String current = prefs.getString(KEY_VOICE, KokoroTtsService.DEFAULT_VOICE);
+        int index = voices.indexOf(current);
+        if (index >= 0) {
+            list.setItemChecked(index, true);
+        }
+    }
+
+    // -------------------------------------------------------------- voices
+
+    private void loadVoices() {
+        String endpoint = prefs.getString(KEY_ENDPOINT, KokoroTtsService.DEFAULT_ENDPOINT);
+        status.setText("Fetching voices from " + endpoint + " ...");
+        // Keep any "/v1" prefix: the voices endpoint lives beside the speech
+        // endpoint, not at the server root.
+        final String base = endpoint.replaceAll("/audio/speech/?$", "");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final List<String> fetched = fetchVoices(base);
+                ui.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        voices.clear();
+                        if (fetched.isEmpty()) {
+                            voices.addAll(Arrays.asList(FALLBACK_VOICES));
+                            status.setText("Could not reach the server. Showing a fallback "
+                                    + "list of " + voices.size() + " voices; check the "
+                                    + "endpoint and that the server is running.");
+                        } else {
+                            voices.addAll(fetched);
+                            status.setText(voices.size() + " voices from the server. "
+                                    + "Tap one to select it, then use the test button.");
+                            prefs.edit().putString(KEY_VOICE_LIST,
+                                    join(voices)).apply();
+                        }
+                        adapter.notifyDataSetChanged();
+                        markCurrent();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    /** GET {base}/audio/voices -> {"voices":[...]} ; empty list on any failure. */
+    private List<String> fetchVoices(String base) {
+        List<String> out = new ArrayList<>();
+        HttpURLConnection conn = null;
+        try {
+            conn = (HttpURLConnection) new URL(base + "/audio/voices").openConnection();
+            conn.setConnectTimeout(6000);
+            conn.setReadTimeout(6000);
+            if (conn.getResponseCode() != 200) return out;
+            StringBuilder sb = new StringBuilder();
+            try (BufferedReader r = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+                String line;
+                while ((line = r.readLine()) != null) sb.append(line);
+            }
+            JSONObject obj = new JSONObject(sb.toString());
+            JSONArray arr = obj.optJSONArray("voices");
+            if (arr == null) return out;
+            for (int i = 0; i < arr.length(); i++) {
+                Object item = arr.get(i);
+                String name = item instanceof JSONObject
+                        ? ((JSONObject) item).optString("id", null) : String.valueOf(item);
+                if (name != null && !name.isEmpty()) out.add(name);
+            }
+            java.util.Collections.sort(out);
+        } catch (Exception e) {
+            android.util.Log.w("KokoroTts", "voice list fetch failed for " + base
+                    + "/audio/voices: " + e);
+            return new ArrayList<>();
+        } finally {
+            if (conn != null) conn.disconnect();
+        }
+        return out;
+    }
+
+    static String join(List<String> items) {
+        StringBuilder sb = new StringBuilder();
+        for (String s : items) {
+            if (sb.length() > 0) sb.append(',');
+            sb.append(s);
+        }
+        return sb.toString();
+    }
+
+    static List<String> split(String joined) {
+        List<String> out = new ArrayList<>();
+        if (joined == null || joined.isEmpty()) return out;
+        for (String s : joined.split(",")) {
+            if (!s.trim().isEmpty()) out.add(s.trim());
+        }
+        return out;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (tts != null) {
+            tts.shutdown();
+            tts = null;
+        }
+        super.onDestroy();
+    }
+}
