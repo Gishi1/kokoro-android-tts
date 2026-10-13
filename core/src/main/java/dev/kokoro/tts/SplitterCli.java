@@ -34,6 +34,7 @@ public final class SplitterCli {
         int hardCap = KokoroSplitter.DEFAULT_HARD_CAP;
         int targetMin = KokoroSplitter.DEFAULT_TARGET_MIN;
         int targetMax = KokoroSplitter.DEFAULT_TARGET_MAX;
+        int firstMax = 0;
         List<Path> corpora = new ArrayList<>();
         boolean quiet = false;
 
@@ -44,6 +45,7 @@ public final class SplitterCli {
                 case "--hard-cap": hardCap = Integer.parseInt(args[++i]); break;
                 case "--target-min": targetMin = Integer.parseInt(args[++i]); break;
                 case "--target-max": targetMax = Integer.parseInt(args[++i]); break;
+                case "--first-max": firstMax = Integer.parseInt(args[++i]); break;
                 case "--corpus": corpora.add(Paths.get(args[++i])); break;
                 case "--quiet": quiet = true; break;
                 default:
@@ -64,8 +66,8 @@ public final class SplitterCli {
                 if (line.isEmpty() || line.startsWith("#")) continue;
                 List<KokoroSplitter.Chunk> chunks = "chars".equals(mode)
                         ? CharBaselineSplitter.split(line, budget)
-                        : new KokoroSplitter(new KokoroCostModel(), targetMin, targetMax, hardCap, true)
-                                .split(line);
+                        : new KokoroSplitter(new KokoroCostModel(), targetMin, targetMax,
+                                hardCap, true, firstMax).split(line);
                 for (KokoroSplitter.Chunk c : chunks) {
                     out.println(jsonLine(index++, corpus.getFileName().toString(), lineNo,
                             c.text, c.estimatedTokens));

@@ -76,6 +76,10 @@ public class SettingsActivity extends Activity {
     static final String KEY_PARAGRAPH_GAP_MS = "paragraph_gap_ms";
     /** 0 disables capping; Kokoro's own long pauses are left as they are. */
     static final String KEY_MAX_PAUSE_MS = "max_pause_ms";
+    /** Cap on the first chunk; shorter means sound starts sooner at a page turn. */
+    static final String KEY_FAST_START_TOKENS = "fast_start_tokens";
+    static final int DEFAULT_FAST_START_TOKENS = 140;
+    private static final int FAST_START_LIMIT = 360;
     static final int DEFAULT_MAX_PAUSE_MS = 0;
     private static final int MAX_PAUSE_LIMIT_MS = 1500;
 
@@ -326,6 +330,43 @@ public class SettingsActivity extends Activity {
             }
         });
         pane.addView(reload);
+
+        // ---- fast start
+        pane.addView(heading("Start of a page"));
+        TextView fastNote = new TextView(this);
+        fastNote.setText("The wait before a page begins is the first chunk's synthesis "
+                + "time. A shorter first chunk starts sooner; the rest of the page is "
+                + "unaffected. Set to the maximum to disable.");
+        fastNote.setTextSize(12);
+        pane.addView(fastNote);
+
+        final TextView fastLabel = new TextView(this);
+        final SeekBar fastSeek = new SeekBar(this);
+        fastSeek.setMax(FAST_START_LIMIT / GAP_STEP_MS);
+        fastSeek.setProgress(prefs.getInt(KEY_FAST_START_TOKENS, DEFAULT_FAST_START_TOKENS)
+                / GAP_STEP_MS);
+        fastSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int v = progress * GAP_STEP_MS;
+                fastLabel.setText("First chunk: " + v + " estimated tokens"
+                        + (v >= FAST_START_LIMIT ? " (disabled)" : ""));
+                if (fromUser) prefs.edit().putInt(KEY_FAST_START_TOKENS, v).apply();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        int curFast = prefs.getInt(KEY_FAST_START_TOKENS, DEFAULT_FAST_START_TOKENS);
+        fastLabel.setText("First chunk: " + curFast + " estimated tokens"
+                + (curFast >= FAST_START_LIMIT ? " (disabled)" : ""));
+        pane.addView(fastLabel);
+        pane.addView(fastSeek);
 
         // ---- voice precedence
         pane.addView(heading("Voice precedence"));

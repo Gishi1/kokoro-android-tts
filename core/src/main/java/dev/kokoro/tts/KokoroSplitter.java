@@ -64,11 +64,27 @@ public final class KokoroSplitter {
     /** Target maximum, in estimated tokens. Equal to the cap: fill as far as is safe. */
     public static final int DEFAULT_TARGET_MAX = 360;
 
+    /**
+     * Cap on the <em>first</em> chunk, in estimated tokens.
+     *
+     * <p>Time-to-first-audio is the first chunk's synthesis time, and a reader that
+     * sends one page per utterance pays it at every page turn. Measured 2026-10-13
+     * from Librera Reader: pages of 500-900 characters, first audio 2.5-5.4 s, and a
+     * silence of exactly that length before each page. Synthesis runs at roughly
+     * 18 ms per token, so a 140-token first chunk starts in about 2.5 s instead of 4.
+     *
+     * <p>The rest of the text is unaffected: it packs to the normal target, and the
+     * extra chunk costs nothing in wall time because the server synthesises the next
+     * one while the first is still playing.
+     */
+    public static final int DEFAULT_FIRST_CHUNK_MAX = 140;
+
     private final KokoroCostModel model;
     private final int targetMin;
     private final int targetMax;
     private final int hardCap;
     private final boolean stripEmoji;
+    private final int firstChunkMax;
 
     /** One unit of synthesis output: the original text plus its estimated token cost. */
     public static final class Chunk {
@@ -104,11 +120,17 @@ public final class KokoroSplitter {
     }
 
     public KokoroSplitter() {
-        this(new KokoroCostModel(), DEFAULT_TARGET_MIN, DEFAULT_TARGET_MAX, DEFAULT_HARD_CAP, true);
+        this(new KokoroCostModel(), DEFAULT_TARGET_MIN, DEFAULT_TARGET_MAX, DEFAULT_HARD_CAP,
+                true, 0);
     }
 
     public KokoroSplitter(KokoroCostModel model, int targetMin, int targetMax, int hardCap,
                           boolean stripEmoji) {
+        this(model, targetMin, targetMax, hardCap, stripEmoji, 0);
+    }
+
+    public KokoroSplitter(KokoroCostModel model, int targetMin, int targetMax, int hardCap,
+                          boolean stripEmoji, int firstChunkMax) {
         if (targetMin < 0) throw new IllegalArgumentException("targetMin < 0");
         if (targetMax < targetMin) throw new IllegalArgumentException("targetMax < targetMin");
         if (hardCap > MODEL_HARD_LIMIT) {
@@ -121,6 +143,7 @@ public final class KokoroSplitter {
         this.targetMax = targetMax;
         this.hardCap = hardCap;
         this.stripEmoji = stripEmoji;
+        this.firstChunkMax = Math.max(0, firstChunkMax);
     }
 
     /** Sentence-level unit, ready to be packed into a request. */
@@ -150,10 +173,29 @@ public final class KokoroSplitter {
         for (String paragraph : paragraphs(text)) {
             java.util.List<Unit> units = new java.util.ArrayList<>();
             for (String sentence : SentenceBreaker.split(paragraph)) {
-                explode(sentence, units);
+                explode(sentence, units, hardCap);
             }
             if (units.isEmpty()) continue;
-            java.util.List<Unit> packed = pack(units);
+
+            // Only the very first chunk of the whole utterance gets the smaller cap, so
+            // a reader hears something sooner at a page turn. Its opening unit is
+            // broken down further, because a sentence on its own can far exceed the
+            // cap and the packer always accepts the first unit whatever its size.
+            int cap = targetMax;
+            int min = targetMin;
+            if (out.isEmpty() && firstChunkMax > 0) {
+                cap = firstChunkMax;
+                // Without this the packer's "keep going while under targetMin" rule
+                // overrides the cap and the first chunk fills to targetMin anyway.
+                min = 0;
+                if (!units.isEmpty() && units.get(0).cost > firstChunkMax) {
+                    Unit first = units.remove(0);
+                    java.util.List<Unit> smaller = new java.util.ArrayList<>();
+                    explode(first.text, smaller, firstChunkMax);
+                    units.addAll(0, smaller);
+                }
+            }
+            java.util.List<Unit> packed = pack(units, cap, min);
             for (int i = 0; i < packed.size(); i++) {
                 Unit u = packed.get(i);
                 // Mark the paragraph's final chunk so the client can pause longer
@@ -182,11 +224,11 @@ public final class KokoroSplitter {
      * is not hypothetical: CJK text has no spaces, so a whole Chinese sentence
      * arrives as a single "word" and must be cut by estimated cost.
      */
-    private void explode(String sentence, java.util.List<Unit> units) {
+    private void explode(String sentence, java.util.List<Unit> units, int cap) {
         String s = sentence.trim();
         if (s.isEmpty()) return;
         int cost = model.estimate(s);
-        if (cost <= hardCap) {
+        if (cost <= cap) {
             units.add(new Unit(s, cost));
             return;
         }
@@ -195,15 +237,15 @@ public final class KokoroSplitter {
             String c = clause.trim();
             if (c.isEmpty()) continue;
             int cCost = model.estimate(c);
-            if (cCost <= hardCap) {
+            if (cCost <= cap) {
                 units.add(new Unit(c, cCost));
             } else {
-                splitWords(c, units);
+                splitWords(c, units, cap);
             }
         }
     }
 
-    private void splitWords(String clause, java.util.List<Unit> units) {
+    private void splitWords(String clause, java.util.List<Unit> units, int cap) {
         String[] words = clause.split("\\s+");
         int i = 0;
         while (i < words.length) {
@@ -212,7 +254,7 @@ public final class KokoroSplitter {
             while (lo <= hi) {
                 int mid = (lo + hi) >>> 1;
                 String candidate = join(words, i, mid);
-                if (model.estimate(candidate) <= hardCap) {
+                if (model.estimate(candidate) <= cap) {
                     best = mid;
                     lo = mid + 1;
                 } else {
@@ -221,7 +263,7 @@ public final class KokoroSplitter {
             }
             if (best == -1) {
                 // A single word is already oversized (CJK run, long URL, base64 blob).
-                splitAtoms(words[i], units);
+                splitAtoms(words[i], units, cap);
                 i++;
             } else {
                 String candidate = join(words, i, best);
@@ -235,11 +277,11 @@ public final class KokoroSplitter {
      * Cut a single oversized token at character boundaries, using the linear cost
      * model incrementally so the cut is the longest prefix that still fits.
      */
-    private void splitAtoms(String word, java.util.List<Unit> units) {
+    private void splitAtoms(String word, java.util.List<Unit> units, int cap) {
         int n = word.length();
         int start = 0;
         while (start < n) {
-            int end = model.longestPrefixWithin(word, start, hardCap);
+            int end = model.longestPrefixWithin(word, start, cap);
             if (end <= start) {
                 // Defensive: a single character costs more than the whole cap.
                 // Emit it alone rather than looping forever.
@@ -256,14 +298,28 @@ public final class KokoroSplitter {
      * {@code targetMax}, run past it up to {@code hardCap} only while the chunk
      * is still below {@code targetMin}, so short sentences are not left alone.
      */
-    private java.util.List<Unit> pack(java.util.List<Unit> units) {
+    /**
+     * Greedy packer, mirroring Kokoro-FastAPI {@code pack()}: fill to the target,
+     * run past it up to {@code hardCap} only while the chunk is still below the
+     * minimum, so short sentences are not left alone.
+     *
+     * <p>{@code firstCap} and {@code firstMin} apply to the <em>first</em> chunk only
+     * and then revert to {@link #targetMax} and {@link #targetMin}. That distinction
+     * matters for fast start: the opening chunk is deliberately small, but every chunk
+     * after it should pack normally, or one small opening would shrink the whole
+     * utterance and multiply the request count for no gain.
+     */
+    private java.util.List<Unit> pack(java.util.List<Unit> units, int firstCap, int firstMin) {
         java.util.List<Unit> out = new java.util.ArrayList<>();
         StringBuilder sb = new StringBuilder();
         int tokens = 0;
+        boolean onFirstChunk = true;
         for (Unit u : units) {
+            int cap = onFirstChunk ? firstCap : targetMax;
+            int min = onFirstChunk ? firstMin : targetMin;
             int total = tokens + u.cost;
-            boolean fits = total <= targetMax
-                    || (total <= hardCap && tokens < targetMin)
+            boolean fits = total <= cap
+                    || (total <= hardCap && tokens < min)
                     || tokens == 0;
             if (fits && total <= hardCap) {
                 if (sb.length() > 0) sb.append(' ');
@@ -271,7 +327,10 @@ public final class KokoroSplitter {
                 tokens = total;
                 continue;
             }
-            if (sb.length() > 0) out.add(new Unit(sb.toString(), tokens));
+            if (sb.length() > 0) {
+                out.add(new Unit(sb.toString(), tokens));
+                onFirstChunk = false;
+            }
             sb = new StringBuilder(u.text);
             tokens = u.cost;
         }

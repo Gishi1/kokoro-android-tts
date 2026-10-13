@@ -69,6 +69,8 @@ public class KokoroTtsService extends TextToSpeechService {
 
     /** 0 leaves Kokoro's own long pauses alone. */
     private static final String KEY_MAX_PAUSE_MS = SettingsActivity.KEY_MAX_PAUSE_MS;
+    private static final String KEY_FAST_START_TOKENS =
+            SettingsActivity.KEY_FAST_START_TOKENS;
     /**
      * Silence kept before the first word of the utterance.
      *
@@ -235,7 +237,9 @@ public class KokoroTtsService extends TextToSpeechService {
                 prefInt(KEY_TARGET_MIN, KokoroSplitter.DEFAULT_TARGET_MIN),
                 prefInt(KEY_TARGET_MAX, KokoroSplitter.DEFAULT_TARGET_MAX),
                 prefInt(KEY_HARD_CAP, KokoroSplitter.DEFAULT_HARD_CAP),
-                prefBool(KEY_STRIP_EMOJI, true));
+                prefBool(KEY_STRIP_EMOJI, true),
+                // Fast start: the first chunk is capped so a page begins sooner.
+                prefInt(KEY_FAST_START_TOKENS, SettingsActivity.DEFAULT_FAST_START_TOKENS));
     }
 
     // ------------------------------------------------------- framework hooks

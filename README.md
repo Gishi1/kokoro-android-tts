@@ -221,6 +221,26 @@ median gap of 0.95 s.
 so three sentences per utterance cuts the dead time by roughly two thirds. Full
 numbers and method in `docs/experiments/2026-10-12-reading-latency.md`.
 
+### Fast start: the first chunk is deliberately small
+
+A reader that sends one page per utterance pays the **first chunk's synthesis time as
+silence at every page turn** — measured from Librera Reader, 30 utterances of 500–900
+characters with 2.5–5.4 s of silence before each, equal to its own `firstAudio`.
+
+`fast_start_tokens` (default **140**) caps the opening chunk and leaves the rest of the
+page packing normally. Measured on a 531-character page, same voice:
+
+| | first chunk | time to first audio | total |
+| --- | ---: | ---: | ---: |
+| off | est 335 | **6,624 ms** | 11,733 ms |
+| on | est **79** | **1,062 ms** | **8,837 ms** |
+
+**6.2x sooner to first sound**, and faster overall, because the extra chunk is fetched
+while the first is still playing. It costs one more request, and it is lossless — same
+words in the same order, verified against the input.
+
+Set it to the maximum (360) to disable.
+
 ### Prefetching
 
 The engine fetches chunk *N+1* while chunk *N* is still being written to the
