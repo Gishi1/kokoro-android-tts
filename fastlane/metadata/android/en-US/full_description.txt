@@ -1,0 +1,27 @@
+A system text-to-speech engine (TextToSpeechService) for Android that speaks through
+a Kokoro server, so any app that can read text aloud can use it.
+
+It is not a plain HTTP client. Kokoro's hard limit is 510 phoneme tokens, and because
+that counts the length of the IPA phoneme string rather than characters, a character
+budget cannot enforce it: a 42-character Chinese sentence is 545 tokens, while English
+prose of the same length is about 42. Text is therefore split on the device by a cost
+model fitted to real Kokoro G2P output, and every split is verified lossless - the
+same words, in the same order.
+
+What it does:
+
+* Splits text on the device, sized by estimated phoneme tokens rather than characters
+* Trims the silence Kokoro pads around every chunk (50 ms before, 360 ms after)
+* Inserts pauses at chunk joins, or none at all if the app you listen with already
+  adds its own
+* Starts speaking after a deliberately small first chunk, so turning a page begins in
+  about a second instead of six
+* Fetches the next chunk while the current one is still playing
+* Fetches the voice list from the server, so every voice it offers is selectable
+
+Requires a Kokoro server that you run yourself. Any OpenAI-compatible
+/v1/audio/speech endpoint works; this was developed and measured against
+Kokoro-FastAPI. The endpoint is configurable, so nothing is tied to one host, and
+the app sends nothing anywhere except to the server you point it at.
+
+No ads, no tracking, no accounts, no network access beyond your own server.

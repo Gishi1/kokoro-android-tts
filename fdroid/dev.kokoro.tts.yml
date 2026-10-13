@@ -29,9 +29,10 @@ Changelog: https://github.com/Gishi1/kokoro-android-tts/releases
 # repo publishes the same link from the same account.
 Donate: https://ko-fi.com/gishi
 
-AutoName: Kokoro TTS
-Name: Kokoro Android system TTS driver
-
+# The title, short description, full description and screenshots are deliberately not
+# set here. F-Droid prefers them from the source repository, and they live in
+# fastlane/metadata/android/en-US/; setting Name/Summary/Description in this file
+# would override those, so they are left out.
 RepoType: git
 Repo: https://github.com/Gishi1/kokoro-android-tts
 
