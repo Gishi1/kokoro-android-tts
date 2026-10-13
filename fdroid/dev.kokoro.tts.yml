@@ -1,38 +1,13 @@
-# F-Droid build metadata for dev.kokoro.tts (Kokoro Android system TTS driver).
-#
-# The live copy lives in fdroiddata as metadata/dev.kokoro.tts.yml. This copy is kept
-# beside the source so a release records how it was built; to propose a release, copy
-# this file into a clone of https://gitlab.com/fdroid/fdroiddata and open a merge
-# request.
-#
-# Why this app suits F-Droid: it has no dependencies at all -- no JARs, no Maven, no
-# prebuilts -- so there is nothing to vet for the free-software requirement, and
-# F-Droid builds and signs it with F-Droid's own key. It needs no anti-features: the
-# endpoint is user-configurable, so the TetheredNet anti-feature explicitly does not
-# apply ("would not be applied if there is a simple configuration option that allows
-# pointing the app to a running instance of an ... alternative, publicly available,
-# self-hostable server solution").
-
 Categories:
-  - Text to Speech
   - System
-
+  - Text to Speech
 License: Apache-2.0
-
 AuthorName: Gishi
 SourceCode: https://github.com/Gishi1/kokoro-android-tts
 IssueTracker: https://github.com/Gishi1/kokoro-android-tts/issues
 Changelog: https://github.com/Gishi1/kokoro-android-tts/releases
-
-# The inclusion policy asks that donation links be verifiable as upstream's, so that
-# nobody can add one on the developer's behalf. .github/FUNDING.yml in the source
-# repo publishes the same link from the same account.
 Donate: https://ko-fi.com/gishi
 
-# The title, short description, full description and screenshots are deliberately not
-# set here. F-Droid prefers them from the source repository, and they live in
-# fastlane/metadata/android/en-US/; setting Name/Summary/Description in this file
-# would override those, so they are left out.
 RepoType: git
 Repo: https://github.com/Gishi1/kokoro-android-tts
 
@@ -40,31 +15,13 @@ Builds:
   - versionName: '1.0'
     versionCode: 1
     commit: 4e457255a791fc38f1b254b4d81f344153310b7d
-    # The build-server image ships only the legacy `tools;25.2.5` package -- no
-    # platforms and no build-tools -- because Gradle apps are expected to fetch
-    # their own. This app has no Gradle, so the recipe installs exactly the two
-    # components it compiles against. (buildserver/provision-android-sdk ends with
-    # `packages=$@`, so the Docker image's "tools;25.2.5" argument *replaces* the
-    # long platform list that makebuildserver's Vagrant box gets. Without this,
-    # build.py finds /opt/android-sdk but no android.jar in it.)
-    sudo:
-      - sdkmanager "platforms;android-34" "build-tools;34.0.0"
-    # No Gradle: android/build.py drives aapt2 -> javac -> d8 -> zipalign itself. It
-    # needs only a JDK and the Android SDK, takes minSdk/targetSdk from the manifest,
-    # and compiles against whichever build-tools and platform are installed above.
-    # `--unsigned` because F-Droid signs the APK with its own key and `output:`
-    # expects an unsigned one.
-    #
-    # APP_VERSION_* carries the metadata's declared version into the build, and
-    # build.py passes aapt2 --replace-version so it wins over the manifest.
-    build:
-      - APP_VERSION_NAME=$$VERSION$$ APP_VERSION_CODE=$$VERCODE$$ python3 android/build.py --unsigned
+    sudo: sdkmanager "platforms;android-34" "build-tools;35.0.0"
     output: android/kokoro-tts-unsigned.apk
+    build: APP_VERSION_NAME=$$VERSION$$ APP_VERSION_CODE=$$VERCODE$$ ANDROID_BUILD_TOOLS=35.0.0
+      python3 android/build.py --unsigned
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
-# The manifest is not at the repository root, so point the version check at it
-# explicitly rather than relying on it being discovered.
-UpdateCheckData: 'android/AndroidManifest.xml|versionCode="(\d+)"|.|versionName="([^"]*)"'
+UpdateCheckData: android/AndroidManifest.xml|versionCode="(\d+)"|.|versionName="([^"]*)"
 CurrentVersion: '1.0'
 CurrentVersionCode: 1

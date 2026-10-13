@@ -87,6 +87,20 @@ installed platform; `ANDROID_BUILD_TOOLS` and `ANDROID_PLATFORM` pin those inste
 `minSdkVersion`, `targetSdkVersion`, `versionCode` and `versionName` all come from
 `AndroidManifest.xml`, so no SDK layout can change what the app targets.
 
+**Use build-tools 35.0.0 or newer.** With JDK 21, `javac -source 8 -target 8` emits a
+`MethodParameters` attribute that R8 in build-tools **34.0.0** crashes on while dexing
+an anonymous class:
+
+```
+Error in classes.jar:dev/kokoro/tts/KokoroTtsService$2.class:
+java.lang.NullPointerException: Cannot invoke "String.length()" because "<parameter1>" is null
+```
+
+JDK 17 does not produce that attribute, so the problem only appears on a newer JDK —
+which is why it first showed up on F-Droid's build server (JDK 21) and not here.
+build-tools 35.0.0 dexes the identical classes without complaint, and is what CI and
+the F-Droid recipe both pin.
+
 The APK is signed with a debug keystore generated on first build, so no key material
 is in the repository. Each checkout therefore mints its *own* key: build outputs are
 byte-identical (verified — `classes.dex` hashes match across a clean clone) but the

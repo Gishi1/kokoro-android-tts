@@ -63,7 +63,7 @@ jobs:
           # `yes |` answers the licence prompts; it always ends up killed, so the
           # pipeline's status says nothing useful and is deliberately ignored.
           yes | "$sdkmanager" --licenses > /dev/null 2>&1 || true
-          "$sdkmanager" "build-tools;34.0.0" "platforms;android-34"
+          "$sdkmanager" "build-tools;35.0.0" "platforms;android-34"
 
       - name: Read and check the version
         id: version
@@ -130,7 +130,7 @@ jobs:
 
       - name: Build the APK
         env:
-          ANDROID_BUILD_TOOLS: '34.0.0'
+          ANDROID_BUILD_TOOLS: '35.0.0'
           ANDROID_PLATFORM: android-34
           # No APP_VERSION_NAME/CODE: build.py reads the manifest, which is the
           # same place F-Droid reads it from. Overriding here would let the two
