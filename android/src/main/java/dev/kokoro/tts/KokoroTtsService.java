@@ -115,6 +115,15 @@ public class KokoroTtsService extends TextToSpeechService {
      */
     /** Last voice an app asked to load; only consulted when apps may override. */
     private volatile String requestedVoice;
+    /**
+     * When the framework last rejected audio we were writing.
+     *
+     * <p>The framework tears the AudioTrack down <em>before</em> calling onStop(), so a
+     * rejection arrives a few milliseconds before {@code stopped} becomes true and
+     * cannot be judged at the moment it happens. Recorded here so onStop() can confirm
+     * it, rather than the rejection having to guess.
+     */
+    private volatile long lastRejectedAtMs = -1;
     private volatile Thread worker;
 
     @Override
@@ -291,7 +300,11 @@ public class KokoroTtsService extends TextToSpeechService {
         stopped = true;
         // Worth logging: after a stop, audioAvailable() correctly returns an error,
         // and without this line that rejection looks like a fault in the log.
-        Log.i(TAG, "stop requested by the client");
+        long since = lastRejectedAtMs < 0 ? Long.MAX_VALUE
+                : android.os.SystemClock.elapsedRealtime() - lastRejectedAtMs;
+        Log.i(TAG, "stop requested by the client"
+                + (since < 250 ? " (confirms the rejection " + since
+                        + " ms ago was expected)" : ""));
         Thread t = worker;
         if (t != null) t.interrupt();
     }
@@ -544,12 +557,13 @@ public class KokoroTtsService extends TextToSpeechService {
                     if (stopped) return;
                     int len = Math.min(maxBuffer, play.length - off);
                     if (callback.audioAvailable(play, off, len) != TextToSpeech.SUCCESS) {
-                        // Normal when playback was stopped: the framework closes the
-                        // callback and rejects anything still in flight. Only a
-                        // genuine fault if nothing asked us to stop.
+                        // Normal when playback was stopped, but the framework stops
+                        // the AudioTrack before calling onStop(), so the flag is not
+                        // set yet at this instant. onStop() confirms it a few ms later.
+                        lastRejectedAtMs = android.os.SystemClock.elapsedRealtime();
                         Log.i(TAG, "audioAvailable rejected at chunk " + chunkIndex
                                 + (stopped ? " (after a stop request - expected)"
-                                           : " (no stop request - unexpected)"));
+                                           : " (awaiting a possible stop request)"));
                         return;
                     }
                 }

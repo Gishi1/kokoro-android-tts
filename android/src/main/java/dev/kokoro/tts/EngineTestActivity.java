@@ -138,6 +138,19 @@ public class EngineTestActivity extends Activity {
                     int rc2 = tts.speak(second, TextToSpeech.QUEUE_ADD, p2, "kokoro-second");
                     Log.i(TAG, "queued second utterance via QUEUE_ADD rc=" + rc2);
                 }
+                // Optional: ask the framework to stop part way through, so the
+                // rejection-after-stop path can be exercised deliberately.
+                int stopAfter = getIntent().getIntExtra("stop_after_ms", 0);
+                if (stopAfter > 0) {
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.i(TAG, "calling tts.stop() after " + stopAfter + " ms");
+                                    if (tts != null) tts.stop();
+                                }
+                            }, stopAfter);
+                }
                 int rc = tts.synthesizeToFile(finalText, params, out, utteranceId);
                 Log.i(TAG, "synthesizeToFile rc=" + rc);
                 if (rc != TextToSpeech.SUCCESS) {
