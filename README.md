@@ -120,8 +120,9 @@ Reader on a real phone, through this engine:
 | largest sample jump vs peak | 43 % (no clipping) |
 
 So the model, not the driver, produces roughly one noticeable pause every four
-seconds — which is what "random silence" sounds like. Cap them with *Longest pause
-allowed inside Kokoro's own audio*.
+seconds — which is what "random silence" sounds like. Capping them at 350 ms was
+measured on the same book: every pause above 400 ms disappears, the longest falls
+from 593 ms to exactly 350 ms, and total pause time drops 30 %.
 
 The capture also shows Librera's own *"short pause after `… ! ?`"* setting adding to
 it, and that Librera sends sentences run together (`announcing.Turning`), a text

@@ -66,6 +66,32 @@ ignoring him entirely.ISIS System booting up.
 `lich.Undead` as one token run. That is a text-extraction artefact on the app's side
 and may well affect pronunciation, though it is not what causes the pauses.
 
+## The cap, measured: before and after
+
+The first session ran with **no limit**; the second with
+*Longest pause allowed inside Kokoro's own audio* set to **350 ms**. Same app, same
+book, same voice, same engine build.
+
+| | before (no limit) | after (350 ms) |
+| --- | ---: | ---: |
+| captured | 91.7 s | 80.8 s |
+| pauses ≥150 ms | 23 | 22 |
+| — 100–200 ms | 0 | 3 |
+| — 200–300 ms | 1 | 2 |
+| — 300–400 ms | 9 | **17** |
+| — 400–500 ms | 6 | **0** |
+| — 500–600 ms | 7 | **0** |
+| **longest pause** | **593 ms** | **350 ms** |
+| time spent in those pauses | 9.8 s (10.7 %) | 6.9 s (8.5 %) |
+
+Every pause above 400 ms is gone, the longest falls from 593 ms to exactly the
+configured 350 ms, and total pause time drops by **2.9 s, about 30 % less silence**.
+The engine reports the work it did per chunk, e.g. `cappedPauses=258ms`.
+
+![capped](img/librera-capture-capped-zoom.png)
+
+Compare with the uncapped picture above: the same passage, visibly tighter gaps.
+
 ## What to do
 
 Set **Pauses between chunks → Longest pause allowed inside Kokoro's own audio** to
@@ -73,11 +99,13 @@ Set **Pauses between chunks → Longest pause allowed inside Kokoro's own audio*
 leaving ordinary sentence pauses alone. It was set to 350 ms on the device at the end
 of this session.
 
-A re-capture with the cap active was attempted for a direct comparison, but Librera's
-read-aloud toggle stopped responding to `KEYCODE_HEADSETHOOK` after the first session
-and the engine never received a second utterance. **The cap's effect is therefore
-installed but not measured here**; the earlier controlled test showed it capping the
-longest pause to exactly the configured value.
+Set it to **350 ms**; it was set to 350 ms on the device and measured above.
+
+**One trap worth recording.** The first attempt to re-capture failed, and the reason was
+mine: reinstalling the APK restarts the TTS engine, Librera notices the binding change
+and sends the user to the system *Text-to-speech output* screen, after which its
+read-aloud toggle does nothing. Do not reinstall the engine while a reader is mid-book.
+Leaving the APK alone and pressing the headset key again worked immediately.
 
 ## What is not measured
 
