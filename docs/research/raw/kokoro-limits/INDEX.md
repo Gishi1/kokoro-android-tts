@@ -17,3 +17,5 @@ These are verbatim upstream files; the report cites them by path and line number
 | `kfapi_phonemizer.py` | https://raw.githubusercontent.com/remsky/Kokoro-FastAPI/master/api/src/services/text_processing/phonemizer.py | 200 | 2815 |
 | `LICENSE_kokoro.txt` | https://raw.githubusercontent.com/hexgrad/kokoro/main/LICENSE | 200 | 11357 |
 | `LICENSE_Kokoro-FastAPI.txt` | https://raw.githubusercontent.com/remsky/Kokoro-FastAPI/master/LICENSE | 200 | 11357 |
+| `gh_issue_200.json` | https://api.github.com/repos/hexgrad/kokoro/issues/200 | 200 | 3315 |
+| `gh_issue_200_comments.json` | https://api.github.com/repos/hexgrad/kokoro/issues/200/comments | 200 | 33642 |

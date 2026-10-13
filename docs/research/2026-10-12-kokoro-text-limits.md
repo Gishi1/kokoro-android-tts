@@ -236,6 +236,42 @@ recording: an engine whose `TTS_SERVICE` intent filter lacks
 `TextToSpeech.setEngineByPackageName()` is a deprecated no-op — the engine must be set as
 the system default or passed to the three-argument constructor.
 
+## 13. Field reports from practitioners, and where they disagree with this data `[O]`
+
+A `web_search` pass (which succeeded on this attempt, contrary to the degradation noted in
+Access honesty) surfaced [hexgrad/kokoro issue #200, "chunking in kokoro-js"](https://github.com/hexgrad/kokoro/issues/200)
+— open, 13 comments, created 2025-05-09, fetched via the GitHub API. It is a field report,
+not documentation, so everything in this section is marked `[O]` and none of it is used as
+the source for a number above.
+
+**It corroborates three design choices made independently here:**
+
+1. The seam is **audible**, and it is the practitioner's central complaint: *"some
+   sentences sound weird when you chunk them, because of the very noticeable pause between
+   two chunks, while logically its one sentence."* This is the one quality question this
+   report explicitly does **not** measure; a field report confirms it is real, which makes
+   it the highest-value open question rather than a hypothetical one.
+2. Break **after sentence terminators**: *"I can recommend the separation always only after
+   the characters .!?"* — the same preference, independently arrived at, that
+   `waterfall_last` encodes (`['!.?…', ':;', ',—']`) and this driver implements.
+3. Fall back to **clause punctuation**: *"I have improved my chunking algo to attempt to
+   chunk at 'natural' places, like comma, colon, semicolon"* — the clause tier of
+   `split_clauses`.
+
+**Where it disagrees with the measurements above, and why the measurement wins:** the
+reporter's *"sweet spot … chunks of around 160 characters"* is a **character** heuristic.
+For English prose that is ~160 tokens, near the lower edge of the 175–250 band, so the
+advice is reasonable *for the prose it was derived from*. It is unsafe as a general rule:
+160 characters of Chinese is ~2,080 phoneme tokens through the English pipeline (§4), four
+times the hard limit. This is precisely the failure the measurements in §4 predict, and it
+is why the driver here budgets estimated **tokens**, not characters.
+
+**A caution this source adds, unrelated to chunking:** the same thread reports 20–30 %
+broken audio from `kokoro-js` under WebGPU with `VK_ERROR_OUT_OF_DEVICE_MEMORY`, fixed by
+raising the speed. "Garbled audio" therefore has at least one cause that has nothing to do
+with text splitting. Attributing every garble report to chunking would be a mistake, and
+the measurements in §3-§5 identify only the two mechanisms actually observed here.
+
 ---
 
 ## Licence table
@@ -278,7 +314,9 @@ criterion and the reason are in the experiment report.
   cannot assume the server splits for it.
 * **No measurement of perceptual quality of seams.** This report measures token counts and
   failure rates only. Whether a 175-token chunk seam is audible, and what inter-chunk
-  silence is right, is *not* measured here and is not claimed.
+  silence is right, is *not* measured here and is not claimed. A field report in §13 says
+  the seam *is* audible and is the main practical complaint; that is an `[O]`, not a
+  measurement, and it is the highest-value thing to measure next.
 * **No Japanese/Korean G2P measurement.** Ratios for Japanese and Korean were measured only
   through the English pipeline (§4). `misaki[ja]`/`misaki[ko]` were not installed, so the
   correct-pipeline ratio for those languages is unsourced.
