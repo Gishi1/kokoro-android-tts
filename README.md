@@ -85,7 +85,13 @@ can hear each one before committing. Tapping a voice applies it immediately: the
 settings screen and the engine share one process, so the engine sees the new
 value on the next utterance.
 
-![voice picker](docs/experiments/img/settings-voice-picker.png)
+The screen is split into two tabs so the voice list gets the full height rather than
+competing with the configuration controls. Voices also has a filter, which matters when a
+server offers 67 of them:
+
+![voices tab](docs/experiments/img/settings-voices-tab.png)
+
+![voice filter](docs/experiments/img/settings-voice-filter.png)
 
 Both routes are verified on a real device; see
 `docs/experiments/img/settings-from-app-icon.png` and
@@ -145,7 +151,7 @@ KokoroTts: synth ok: chars=393 chunks=3 estTokens=244/234/134 voice=af_heart \
            pauses=off inserted=0ms trimmed=1005ms ms=7165
 ```
 
-![pause settings](docs/experiments/img/settings-pauses.png)
+![pause settings](docs/experiments/img/settings-settings-tab.png)
 
 ### Which voice wins
 
