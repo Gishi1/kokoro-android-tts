@@ -13,6 +13,8 @@ import android.speech.tts.Voice;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -349,50 +351,139 @@ public class KokoroTtsService extends TextToSpeechService {
         StringBuilder trace = new StringBuilder();
         int silenceInsertedMs = 0;
         int silenceTrimmedMs = 0;
+        int totalWaitMs = 0;
+        // Wall time from starting the first request to the first audio handed to
+        // the framework: the number that decides whether playback keeps up.
+        long requestStartMs = System.currentTimeMillis();
+        final long[] firstAudio = {-1};
         long startedAt = System.currentTimeMillis();
         int chunkIndex = 0;
 
+        // Prefetch the next chunk while the current one is still being written.
+        //
+        // Measured 2026-10-12: Kokoro-FastAPI processes one request at a time (two
+        // concurrent requests each took 5.0 s versus 2.7 s + 2.8 s sequential), so
+        // this does not shorten the total or the first chunk's latency. What it
+        // fixes is idleness: audioAvailable() blocks once the framework's buffer
+        // fills, and without prefetching the server would sit unused for the whole
+        // time we are writing and playing the current chunk.
+        final java.util.concurrent.BlockingQueue<Object[]> ready =
+                new java.util.concurrent.ArrayBlockingQueue<>(2);
+        // Identity marker: an Object[] so it can live in the same queue.
+        final Object[] poison = new Object[0];
+        final KokoroSpeechClient fetchClient = client;
+        final List<KokoroSplitter.Chunk> fetchChunks = chunks;
+        final String fetchVoice = voice;
+        final String fetchModel = model;
+        final String fetchFormat = fmt;
+        final float fetchSpeed = speed;
+
+        Thread producer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i = 0; i < fetchChunks.size() && !stopped; i++) {
+                        KokoroSplitter.Chunk c = fetchChunks.get(i);
+                        java.io.ByteArrayOutputStream buffer =
+                                new java.io.ByteArrayOutputStream(512 * 1024);
+                        final java.io.ByteArrayOutputStream sinkBuffer = buffer;
+                        KokoroSpeechClient.AudioSink sink = new KokoroSpeechClient.AudioSink() {
+                            @Override
+                            public void write(byte[] data, int offset, int length) {
+                                sinkBuffer.write(data, offset, length);
+                            }
+                        };
+                        KokoroSpeechClient.StreamResult result;
+                        try {
+                            result = fetchClient.synthesizeStreaming(
+                                    new KokoroSpeechClient.Request(c.text, fetchVoice,
+                                            fetchSpeed, fetchModel, fetchFormat), sink);
+                        } catch (Exception e) {
+                            Log.e(TAG, "fetch of chunk " + i + " failed", e);
+                            ready.put(new Object[]{i, null, null});
+                            return;
+                        }
+                        ready.put(new Object[]{i, buffer.toByteArray(), result});
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                } finally {
+                    try {
+                        ready.put(poison);
+                    } catch (InterruptedException ignored) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        });
+        producer.setDaemon(true);
+        producer.start();
+
         try {
-            for (KokoroSplitter.Chunk chunk : chunks) {
+            for (int i = 0; i < chunks.size(); i++) {
                 if (stopped) {
                     Log.i(TAG, "stopped before chunk " + chunkIndex);
                     return;
                 }
-                KokoroSpeechClient.Response response = client.synthesize(
-                        new KokoroSpeechClient.Request(chunk.text, voice, speed, model, fmt));
 
-                if (!response.isOk()) {
+                Object[] item = ready.take();
+                if (item == poison) break;
+
+                KokoroSplitter.Chunk chunk = chunks.get(i);
+                byte[] audio = (byte[]) item[1];
+                KokoroSpeechClient.StreamResult result =
+                        (KokoroSpeechClient.StreamResult) item[2];
+
+                if (result == null || !result.isOk()) {
                     // A failure here is the exact failure this driver exists to
                     // prevent; the estimate and the server's answer are both logged.
-                    Log.e(TAG, "chunk " + chunkIndex + " failed: http=" + response.httpStatus
+                    int status = result == null ? -1 : result.httpStatus;
+                    Log.e(TAG, "chunk " + chunkIndex + " failed: http=" + status
                             + " est=" + chunk.estimatedTokens
                             + " chars=" + chunk.text.length()
-                            + " body=" + response.errorBody);
-                    callback.error(response.httpStatus > 0 ? response.httpStatus : -1);
+                            + " body=" + (result == null ? "fetch error" : result.errorBody));
+                    callback.error(status > 0 ? status : -1);
                     return;
                 }
 
-                byte[] audio = response.audio;
                 int from = 0;
                 int playLength = audio.length;
+                int trimFront = 0;
+                int trimBack = 0;
                 if (trimSilence) {
-                    // Kokoro pads every chunk with ~50 ms lead and ~360 ms trail, so
-                    // a seam carries ~410 ms of silence nobody asked for. Without
-                    // this, the pause setting below cannot actually control the pause.
+                    // Kokoro pads every chunk with ~50 ms lead and ~360 ms trail, so a
+                    // seam otherwise carries ~410 ms of silence nobody asked for. The
+                    // first chunk additionally keeps a lead-in so the output path can
+                    // start before speech arrives and the first word is not clipped.
                     Pcm.Span span = Pcm.audibleSpan(audio, SILENCE_THRESHOLD,
                             TRIM_GUARD_MS, sampleRate,
                             chunkIndex == 0 ? FIRST_CHUNK_LEAD_IN_MS : 0);
                     from = span.offset;
                     playLength = span.length;
-                    silenceTrimmedMs += span.leadingMs + span.trailingMs;
+                    trimFront = span.leadingMs;
+                    trimBack = span.trailingMs;
+                    silenceTrimmedMs += trimFront + trimBack;
                 }
-                // Stream in callback-sized pieces; the framework may cap each call.
+
+                Log.i(TAG, "chunk " + chunkIndex + "/" + chunks.size()
+                        + " chars=" + chunk.text.length()
+                        + " est=" + chunk.estimatedTokens
+                        + " send=" + result.sendMs + "ms"
+                        + " wait=" + result.waitMs + "ms"
+                        + " body=" + result.bodyMs + "ms"
+                        + " bytes=" + result.bytes
+                        + " trimFront=" + trimFront + "ms trimBack=" + trimBack + "ms");
+
+                totalWaitMs += result.waitMs;
+
+                if (firstAudio[0] < 0) {
+                    firstAudio[0] = System.currentTimeMillis() - requestStartMs;
+                }
                 for (int off = from; off < from + playLength; off += maxBuffer) {
                     if (stopped) return;
                     int len = Math.min(maxBuffer, from + playLength - off);
-                    int ret = callback.audioAvailable(audio, off, len);
-                    if (ret != TextToSpeech.SUCCESS) {
-                        Log.e(TAG, "audioAvailable returned " + ret + " at chunk " + chunkIndex);
+                    if (callback.audioAvailable(audio, off, len) != TextToSpeech.SUCCESS) {
+                        Log.e(TAG, "audioAvailable refused at chunk " + chunkIndex);
                         return;
                     }
                 }
@@ -424,6 +515,8 @@ public class KokoroTtsService extends TextToSpeechService {
                                             : "off")
                     + " inserted=" + silenceInsertedMs + "ms"
                     + " trimmed=" + silenceTrimmedMs + "ms"
+                    + " avgWait=" + (chunkIndex > 0 ? totalWaitMs / chunkIndex : 0) + "ms"
+                    + " firstAudio=" + firstAudio[0] + "ms"
                     + " ms=" + (System.currentTimeMillis() - startedAt));
         } catch (Exception e) {
             Log.e(TAG, "synthesis failed", e);

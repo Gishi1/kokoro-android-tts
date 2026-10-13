@@ -70,6 +70,47 @@ java -cp core/build/classes:core/build/test-classes dev.kokoro.tts.SplitterSelfT
     --out docs/research/conformance-model.json --check-lossless
 ```
 
+## Performance: where the time actually goes
+
+Measured against a real Kokoro-FastAPI server on 2026-10-12, per chunk. Every
+utterance logs these numbers, so this is checkable rather than folklore:
+
+```
+KokoroTts: chunk 0/3 chars=156 est=244 send=25ms wait=6ms body=2928ms bytes=436666 trimFront=0ms trimBack=252ms
+```
+
+| phase | measured | what it is |
+| --- | ---: | --- |
+| `send` | 1-25 ms | connection setup and request upload |
+| `wait` | 4-30 ms | time to response **headers** |
+| `body` | 1.4-2.9 s | the audio itself |
+
+**The cost is server synthesis, not request handling.** Three independent checks:
+
+1. **`wait` is ~5 ms, `body` is seconds.** Kokoro answers with headers immediately
+   and `Transfer-Encoding: chunked`.
+2. **The body does not actually stream.** Despite the chunked encoding, the first body
+   bytes arrive only after synthesis finishes — at 4914 ms for a 9.1 s clip. So there
+   is nothing to play early, and a streaming client gains nothing. (An earlier version
+   of this engine streamed the body and was reverted for that reason.)
+3. **Requests serialise.** Two concurrent requests took 5.03 s each against 2.74 s +
+   2.77 s sequential — a ratio of 1.10. The server handles one at a time.
+
+Synthesis runs at roughly **16-20 ms per phoneme token**, linear across the sizes
+tried (62 tokens → 1157 ms, 211 → 4299 ms, 235 → 4638 ms). That is about a third of
+real time, so playback keeps up comfortably in steady state; what it costs is
+**time-to-first-audio**, because the first chunk must be fully synthesised before
+anything can be played. Smaller chunks trade more requests for a shorter wait.
+
+### Prefetching
+
+The engine fetches chunk *N+1* while chunk *N* is still being written to the
+callback, via a one-deep buffer. This cannot shorten the total or the first chunk's
+latency — the server serialises, so nothing can start earlier. What it fixes is
+idleness: `audioAvailable()` blocks once the framework's audio buffer fills, and
+without prefetching the server would sit unused for the whole time we are writing and
+playing the current chunk.
+
 ## Changing the voice
 
 **On the phone — two routes:**
