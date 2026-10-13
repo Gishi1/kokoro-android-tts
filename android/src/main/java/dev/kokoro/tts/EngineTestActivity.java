@@ -130,6 +130,14 @@ public class EngineTestActivity extends Activity {
                     //noinspection ResultOfMethodCallIgnored
                     dir.mkdirs();
                 }
+                // Optional second utterance, queued behind the first, to measure
+                // whether the framework pipelines synthesis or waits for playback.
+                String second = getIntent().getStringExtra("text2");
+                if (second != null && !second.isEmpty()) {
+                    Bundle p2 = new Bundle();
+                    int rc2 = tts.speak(second, TextToSpeech.QUEUE_ADD, p2, "kokoro-second");
+                    Log.i(TAG, "queued second utterance via QUEUE_ADD rc=" + rc2);
+                }
                 int rc = tts.synthesizeToFile(finalText, params, out, utteranceId);
                 Log.i(TAG, "synthesizeToFile rc=" + rc);
                 if (rc != TextToSpeech.SUCCESS) {

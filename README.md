@@ -165,6 +165,26 @@ jump unchanged at ~11,300, which is ordinary high-frequency content).
 
 It defaults to **no limit** — this only ever shortens audio, so it is opt-in.
 
+### The delay is the app's, not the engine's
+
+Watching a real reading session (18 utterances, 135 s) separates the two cleanly:
+
+| | dead time |
+| --- | ---: |
+| **inside** one 1,053-character utterance, across 5 chunk seams | **0.16 s** |
+| **between** sentence-sized utterances | **28.2 s of 135 s (21 %)** |
+
+The app sends **median 57 characters** per utterance. Each one costs its full
+synthesis time as silence, because `onSynthesizeText` owns the framework's single
+synthesis thread until all of its audio is written — so the next utterance cannot
+start early. At ~20 ms/token a 57-character sentence is ~1.1 s, which is the observed
+median gap of 0.95 s.
+
+`QUEUE_ADD` does not fix it: measured back to back, the second utterance still waited
+1.13 s. **Send larger units** — the engine splits long text on-device and prefetches,
+so three sentences per utterance cuts the dead time by roughly two thirds. Full
+numbers and method in `docs/experiments/2026-10-12-reading-latency.md`.
+
 ### Prefetching
 
 The engine fetches chunk *N+1* while chunk *N* is still being written to the

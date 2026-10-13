@@ -1,0 +1,99 @@
+=== 19 utterance(s), 416 log lines ===
+
+  voice=am_adam chars=108 chunks=1 firstAudio=1378ms
+    chunk 0/1 est=163 body= 1348ms ->   4700ms audio  (first, 1348ms before any sound)
+
+  voice=am_adam chars=56 chunks=1 firstAudio=1051ms
+    chunk 0/1 est= 88 body= 1023ms ->   2773ms audio  (first, 1023ms before any sound)
+
+  voice=am_adam chars=58 chunks=1 firstAudio=943ms
+    chunk 0/1 est= 91 body=  909ms ->   2745ms audio  (first, 909ms before any sound)
+
+  voice=am_adam chars=80 chunks=1 firstAudio=1252ms
+    chunk 0/1 est=148 body= 1184ms ->   4251ms audio  (first, 1184ms before any sound)
+
+  voice=am_adam chars=151 chunks=1 firstAudio=2637ms
+    chunk 0/1 est=210 body= 2588ms ->   7648ms audio  (first, 2588ms before any sound)
+
+  voice=am_adam chars=100 chunks=1 firstAudio=1745ms
+    chunk 0/1 est=154 body= 1712ms ->   5421ms audio  (first, 1712ms before any sound)
+
+  voice=am_adam chars=39 chunks=1 firstAudio=643ms
+    chunk 0/1 est= 61 body=  608ms ->   1791ms audio  (first, 608ms before any sound)
+
+  voice=am_adam chars=79 chunks=1 firstAudio=1268ms
+    chunk 0/1 est=125 body= 1154ms ->   3863ms audio  (first, 1154ms before any sound)
+
+  voice=am_adam chars=27 chunks=1 firstAudio=633ms
+    chunk 0/1 est= 45 body=  595ms ->   1535ms audio  (first, 595ms before any sound)
+
+  voice=am_adam chars=17 chunks=1 firstAudio=543ms
+    chunk 0/1 est= 30 body=  523ms ->   1106ms audio  (first, 523ms before any sound)
+
+  voice=am_adam chars=36 chunks=1 firstAudio=749ms
+    chunk 0/1 est= 58 body=  733ms ->   1831ms audio  (first, 733ms before any sound)
+
+  voice=am_adam chars=49 chunks=1 firstAudio=839ms
+    chunk 0/1 est= 78 body=  821ms ->   2498ms audio  (first, 821ms before any sound)
+
+  voice=am_adam chars=15 chunks=1 firstAudio=859ms
+    chunk 0/1 est= 25 body=  828ms ->    965ms audio  (first, 828ms before any sound)
+
+  voice=am_adam chars=57 chunks=1 firstAudio=796ms
+    chunk 0/1 est= 92 body=  779ms ->   2641ms audio  (first, 779ms before any sound)
+
+  voice=am_adam chars=11 chunks=1 firstAudio=512ms
+    chunk 0/1 est= 19 body=  481ms ->    850ms audio  (first, 481ms before any sound)
+
+  voice=am_adam chars=48 chunks=1 firstAudio=944ms
+    chunk 0/1 est= 78 body=  914ms ->   2340ms audio  (first, 914ms before any sound)
+
+  voice=am_adam chars=255 chunks=1 firstAudio=3487ms
+    chunk 0/1 est=332 body= 3460ms ->  12686ms audio  (first, 3460ms before any sound)
+
+  voice=am_adam chars=393 chunks=9 firstAudio=2625ms
+    chunk 0/6 est=358 body= 4134ms ->  14071ms audio  (first, 4134ms before any sound)
+    chunk 1/6 est= 95 body= 1432ms ->   3545ms audio  delivered  13.36s after the previous  ok
+    chunk 2/6 est=307 body= 3282ms ->  11966ms audio  delivered   3.49s after the previous  ok
+    chunk 3/6 est=299 body= 2474ms ->   9538ms audio  delivered  12.04s after the previous  ok
+    chunk 4/6 est=224 body= 2365ms ->   8115ms audio  delivered   9.42s after the previous  ok
+    chunk 5/6 est=213 body= 1938ms ->   7598ms audio  delivered   8.20s after the previous  ok
+    chunk 0/3 est=244 body= 2397ms ->   8019ms audio  delivered   8.31s after the previous  ok
+    chunk 1/3 est=234 body= 2553ms ->   7704ms audio  delivered   2.54s after the previous  ok
+    chunk 2/3 est=134 body= 1286ms ->   4307ms audio  delivered   1.29s after the previous  ok
+
+  voice=? chars=? chunks=5 firstAudio=?ms
+    chunk 0/6 est=358 body= 4699ms ->  14070ms audio  (first, 4699ms before any sound)
+    chunk 1/6 est= 95 body= 1019ms ->   3547ms audio  delivered  13.36s after the previous  ok
+    chunk 2/6 est=307 body= 3720ms ->  11966ms audio  delivered   3.49s after the previous  ok
+    chunk 3/6 est=299 body= 2824ms ->   9541ms audio  delivered  12.04s after the previous  ok
+    chunk 4/6 est=224 body= 2663ms ->   8116ms audio  delivered   9.42s after the previous  ok
+
+=== voice decisions (19) ===
+  10-12 23:16:37.707 default=am_adam requested=am_puck override=false -> am_adam (engine default)
+  10-12 23:16:39.668 default=am_adam requested=am_puck override=false -> am_adam (engine default)
+  10-12 23:16:42.286 default=am_adam requested=am_puck override=false -> am_adam (engine default)
+  10-12 23:16:43.309 default=am_adam requested=am_puck override=false -> am_adam (engine default)
+  10-12 23:16:46.126 default=am_adam requested=am_puck override=false -> am_adam (engine default)
+  10-12 23:16:47.040 default=am_adam requested=am_puck override=false -> am_adam (engine default)
+  10-12 23:16:50.453 default=am_adam requested=am_puck override=false -> am_adam (engine default)
+  10-12 23:17:10.066 default=am_adam requested=am_puck override=false -> am_adam (engine default)
+  10-12 23:18:06.409 default=am_adam requested=am_adam override=false -> am_adam (engine default)
+  10-12 23:18:32.728 default=am_adam requested=am_adam override=false -> am_adam (engine default)
+
+=== underruns / glitches in the audio stack (0) ===
+  none
+
+=== errors (0) ===
+  none
+
+=== server (9 requests, 9 completions) ===
+    synthesis    2169 ms, 1 internal chunk(s)
+    synthesis    2001 ms, 1 internal chunk(s)
+    synthesis    1187 ms, 1 internal chunk(s)
+    synthesis    4301 ms, 1 internal chunk(s)
+    synthesis     917 ms, 1 internal chunk(s)
+    synthesis    3175 ms, 1 internal chunk(s)
+    synthesis    2584 ms, 1 internal chunk(s)
+    synthesis    2228 ms, 1 internal chunk(s)
+    synthesis    1990 ms, 1 internal chunk(s)
