@@ -36,6 +36,19 @@ from pathlib import Path
 
 # ---------------------------------------------------------------- corpus prep
 
+def _require_venv(what: str) -> None:
+    """Turn an opaque ImportError into the command the reader should run.
+
+    These tools need packages that live only in the project virtualenv. Running
+    them with the system python3 gave a bare ModuleNotFoundError with no hint,
+    which is a bad way to learn that a tool has a runtime dependency.
+    """
+    raise SystemExit(
+        f"\nThis tool needs {what}, which lives in the project virtualenv.\n"
+        f"Run it as:\n"
+        f"  .tooling/kokoro-venv/bin/python {Path(__file__).relative_to(Path.cwd()) if Path.cwd() in Path(__file__).parents else __file__} ...\n")
+
+
 GUTENBERG_START = re.compile(r"\*\*\* START OF (?:THE|THIS) PROJECT GUTENBERG.*?\*\*\*", re.S)
 GUTENBERG_END = re.compile(r"\*\*\* END OF (?:THE|THIS) PROJECT GUTENBERG.*?\*\*\*", re.S)
 
@@ -137,7 +150,10 @@ def main() -> int:
                     default=[150, 200, 250, 300, 350, 400, 450, 500])
     args = ap.parse_args()
 
-    from kokoro import KPipeline  # imported late so --help works without the stack
+    try:
+        from kokoro import KPipeline
+    except ImportError:
+        _require_venv("kokoro")  # imported late so --help works without the stack
 
     print("loading G2P (no model weights)...", flush=True)
     pipeline = KPipeline(lang_code="a", model=False)

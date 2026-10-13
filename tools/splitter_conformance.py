@@ -22,6 +22,19 @@ import subprocess
 import sys
 from pathlib import Path
 
+def _require_venv(what: str) -> None:
+    """Turn an opaque ImportError into the command the reader should run.
+
+    These tools need packages that live only in the project virtualenv. Running
+    them with the system python3 gave a bare ModuleNotFoundError with no hint,
+    which is a bad way to learn that a tool has a runtime dependency.
+    """
+    raise SystemExit(
+        f"\nThis tool needs {what}, which lives in the project virtualenv.\n"
+        f"Run it as:\n"
+        f"  .tooling/kokoro-venv/bin/python {Path(__file__).relative_to(Path.cwd()) if Path.cwd() in Path(__file__).parents else __file__} ...\n")
+
+
 JAVA = "/nix/store/5badkg3gmzg1c29akwglknkizfg6zj0g-openjdk-17.0.17+8/lib/openjdk/bin/java"
 CLASSES = "core/build/classes"
 
@@ -70,7 +83,10 @@ def main() -> int:
     ap.add_argument("--label", default=None, help="name recorded in the output")
     args = ap.parse_args()
 
-    from kokoro import KPipeline
+    try:
+        from kokoro import KPipeline
+    except ImportError:
+        _require_venv("kokoro")
 
     print(f"loading G2P (lang={args.lang})...", flush=True)
     pipeline = KPipeline(lang_code=args.lang, model=False)

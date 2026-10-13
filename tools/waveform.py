@@ -3,35 +3,41 @@
 
 Numbers told me a chunk had 360 ms of trailing silence; a picture shows whether the
 first word is clipped, whether a seam is really gapless, and whether an inserted
-pause landed where it should. Written with zlib and struct only — no matplotlib or
-Pillow — so it runs anywhere numpy does.
+pause landed where it should.
+
+Deliberately dependency-free: **standard library only**, so it runs under any
+python3. An earlier version imported numpy, which exists only inside
+`.tooling/kokoro-venv`, and so failed with a bare ModuleNotFoundError for anyone
+running it the obvious way.
 
 Usage:
-    tools/waveform.py out.wav --out wave.png
-    tools/waveform.py out.wav --out onset.png --start 0 --end 0.25 --height 220
-    tools/waveform.py out.wav --out seams.png --mark 3.1 --mark 7.4
+    python3 tools/waveform.py out.wav --out wave.png
+    python3 tools/waveform.py out.wav --out onset.png --start 0 --end 0.25
+    python3 tools/waveform.py out.wav --out seams.png --mark 3.1 --mark 7.4
 """
 
 from __future__ import annotations
 
 import argparse
+import array
 import struct
 import sys
 import zlib
 from pathlib import Path
 
-import numpy as np
+SILENCE = 200          # int16 amplitude below which a sample counts as silence
 
 
-# --------------------------------------------------------------------- reading
+def read_audio(path: Path) -> tuple[array.array, int]:
+    """Return (mono int16 samples, sample rate). Handles WAV and raw PCM."""
+    try:
+        data = path.read_bytes()
+    except OSError as e:
+        raise SystemExit(f"cannot read {path}: {e}")
 
-def read_audio(path: Path) -> tuple[np.ndarray, int]:
-    """Return (mono float samples in [-1, 1], sample rate). Handles WAV and raw PCM."""
-    data = path.read_bytes()
+    rate, channels, bits = 24000, 1, 16
     if data[:4] == b"RIFF" and data[8:12] == b"WAVE":
-        pos = 12
-        rate, channels, bits = 24000, 1, 16
-        payload = b""
+        pos, payload = 12, b""
         while pos + 8 <= len(data):
             cid = data[pos:pos + 4]
             size = struct.unpack("<I", data[pos + 4:pos + 8])[0]
@@ -44,25 +50,28 @@ def read_audio(path: Path) -> tuple[np.ndarray, int]:
             pos += 8 + size + (size & 1)
         if bits != 16:
             raise SystemExit(f"only 16-bit PCM is supported, got {bits}")
-        samples = np.frombuffer(payload, dtype="<i2").astype(np.float32) / 32768.0
-        if channels > 1:
-            samples = samples.reshape(-1, channels).mean(axis=1)
-        return samples, rate
-    # Raw little-endian mono PCM: assume the engine's 24 kHz.
-    samples = np.frombuffer(data[:len(data) // 2 * 2], dtype="<i2").astype(np.float32)
-    return samples / 32768.0, 24000
+    else:
+        payload = data[:len(data) // 2 * 2]      # raw little-endian mono PCM
 
+    samples = array.array("h")
+    samples.frombytes(payload)
+    if sys.byteorder == "big":
+        samples.byteswap()
+    if channels > 1:
+        mono = array.array("h", [0]) * (len(samples) // channels)
+        for i in range(len(mono)):
+            mono[i] = samples[i * channels]
+        samples = mono
+    return samples, rate
 
-# --------------------------------------------------------------------- drawing
 
 class Canvas:
     """Tiny RGB canvas with just the primitives a waveform needs."""
 
     def __init__(self, width: int, height: int, background=(18, 18, 22)):
-        self.w = width
-        self.h = height
-        self.px = np.zeros((height, width, 3), dtype=np.uint8)
-        self.px[:, :] = background
+        self.w, self.h = width, height
+        # One bytearray per row is far cheaper than a list of pixel tuples.
+        self.rows = [bytearray(background * width) for _ in range(height)]
 
     def vline(self, x: int, y0: int, y1: int, colour) -> None:
         if not (0 <= x < self.w):
@@ -71,15 +80,20 @@ class Canvas:
         y1 = max(0, min(self.h - 1, y1))
         if y0 > y1:
             y0, y1 = y1, y0
-        self.px[y0:y1 + 1, x] = colour
+        px = bytes(colour)
+        for y in range(y0, y1 + 1):
+            self.rows[y][3 * x:3 * x + 3] = px
 
     def hline(self, y: int, x0: int, x1: int, colour) -> None:
         if not (0 <= y < self.h):
             return
-        self.px[y, max(0, x0):min(self.w, x1)] = colour
+        x0 = max(0, x0)
+        x1 = min(self.w, x1)
+        if x1 > x0:
+            self.rows[y][3 * x0:3 * x1] = bytes(colour) * (x1 - x0)
 
     def write_png(self, path: Path) -> None:
-        raw = b"".join(b"\x00" + self.px[y].tobytes() for y in range(self.h))
+        raw = b"".join(b"\x00" + bytes(r) for r in self.rows)
 
         def chunk(tag: bytes, payload: bytes) -> bytes:
             return (struct.pack(">I", len(payload)) + tag + payload
@@ -92,9 +106,8 @@ class Canvas:
         path.write_bytes(png)
 
 
-def render(samples: np.ndarray, rate: int, width: int, height: int,
-           marks: list[float], threshold: float, title_bands: bool) -> Canvas:
-    """Draw min/max envelope per column, plus a silence band along the bottom."""
+def render(samples: array.array, rate: int, width: int, height: int,
+           marks) -> Canvas:
     canvas = Canvas(width, height)
     mid = height // 2
     canvas.hline(mid, 0, width, (70, 70, 80))
@@ -103,33 +116,21 @@ def render(samples: np.ndarray, rate: int, width: int, height: int,
     if n == 0:
         return canvas
 
-    edges = np.linspace(0, n, width + 1).astype(np.int64)
     for x in range(width):
-        a, b = edges[x], edges[x + 1]
-        if b <= a:
-            continue
+        a = n * x // width
+        b = max(a + 1, n * (x + 1) // width)
         seg = samples[a:b]
-        lo = int(seg.min() * (mid - 2))
-        hi = int(seg.max() * (mid - 2))
-        peak = float(np.abs(seg).max())
-        if peak < threshold:
-            colour = (60, 60, 70)          # silence: dim, so gaps are obvious
-        else:
-            colour = (90, 220, 150)        # speech
-        canvas.vline(x, mid - hi, mid - lo if lo != hi else mid - lo - 1, colour)
+        lo, hi = min(seg), max(seg)
+        peak = max(abs(lo), abs(hi))
+        colour = (60, 60, 70) if peak < SILENCE else (90, 220, 150)
+        y_hi = mid - (hi * (mid - 2)) // 32768
+        y_lo = mid - (lo * (mid - 2)) // 32768
+        canvas.vline(x, y_hi, y_lo, colour)
+        if peak < SILENCE:
+            canvas.hline(height - 3, x, x + 1, (235, 120, 90))
 
     for t in marks:
-        x = int(t * rate / n * width) if n else 0
-        canvas.vline(x, 0, height - 1, (235, 120, 90))
-
-    if title_bands:
-        # A solid band where the signal is below threshold, so pauses read at a glance.
-        for x in range(width):
-            a, b = edges[x], edges[x + 1]
-            if b <= a:
-                continue
-            if float(np.abs(samples[a:b]).max()) < threshold:
-                canvas.hline(height - 3, x, x + 1, (235, 120, 90))
+        canvas.vline(int(t * rate * width / n), 0, height - 1, (235, 120, 90))
     return canvas
 
 
@@ -143,8 +144,6 @@ def main() -> int:
     ap.add_argument("--height", type=int, default=260)
     ap.add_argument("--mark", type=float, action="append", default=[],
                     help="draw a vertical line at this time in seconds (repeatable)")
-    ap.add_argument("--threshold", type=float, default=200 / 32768.0,
-                    help="amplitude below which a sample counts as silence")
     args = ap.parse_args()
 
     samples, rate = read_audio(args.audio)
@@ -154,16 +153,14 @@ def main() -> int:
     hi = int(args.end * rate) if args.end else len(samples)
     view = samples[max(0, lo):min(len(samples), hi)]
 
-    marks = [t for t in args.mark if (args.start or 0) <= t <= (args.end or total)]
-    shifted = [t - (args.start or 0) for t in marks]
+    offset = args.start or 0
+    marks = [t - offset for t in args.mark if offset <= t <= (args.end or total)]
 
-    canvas = render(view, rate, args.width, args.height, shifted,
-                    args.threshold, title_bands=True)
-    canvas.write_png(args.out)
+    render(view, rate, args.width, args.height, marks).write_png(args.out)
 
-    silent = float(np.mean(np.abs(view) < args.threshold)) * 100 if len(view) else 0
+    silent = (sum(1 for v in view if abs(v) < SILENCE) / len(view) * 100) if view else 0
     print(f"{args.audio.name}: {total:.2f}s total, drawing "
-          f"{(args.start or 0):.2f}-{(args.end or 0) if args.end else total:.2f}s "
+          f"{offset:.2f}-{args.end if args.end else total:.2f}s "
           f"({silent:.1f}% of the drawn span is silence) -> {args.out}")
     return 0
 

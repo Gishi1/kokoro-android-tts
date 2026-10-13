@@ -27,6 +27,19 @@ import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
+def _require_venv(what: str) -> None:
+    """Turn an opaque ImportError into the command the reader should run.
+
+    These tools need packages that live only in the project virtualenv. Running
+    them with the system python3 gave a bare ModuleNotFoundError with no hint,
+    which is a bad way to learn that a tool has a runtime dependency.
+    """
+    raise SystemExit(
+        f"\nThis tool needs {what}, which lives in the project virtualenv.\n"
+        f"Run it as:\n"
+        f"  .tooling/kokoro-venv/bin/python {Path(__file__).relative_to(Path.cwd()) if Path.cwd() in Path(__file__).parents else __file__} ...\n")
+
+
 STATE = {"pipeline": None, "lock": threading.Lock(), "mode": "strict",
          "lang": "a", "requests": 0, "rejected": 0, "truncated": 0,
          "token_hist": []}
@@ -36,7 +49,10 @@ MODEL_HARD_LIMIT = 510
 
 def phonemize(text: str):
     """Return (phoneme_string, token_count) using the real Kokoro G2P."""
-    from kokoro import KPipeline
+    try:
+        from kokoro import KPipeline
+    except ImportError:
+        _require_venv("kokoro")
     p = STATE["pipeline"]
     ps, tk = p.g2p(text)
     if tk is None:
@@ -195,7 +211,10 @@ def main() -> int:
     STATE["lang"] = args.lang
     STATE["verbose"] = args.verbose
 
-    from kokoro import KPipeline
+    try:
+        from kokoro import KPipeline
+    except ImportError:
+        _require_venv("kokoro")
     print(f"loading Kokoro weights ({args.repo_id})...", flush=True)
     STATE["pipeline"] = KPipeline(lang_code=args.lang, repo_id=args.repo_id)
     print("model ready", flush=True)

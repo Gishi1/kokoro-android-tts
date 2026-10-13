@@ -40,9 +40,25 @@ import re
 import sys
 from pathlib import Path
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    _require_venv("numpy")
 
 # Feature order is part of the contract with the Java port (tools/gen_cost_model.py).
+def _require_venv(what: str) -> None:
+    """Turn an opaque ImportError into the command the reader should run.
+
+    These tools need packages that live only in the project virtualenv. Running
+    them with the system python3 gave a bare ModuleNotFoundError with no hint,
+    which is a bad way to learn that a tool has a runtime dependency.
+    """
+    raise SystemExit(
+        f"\nThis tool needs {what}, which lives in the project virtualenv.\n"
+        f"Run it as:\n"
+        f"  .tooling/kokoro-venv/bin/python {Path(__file__).relative_to(Path.cwd()) if Path.cwd() in Path(__file__).parents else __file__} ...\n")
+
+
 FEATURES = [
     "const",        # intercept: fixed per-utterance overhead
     "n_lower",      # a-z
@@ -164,7 +180,10 @@ def main() -> int:
     print(f"cache hits: {len(cache)}  missing: {len(missing)}", flush=True)
 
     if missing:
-        from kokoro import KPipeline
+        try:
+            from kokoro import KPipeline
+        except ImportError:
+            _require_venv("kokoro")
         print(f"loading G2P (lang={args.lang}); phonemizing {len(missing)} new samples...",
               flush=True)
         pipeline = KPipeline(lang_code=args.lang, model=False)
