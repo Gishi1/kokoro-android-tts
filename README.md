@@ -70,6 +70,28 @@ java -cp core/build/classes:core/build/test-classes dev.kokoro.tts.SplitterSelfT
     --out docs/research/conformance-model.json --check-lossless
 ```
 
+## If a voice sounds raspy on "s"
+
+Not the format, and not this driver. `response_format=pcm` returns **exactly the WAV
+payload** (252,452 − 252,404 = a 48-byte header), so it is the lossless path, and the
+engine copies samples verbatim. There is also no aliasing junk below the 12 kHz
+Nyquist: 92 % of the energy is below 1 kHz and 11–12 kHz holds 0.0 %.
+
+It is voice-dependent, by a wide margin. Power above 5 kHz, same sentence:
+
+| voice | >5 kHz power | centroid |
+| --- | ---: | ---: |
+| **am_onyx** | **0.16 %** | 333 Hz |
+| am_adam | 1.03 % | 717 Hz |
+| am_michael | 2.01 % | 579 Hz |
+| af_heart | 3.11 % | 777 Hz |
+| bf_emma | 3.23 % | 1,032 Hz |
+
+So **try `am_onyx`** if `am_michael` sounds harsh. Full table and method in
+`docs/research/2026-10-12-voice-sibilance.md`. If it persists with a different voice,
+check the listening path — Bluetooth with SBC or low-bitrate AAC causes raspy
+sibilance independently of the model.
+
 ## Inspecting the audio
 
 `tools/waveform.py` renders a waveform PNG so audio can be looked at rather than only
