@@ -275,6 +275,9 @@ public class KokoroTtsService extends TextToSpeechService {
     @Override
     protected void onStop() {
         stopped = true;
+        // Worth logging: after a stop, audioAvailable() correctly returns an error,
+        // and without this line that rejection looks like a fault in the log.
+        Log.i(TAG, "stop requested by the client");
         Thread t = worker;
         if (t != null) t.interrupt();
     }
@@ -500,7 +503,12 @@ public class KokoroTtsService extends TextToSpeechService {
                     if (stopped) return;
                     int len = Math.min(maxBuffer, play.length - off);
                     if (callback.audioAvailable(play, off, len) != TextToSpeech.SUCCESS) {
-                        Log.e(TAG, "audioAvailable refused at chunk " + chunkIndex);
+                        // Normal when playback was stopped: the framework closes the
+                        // callback and rejects anything still in flight. Only a
+                        // genuine fault if nothing asked us to stop.
+                        Log.i(TAG, "audioAvailable rejected at chunk " + chunkIndex
+                                + (stopped ? " (after a stop request - expected)"
+                                           : " (no stop request - unexpected)"));
                         return;
                     }
                 }
