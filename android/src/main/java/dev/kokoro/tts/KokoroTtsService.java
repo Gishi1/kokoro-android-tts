@@ -57,7 +57,10 @@ public class KokoroTtsService extends TextToSpeechService {
     /** Amplitude below which a sample counts as silence, in int16 units (~0.6% FS). */
     private static final int SILENCE_THRESHOLD = 200;
     /** Silence kept either side of speech so a soft release is not clipped. */
-    private static final int TRIM_GUARD_MS = 25;
+    private static final int TRIM_GUARD_MS = 50;
+    /** How many times to retry one chunk before giving up on it. */
+    private static final int FETCH_ATTEMPTS = 3;
+
     /** 0 leaves Kokoro's own long pauses alone. */
     private static final String KEY_MAX_PAUSE_MS = SettingsActivity.KEY_MAX_PAUSE_MS;
     /**
@@ -70,6 +73,17 @@ public class KokoroTtsService extends TextToSpeechService {
      * mid-stream in one continuous track.
      */
     private static final int FIRST_CHUNK_LEAD_IN_MS = 80;
+    /**
+     * Lead-in kept on the chunks after the first.
+     *
+     * <p>Only the first chunk used to get one, on the reasoning that a continuous
+     * stream only needs the output path started once. That was wrong for onsets: a
+     * chunk beginning with a quiet fricative does not cross the silence threshold
+     * for 10-20 ms, so trimming to 25 ms before it could clip the word. Kokoro's
+     * leading padding is only ~50 ms, so keeping it entirely costs almost nothing
+     * while removing the risk.
+     */
+    private static final int CHUNK_LEAD_IN_MS = 50;
     private static final String KEY_CONNECT_TIMEOUT_MS = "connect_timeout_ms";
     private static final String KEY_READ_TIMEOUT_MS = "read_timeout_ms";
     private static final String KEY_STRIP_EMOJI = "strip_emoji";
@@ -390,26 +404,53 @@ public class KokoroTtsService extends TextToSpeechService {
                 try {
                     for (int i = 0; i < fetchChunks.size() && !stopped; i++) {
                         KokoroSplitter.Chunk c = fetchChunks.get(i);
-                        java.io.ByteArrayOutputStream buffer =
-                                new java.io.ByteArrayOutputStream(512 * 1024);
-                        final java.io.ByteArrayOutputStream sinkBuffer = buffer;
-                        KokoroSpeechClient.AudioSink sink = new KokoroSpeechClient.AudioSink() {
-                            @Override
-                            public void write(byte[] data, int offset, int length) {
-                                sinkBuffer.write(data, offset, length);
+                        java.io.ByteArrayOutputStream buffer = null;
+                        // Retry before giving up. A single transient failure used to
+                        // abort the whole utterance, so one hiccup left the rest of
+                        // the text unspoken -- which the listener hears as random
+                        // silence. Each attempt needs a fresh buffer because a partial
+                        // response may already have been written into the old one.
+                        KokoroSpeechClient.StreamResult result = null;
+                        for (int attempt = 1; attempt <= FETCH_ATTEMPTS && !stopped; attempt++) {
+                            buffer = new java.io.ByteArrayOutputStream(512 * 1024);
+                            final java.io.ByteArrayOutputStream attemptBuffer = buffer;
+                            KokoroSpeechClient.AudioSink attemptSink =
+                                    new KokoroSpeechClient.AudioSink() {
+                                        @Override
+                                        public void write(byte[] data, int offset, int length) {
+                                            attemptBuffer.write(data, offset, length);
+                                        }
+                                    };
+                            try {
+                                result = fetchClient.synthesizeStreaming(
+                                        new KokoroSpeechClient.Request(c.text, fetchVoice,
+                                                fetchSpeed, fetchModel, fetchFormat),
+                                        attemptSink);
+                                if (result.isOk()) break;
+                                Log.w(TAG, "chunk " + i + " attempt " + attempt + "/"
+                                        + FETCH_ATTEMPTS + " returned http "
+                                        + result.httpStatus);
+                            } catch (Exception e) {
+                                result = null;
+                                Log.w(TAG, "chunk " + i + " attempt " + attempt + "/"
+                                        + FETCH_ATTEMPTS + " failed: " + e);
                             }
-                        };
-                        KokoroSpeechClient.StreamResult result;
-                        try {
-                            result = fetchClient.synthesizeStreaming(
-                                    new KokoroSpeechClient.Request(c.text, fetchVoice,
-                                            fetchSpeed, fetchModel, fetchFormat), sink);
-                        } catch (Exception e) {
-                            Log.e(TAG, "fetch of chunk " + i + " failed", e);
-                            ready.put(new Object[]{i, null, null});
-                            return;
+                            if (attempt < FETCH_ATTEMPTS) {
+                                try {
+                                    Thread.sleep(200L * attempt);
+                                } catch (InterruptedException ie) {
+                                    Thread.currentThread().interrupt();
+                                    break;
+                                }
+                            }
                         }
-                        ready.put(new Object[]{i, buffer.toByteArray(), result});
+                        if (result == null || !result.isOk()) {
+                            Log.e(TAG, "chunk " + i + " gave up after " + FETCH_ATTEMPTS
+                                    + " attempts; the rest of this utterance will not "
+                                    + "be spoken");
+                        }
+                        ready.put(new Object[]{
+                                i, buffer == null ? null : buffer.toByteArray(), result});
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
