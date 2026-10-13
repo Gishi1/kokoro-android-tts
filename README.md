@@ -70,6 +70,23 @@ java -cp core/build/classes:core/build/test-classes dev.kokoro.tts.SplitterSelfT
     --out docs/research/conformance-model.json --check-lossless
 ```
 
+## Inspecting the audio
+
+`tools/waveform.py` renders a waveform PNG so audio can be looked at rather than only
+measured — useful for exactly the problems this driver had (a clipped first word, a
+seam that is too long, padding that will not go away). It uses numpy and stdlib zlib
+only, so there is no matplotlib or Pillow dependency.
+
+```sh
+.tooling/kokoro-venv/bin/python tools/waveform.py audio.wav --out wave.png
+.tooling/kokoro-venv/bin/python tools/waveform.py audio.wav \
+    --out seam.png --start 8.35 --end 9.35 --mark 8.845   # zoom on a known seam
+```
+
+The bottom band marks where the signal is below the silence threshold, so gaps read
+at a glance. `docs/experiments/audio-inspection.md` works through four examples:
+an intact onset, Kokoro's visible padding, a bounded seam, and a whole utterance.
+
 ## Performance: where the time actually goes
 
 Measured against a real Kokoro-FastAPI server on 2026-10-12, per chunk. Every
