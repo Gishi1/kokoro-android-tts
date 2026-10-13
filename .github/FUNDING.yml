@@ -1,0 +1,6 @@
+# Donation links, published from the same account as the source code.
+#
+# F-Droid's inclusion policy requires that any donation link in its metadata be
+# verifiable as coming from upstream. This file is that verification for the
+# `Donate:` entry in the F-Droid metadata (fdroid/dev.kokoro.tts.yml).
+ko_fi: gishi

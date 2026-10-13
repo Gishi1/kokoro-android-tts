@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.kokoro.tts">
+    package="dev.kokoro.tts"
+    android:versionCode="1"
+    android:versionName="1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!--
+      Declared here rather than passed to aapt2 so the API levels travel with the
+      source. That matters for F-Droid: its build server has whatever platforms it
+      has, and build.py compiling against one of those must not silently change
+      what the app targets.
+    -->
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="34" />
+
+    <!--
+      Deliberately no android:debuggable here: a distributed APK must not be
+      debuggable, and F-Droid would flag it. Debug builds add it at link time via
+      aapt2's debug-mode switch (see build.py), which is also what makes run-as
+      work for tools/set-voice.sh and tools/set-engine-prefs.sh. Note that an XML
+      comment cannot contain a double hyphen, which is why this is worded around
+      the flag names rather than naming them.
+    -->
     <application
         android:label="Kokoro TTS"
-        android:icon="@android:drawable/ic_btn_speak_now"
-        android:usesCleartextTraffic="true"
-        android:debuggable="true">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name="dev.kokoro.tts.SettingsActivity"
             android:exported="true"
             android:label="Kokoro TTS"
-            android:icon="@android:drawable/ic_btn_speak_now">
+            android:icon="@mipmap/ic_launcher">
             <!--
               Also a normal launcher entry, so the settings screen can be opened
               from the app drawer. Without this the only route is

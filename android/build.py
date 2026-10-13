@@ -41,7 +41,8 @@ def env(name: str, default: str = "") -> str:
     return os.environ.get(name) or default
 
 
-MIN_SDK = 21
+# minSdk/targetSdk are NOT set here: they are read from AndroidManifest.xml further
+# down, so that whichever platform happens to be installed cannot change them.
 # Preferred compileSdk. A lower platform still builds; a higher one is used as-is.
 WANT_SDK = 34
 # ...unless pinned, which is what CI does: a build machine usually has several
@@ -107,7 +108,6 @@ BT = ((SDK / "build-tools" / PIN_BUILD_TOOLS) if PIN_BUILD_TOOLS
 PLATFORM_DIR = ((SDK / "platforms" / PIN_PLATFORM) if PIN_PLATFORM
                 else find_platform(SDK))
 PLATFORM = (PLATFORM_DIR / "android.jar") if PLATFORM_DIR else None
-TARGET_SDK = int(PLATFORM_DIR.name.split("-")[1]) if PLATFORM_DIR else WANT_SDK
 JAVA_HOME = find_java_home()
 
 AAPT2 = (BT / "aapt2") if BT else None
@@ -117,10 +117,40 @@ APKSIGNER = (BT / "apksigner") if BT else None
 KEYTOOL = (JAVA_HOME / "bin" / "keytool") if JAVA_HOME else None
 
 APP_ID = "dev.kokoro.tts"
-# CI sets these so a tagged release reports its own version; Android wants an
-# integer versionCode that only ever increases, so callers pass a run number.
-VERSION_CODE = env("APP_VERSION_CODE", "1")
-VERSION_NAME = env("APP_VERSION_NAME", "1.0")
+
+
+def manifest_values() -> dict:
+    """versionCode/versionName/minSdk/targetSdk, as declared in AndroidManifest.xml.
+
+    They live in the manifest rather than only being injected at link time because
+    F-Droid's `UpdateCheckMode: Tags` reads the version out of AndroidManifest.xml
+    at each tagged revision, and because the API levels should travel with the
+    source: whichever platform CI or the F-Droid build server happens to have
+    installed must not change what the app targets. Env vars still override the
+    version, for the $$VERCODE$$ / $$VERSION$$ F-Droid substitutes into the build.
+    """
+    text = (ROOT / "AndroidManifest.xml").read_text(encoding="utf-8")
+
+    def grab(pattern, what):
+        m = re.search(pattern, text)
+        if not m:
+            raise SystemExit(f"AndroidManifest.xml must declare {what}")
+        return m.group(1)
+
+    return {
+        "code": grab(r'android:versionCode="(\d+)"', "android:versionCode"),
+        "name": grab(r'android:versionName="([^"]*)"', "android:versionName"),
+        "min": int(grab(r'android:minSdkVersion="(\d+)"', "android:minSdkVersion")),
+        "target": int(grab(r'android:targetSdkVersion="(\d+)"',
+                           "android:targetSdkVersion")),
+    }
+
+
+_MANIFEST = manifest_values()
+VERSION_CODE = env("APP_VERSION_CODE", _MANIFEST["code"])
+VERSION_NAME = env("APP_VERSION_NAME", _MANIFEST["name"])
+MIN_SDK = _MANIFEST["min"]
+TARGET_SDK = _MANIFEST["target"]
 
 # Signing. The default is the throwaway debug key this script generates, which is
 # fine for sideloading but is regenerated per checkout, so its signature is not
@@ -162,9 +192,18 @@ def java_sources() -> list:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--release", action="store_true",
-                    help="keystore/signing uses the debug key either way; reserved")
+    ap = argparse.ArgumentParser(
+        description="Build the Kokoro TTS engine APK without Gradle.")
+    ap.add_argument("--debug", action="store_true",
+                    help="mark the APK debuggable (aapt2 --debug-mode). Needed for "
+                         "`run-as`, which tools/set-voice.sh and "
+                         "tools/set-engine-prefs.sh use to write preferences. Off by "
+                         "default: a distributed APK must not be debuggable, and "
+                         "F-Droid would flag it.")
+    ap.add_argument("--unsigned", action="store_true",
+                    help="stop after aligning, leaving the APK unsigned at "
+                         "android/kokoro-tts-unsigned.apk. F-Droid signs the APK "
+                         "itself and its `output:` expects an unsigned one.")
     args = ap.parse_args()
 
     if not SDK.is_dir():
@@ -199,17 +238,27 @@ def main() -> int:
 
     # 2. link resources + manifest into a base APK, generating R.java
     print("[2/7] aapt2 link")
-    run([AAPT2, "link",
-         "-o", BUILD / "base.apk",
-         "-I", PLATFORM,
-         "--manifest", ROOT / "AndroidManifest.xml",
-         "-R", BUILD / "res.zip",
-         "--java", BUILD / "gen",
-         "--min-sdk-version", str(MIN_SDK),
-         "--target-sdk-version", str(TARGET_SDK),
-         "--version-code", VERSION_CODE,
-         "--version-name", VERSION_NAME,
-         "--auto-add-overlay"])
+    link = [AAPT2, "link",
+            "-o", BUILD / "base.apk",
+            "-I", PLATFORM,
+            "--manifest", ROOT / "AndroidManifest.xml",
+            "-R", BUILD / "res.zip",
+            "--java", BUILD / "gen",
+            # minSdkVersion/targetSdkVersion are not passed: they live in the
+            # manifest's <uses-sdk>, so the API levels cannot drift from the source.
+            "--version-code", VERSION_CODE,
+            "--version-name", VERSION_NAME,
+            # Needed because the manifest now declares them too: without this flag
+            # aapt2 leaves the manifest's values alone, so the APP_VERSION_* override
+            # that CI and F-Droid's $$VERCODE$$/$$VERSION$$ rely on would silently do
+            # nothing. With it, the override wins and the manifest is the default.
+            "--replace-version",
+            "--auto-add-overlay"]
+    if args.debug:
+        # Injected at link time rather than kept in the manifest, so the shipped
+        # manifest cannot accidentally carry it.
+        link.append("--debug-mode")
+    run(link)
 
     # 3. compile Java (core + android) against android.jar
     print("[3/7] javac")
@@ -251,6 +300,18 @@ def main() -> int:
     run([ZIPALIGN, "-f", "-p", "4", unsigned, aligned])
 
     # 7. sign
+    if args.unsigned:
+        # F-Droid builds and signs with its own key, and its `output:` wants the
+        # unsigned APK, so stop here rather than producing an artifact that would
+        # have to be stripped again.
+        out = ROOT / "kokoro-tts-unsigned.apk"
+        shutil.copyfile(aligned, out)
+        run([ZIPALIGN, "-c", "-v", "4", out])
+        print(f"\nbuilt {out} ({out.stat().st_size} bytes, UNSIGNED) "
+              f"versionName={VERSION_NAME} versionCode={VERSION_CODE} "
+              f"targetSdk={TARGET_SDK} debuggable={args.debug}")
+        return 0
+
     print("[7/7] sign")
     # The default keystore is kept OUTSIDE build/ so a clean rebuild keeps the same
     # signature and `adb install -r` upgrades in place instead of failing on a
@@ -277,7 +338,7 @@ def main() -> int:
 
     print(f"\nbuilt {signed} ({signed.stat().st_size} bytes) "
           f"versionName={VERSION_NAME} versionCode={VERSION_CODE} "
-          f"targetSdk={TARGET_SDK}")
+          f"targetSdk={TARGET_SDK} debuggable={args.debug}")
     return 0
 
 

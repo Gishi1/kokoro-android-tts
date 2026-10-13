@@ -65,23 +65,35 @@ jobs:
           yes | "$sdkmanager" --licenses > /dev/null 2>&1 || true
           "$sdkmanager" "build-tools;34.0.0" "platforms;android-34"
 
-      - name: Work out the version
+      - name: Read and check the version
         id: version
         env:
           INPUT_VERSION: ${{ inputs.version }}
         run: |
-          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
-            name="${GITHUB_REF_NAME#v}"
-          elif [ -n "$INPUT_VERSION" ]; then
-            name="$INPUT_VERSION"
-          else
-            name="0.0.$GITHUB_RUN_NUMBER"
+          # The manifest is the single source of truth: F-Droid's `UpdateCheckMode:
+          # Tags` reads versionName/versionCode straight out of it at each tag, so
+          # the APK CI builds and the APK F-Droid builds report the same version.
+          code=$(sed -n 's/.*android:versionCode="\([0-9]*\)".*/\1/p' android/AndroidManifest.xml)
+          name=$(sed -n 's/.*android:versionName="\([^"]*\)".*/\1/p' android/AndroidManifest.xml)
+          if [ -z "$code" ] || [ -z "$name" ]; then
+            echo "android/AndroidManifest.xml must declare android:versionCode and" >&2
+            echo "android:versionName; F-Droid reads the version from there." >&2
+            exit 1
+          fi
+          # A tag whose version disagrees with the manifest would publish a release
+          # that F-Droid can never match, so refuse rather than guess.
+          if [ "$GITHUB_REF_TYPE" = "tag" ] && [ "${GITHUB_REF_NAME#v}" != "$name" ]; then
+            echo "tag $GITHUB_REF_NAME does not match the manifest versionName '$name'." >&2
+            echo "Bump android:versionName (and android:versionCode) and commit before tagging." >&2
+            exit 1
+          fi
+          if [ -n "$INPUT_VERSION" ] && [ "$INPUT_VERSION" != "$name" ]; then
+            echo "input version '$INPUT_VERSION' does not match the manifest '$name'." >&2
+            exit 1
           fi
           echo "name=$name" >> "$GITHUB_OUTPUT"
-          # Android wants an integer versionCode that only ever increases, and the
-          # run number is monotonic for the life of the repository.
-          echo "code=$GITHUB_RUN_NUMBER" >> "$GITHUB_OUTPUT"
-          echo "Building versionName=$name versionCode=$GITHUB_RUN_NUMBER"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "Building versionName=$name versionCode=$code"
 
       - name: Self-tests (splitter and trimmer)
         run: |
@@ -120,8 +132,9 @@ jobs:
         env:
           ANDROID_BUILD_TOOLS: '34.0.0'
           ANDROID_PLATFORM: android-34
-          APP_VERSION_NAME: ${{ steps.version.outputs.name }}
-          APP_VERSION_CODE: ${{ steps.version.outputs.code }}
+          # No APP_VERSION_NAME/CODE: build.py reads the manifest, which is the
+          # same place F-Droid reads it from. Overriding here would let the two
+          # drift apart.
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
           KEY_PASS: ${{ secrets.KEY_PASS }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}

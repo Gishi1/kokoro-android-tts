@@ -58,8 +58,10 @@ core/     pure Java, no Android imports, unit-testable on a plain JVM
   CharBaselineSplitter  the naive 400-char baseline, kept for measurement
 android/  the system TTS engine and an adb-driven end-to-end probe
 tools/    calibration, model fitting, conformance harness, server probe, PNG figures
+          pngtool.py (dependency-free PNG compositing), make_icon.py (the app icon)
 docs/     research report, experiment report, raw primary sources
 data/     corpora (public domain + authored fixtures)
+fdroid/   the F-Droid build metadata, kept beside the source it describes
 ```
 
 ## Build
@@ -68,14 +70,22 @@ No Gradle is required — the APK is built with the SDK's own tools
 (`aapt2` → `javac` → `d8` → `zipalign` → `apksigner`):
 
 ```sh
-python3 android/build.py          # -> android/kokoro-tts.apk
-bash core/build.sh                # core only, for the JVM harnesses
+python3 android/build.py           # -> android/kokoro-tts.apk (release)
+python3 android/build.py --debug   # ...and mark it debuggable, for the adb tools
+python3 android/build.py --unsigned  # -> android/kokoro-tts-unsigned.apk, for F-Droid
+bash core/build.sh                 # core only, for the JVM harnesses
 ```
+
+The default build is **not** debuggable, because that is what gets distributed. Use
+`--debug` when you want `tools/set-voice.sh` or `tools/set-engine-prefs.sh` to work:
+those write preferences over `run-as`, which Android only allows on a debuggable app.
 
 `android/build.py` resolves its SDK from `ANDROID_HOME` (or `ANDROID_SDK_ROOT`),
 falling back to `.tooling/android-sdk`, and its JDK from `JAVA_HOME` or the `javac`
 on `PATH`. It picks the newest build-tools that has all four tools and the newest
-installed platform, so a different SDK layout works without editing the script.
+installed platform; `ANDROID_BUILD_TOOLS` and `ANDROID_PLATFORM` pin those instead.
+`minSdkVersion`, `targetSdkVersion`, `versionCode` and `versionName` all come from
+`AndroidManifest.xml`, so no SDK layout can change what the app targets.
 
 The APK is signed with a debug keystore generated on first build, so no key material
 is in the repository. Each checkout therefore mints its *own* key: build outputs are
@@ -85,19 +95,43 @@ mismatch. Uninstall first, or copy `android/debug.keystore` across.
 
 ### Releasing
 
-CI (`.github/workflows/build.yml`) builds every push and pull request, and a `v*` tag
-publishes a Release with the APK attached:
+Bump `android:versionName` (and `android:versionCode`) in
+`android/AndroidManifest.xml`, commit, then tag the same version:
 
 ```sh
 git tag v1.0
 git push origin v1.0
 ```
 
-`versionName` comes from the tag and `versionCode` from the run number, so it always
-increases. **Without a `KEYSTORE_BASE64` secret, each run signs with a throwaway debug
-key**, so the signature changes between releases and upgrading needs an uninstall
-first. The comment block at the top of the workflow lists the four secrets that make
-releases upgradable in place.
+CI refuses a tag that disagrees with the manifest, because F-Droid reads the version
+from the manifest at each tag and a mismatch would publish a release F-Droid could
+never match. CI (`.github/workflows/build.yml`) builds every push and pull request;
+a `v*` tag publishes a Release with the APK attached.
+
+**Without a `KEYSTORE_BASE64` secret, each run signs with a throwaway debug key**, so
+the signature changes between releases and upgrading needs an uninstall first. The
+comment block at the top of the workflow lists the four secrets that make releases
+upgradable in place. F-Droid builds do not use any of this — see below.
+
+### F-Droid
+
+F-Droid compiles the app on its own build server from a tagged commit and **signs it
+with F-Droid's key**, so no distributable signing key is held here at all. The build
+recipe is [`fdroid/dev.kokoro.tts.yml`](fdroid/dev.kokoro.tts.yml), kept beside the
+source; the live copy is `metadata/dev.kokoro.tts.yml` in
+[fdroiddata](https://gitlab.com/fdroid/fdroiddata). To propose a release, copy the
+file there and open a merge request.
+
+F-Droid fits this app unusually well: it has no dependencies to vet, it is
+Apache-2.0, and because the server endpoint is user-configurable the `TetheredNet`
+anti-feature explicitly does not apply — its own definition excludes apps that "allow
+pointing the app ... to a running instance of an ... alternative, publicly available,
+self-hostable server solution". So the listing needs no anti-feature declaration.
+
+The recipe needs no Gradle and no `sudo`: `build.py` drives the SDK tools directly and
+compiles against whichever build-tools and platform the build server happens to have,
+because the API levels live in the manifest. `--unsigned` is used because F-Droid
+signs the APK itself.
 
 ## Install
 

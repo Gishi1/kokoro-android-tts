@@ -5,6 +5,7 @@
 core/build/
 android/build/
 android/kokoro-tts.apk
+android/kokoro-tts-unsigned.apk
 
 # Signing material - never commit a keystore, even a throwaway debug one.
 android/debug.keystore
