@@ -74,15 +74,31 @@ public final class KokoroSplitter {
     public static final class Chunk {
         public final String text;
         public final int estimatedTokens;
+        /**
+         * True when this is the last chunk of its paragraph.
+         *
+         * <p>Adapted from ao3-reader's narration chunker, which marks each paragraph's
+         * final chunk so the player can pause longer there than at a mid-paragraph
+         * seam. The seam between two chunks is independently reported as audible
+         * (hexgrad/kokoro issue #200), and a paragraph break is the one place a
+         * longer pause is unambiguously correct.
+         */
+        public final boolean paraEnd;
 
         public Chunk(String text, int estimatedTokens) {
+            this(text, estimatedTokens, false);
+        }
+
+        public Chunk(String text, int estimatedTokens, boolean paraEnd) {
             this.text = text;
             this.estimatedTokens = estimatedTokens;
+            this.paraEnd = paraEnd;
         }
 
         @Override
         public String toString() {
-            return "Chunk{" + estimatedTokens + " tokens, " + text.length() + " chars: "
+            return "Chunk{" + estimatedTokens + " tokens, " + text.length() + " chars"
+                    + (paraEnd ? ", paraEnd" : "") + ": "
                     + (text.length() > 60 ? text.substring(0, 60) + "..." : text) + "}";
         }
     }
@@ -137,8 +153,12 @@ public final class KokoroSplitter {
                 explode(sentence, units);
             }
             if (units.isEmpty()) continue;
-            for (Unit u : pack(units)) {
-                out.add(new Chunk(u.text, u.cost));
+            java.util.List<Unit> packed = pack(units);
+            for (int i = 0; i < packed.size(); i++) {
+                Unit u = packed.get(i);
+                // Mark the paragraph's final chunk so the client can pause longer
+                // there than at a seam inside a paragraph.
+                out.add(new Chunk(u.text, u.cost, i == packed.size() - 1));
             }
         }
         return out;

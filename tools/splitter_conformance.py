@@ -52,7 +52,7 @@ def run_splitter(mode: str, corpora: list[Path], budget: int, hard_cap: int,
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["model", "chars"], required=True)
+    ap.add_argument("--mode", choices=["model", "chars"], default="model")
     ap.add_argument("--corpus", type=Path, nargs="+", required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--budget", type=int, default=400, help="char budget for --mode chars")
@@ -62,6 +62,12 @@ def main() -> int:
     ap.add_argument("--lang", default="a", help="Kokoro G2P language code to judge with")
     ap.add_argument("--runs", type=int, default=3)
     ap.add_argument("--check-lossless", action="store_true")
+    ap.add_argument(
+        "--chunks-jsonl", type=Path, default=None,
+        help="score pre-computed chunks from this JSONL file instead of running a "
+             "splitter, so a foreign implementation (e.g. another project's "
+             "chunker) can be judged by the same referee")
+    ap.add_argument("--label", default=None, help="name recorded in the output")
     args = ap.parse_args()
 
     from kokoro import KPipeline
@@ -76,11 +82,22 @@ def main() -> int:
             return len(ps.strip())
         return len(KPipeline.tokens_to_ps(tk))
 
+    external = None
+    if args.chunks_jsonl is not None:
+        external = []
+        for line in args.chunks_jsonl.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line:
+                external.append(json.loads(line))
+        print(f"loaded {len(external)} pre-computed chunks from {args.chunks_jsonl}",
+              flush=True)
+
     run_results = []
     chunks = []
-    for run in range(args.runs):
-        chunks = run_splitter(args.mode, args.corpus, args.budget, args.hard_cap,
-                              args.target_min, args.target_max)
+    for run in range(1 if external is not None else args.runs):
+        chunks = external if external is not None else run_splitter(
+            args.mode, args.corpus, args.budget, args.hard_cap,
+            args.target_min, args.target_max)
         scored = []
         for c in chunks:
             t = c["text"].strip()
@@ -131,7 +148,9 @@ def main() -> int:
 
     worst = sorted(ok, key=lambda s: s["true"], reverse=True)[:8]
     summary = {
-        "mode": args.mode,
+        "label": args.label or ("external" if external is not None else args.mode),
+        "mode": "external" if external is not None else args.mode,
+        "source_chunks_jsonl": str(args.chunks_jsonl) if external is not None else None,
         "lang": args.lang,
         "budget_chars": args.budget if args.mode == "chars" else None,
         "hard_cap": args.hard_cap,

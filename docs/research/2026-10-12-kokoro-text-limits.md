@@ -274,6 +274,27 @@ the measurements in §3-§5 identify only the two mechanisms actually observed h
 
 ---
 
+## 14. Cross-check against an existing client: ao3-reader's narration chunker
+
+The sibling project at `<ao3-reader>` already chunks text for these same
+API calls, with `mergeChunks(p, { max: 300, min: 100 })` and, like this project, one request
+per chunk. It was run over the same corpora through the same referee — importing its real
+module, not a re-implementation — and is reported separately in
+`docs/research/2026-10-12-ao3-reader-chunker-vs-kokoro.md`. `[M]`
+
+Summary: its chunk sizing is **well calibrated for pace** (median 247 true tokens on
+English prose, inside the 175–250 band) but it does **not** enforce the token ceiling —
+**10 chunks above 510 tokens on the long-form corpus (max 871)** and **3 of 41 on the mixed
+corpus (max 672)**, because `mergeChunks` only merges and never splits an oversized
+sentence, and `chunkText` recognises only ASCII sentence terminators.
+
+Two things were adopted from it into this driver: marking each paragraph's final chunk so
+the client pauses longer at a paragraph break than at a seam inside one (280 ms vs 90 ms),
+and the general shape of the gap model. Its pace rationale is a genuinely separate axis
+from the token limit, and this project still does not model it.
+
+---
+
 ## Licence table
 
 | artefact | version / commit | licence | licence file actually seen? | constraint |

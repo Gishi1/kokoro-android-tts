@@ -1,0 +1,81 @@
+{
+  "label": "ao3-reader mergeChunks(max=300,min=100)",
+  "mode": "external",
+  "source_chunks_jsonl": ".tooling/ao3/longform.jsonl",
+  "lang": "a",
+  "budget_chars": null,
+  "hard_cap": 360,
+  "target_min": 240,
+  "target_max": 360,
+  "corpora": [
+    "data/corpus_longform.txt"
+  ],
+  "runs": [
+    {
+      "run": 0,
+      "n_chunks": 1380,
+      "over_450": 26,
+      "over_510": 10,
+      "median_tokens": 247.0,
+      "max_tokens": 871,
+      "total_tokens": 333795
+    }
+  ],
+  "deterministic_across_runs": true,
+  "n_chunks": 1380,
+  "over_limit_rate_450": 0.01884057971014493,
+  "hard_fail_rate_510": 0.007246376811594203,
+  "median_tokens": 247.0,
+  "mean_tokens": 241.8804347826087,
+  "max_tokens": 871,
+  "p95_tokens": 363,
+  "total_tokens": 333795,
+  "lossless": {
+    "input_chars": 277170,
+    "output_chars": 277170,
+    "identical": true,
+    "first_diff": null
+  },
+  "worst_chunks": [
+    {
+      "true": 871,
+      "est": 890,
+      "text": "Bingley, when questioned by Jane, had long ago asserted his blamelessness in the affair;--that, prou"
+    },
+    {
+      "true": 660,
+      "est": 677,
+      "text": "After discharging his conscience on that head, he proceeded to inform them, with many rapturous expr"
+    },
+    {
+      "true": 629,
+      "est": 634,
+      "text": "His present pursuit could not make him forget that Elizabeth had been the first to excite and to des"
+    },
+    {
+      "true": 596,
+      "est": 610,
+      "text": "Denny, to whom Lydia eagerly applied, and who told them that Wickham had been obliged to go to town "
+    },
+    {
+      "true": 582,
+      "est": 589,
+      "text": "Darcy was expected there in the course of a few weeks; and though there were not many of her acquain"
+    },
+    {
+      "true": 529,
+      "est": 546,
+      "text": "She soon learnt that they were indebted for their present good understanding to the efforts of his a"
+    },
+    {
+      "true": 521,
+      "est": 528,
+      "text": "--“My mind, however, is now made up on the subject; for, having received ordination at Easter, I hav"
+    },
+    {
+      "true": 520,
+      "est": 523,
+      "text": "Their parties abroad were less varied than before; and at home she had a mother and sister, whose co"
+    }
+  ]
+}

@@ -83,7 +83,8 @@ without a settings UI. Defaults:
 | `format` | `pcm` |
 | `hard_cap` | `360` (estimated tokens — see below) |
 | `target_min` / `target_max` | `240` / `360` |
-| `mid_sentence_gap_ms` | `90` |
+| `mid_sentence_gap_ms` | `90` (seam cut mid-sentence) |
+| `paragraph_gap_ms` | `280` (seam at a paragraph break) |
 
 ### Why the cap is 360 and not 450
 
@@ -98,8 +99,28 @@ median over-estimate 1.611×.
 
 - `docs/research/2026-10-12-kokoro-text-limits.md` — what the sources support,
   with a licence table and an explicit list of what could **not** be sourced.
+- `docs/research/2026-10-12-ao3-reader-chunker-vs-kokoro.md` — the existing
+  `ao3-reader` narration chunker, scored by the same referee against real Kokoro
+  G2P. It is well calibrated for pace (median 247 tokens) but has **10 chunks
+  over 510 tokens on long-form prose and 3 of 41 on the mixed corpus**, because
+  `mergeChunks` merges but never splits an oversized sentence, and `chunkText`
+  only recognises ASCII terminators.
 - `docs/experiments/2026-10-12-kokoro-splitter.md` — the pre-registered
   experiment, **including the criterion that failed** and why.
+- `docs/experiments/device-evidence-2026-10-12.md` — raw logcat and verified
+  RIFF headers from the on-device runs.
+
+### What the chunk budget is, and is not
+
+Two independent concerns get conflated when picking a chunk size:
+
+* **Pace uniformity** — Kokoro's speaking rate varies with input size, so very
+  short chunks sound rushed. `ao3-reader` measured this and chose ~300
+  characters; this project reached the same region from the token side (median
+  194 true tokens on long-form prose). For English prose the two are nearly the
+  same number, because prose is ~1.0 tokens/char.
+* **The 510-token ceiling** — a hard limit that a character budget cannot
+  enforce, because the cost per character ranges from ~1.0 (prose) to ~13 (CJK).
 
 ## Licence
 

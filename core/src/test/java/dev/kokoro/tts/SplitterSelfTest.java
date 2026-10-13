@@ -87,6 +87,20 @@ public final class SplitterSelfTest {
         // --- paragraph breaks are always chunk boundaries
         List<KokoroSplitter.Chunk> paras = splitter.split("First para.\n\nSecond para.");
         expect("paragraph break yields two chunks", 2, paras.size());
+        check("last chunk of a paragraph is marked paraEnd", paras.get(0).paraEnd);
+        check("final chunk is also marked paraEnd", paras.get(1).paraEnd);
+
+        // A multi-chunk paragraph must mark only its last chunk, so the client can
+        // pause longer at a paragraph break than at a seam inside one.
+        List<KokoroSplitter.Chunk> multi = splitter.split(longProse + "\n\nTail paragraph.");
+        check("multi-chunk text produces more than one chunk", multi.size() > 2,
+                "chunks=" + multi.size());
+        int paraEnds = 0;
+        for (KokoroSplitter.Chunk c : multi) {
+            if (c.paraEnd) paraEnds++;
+        }
+        expect("exactly one paraEnd per paragraph", 2, paraEnds);
+        check("only the last chunk of a paragraph carries paraEnd", multi.get(multi.size() - 1).paraEnd);
 
         System.out.println();
         if (failures == 0) {

@@ -47,6 +47,7 @@ public class KokoroTtsService extends TextToSpeechService {
     private static final String KEY_TARGET_MIN = "target_min";
     private static final String KEY_TARGET_MAX = "target_max";
     private static final String KEY_MID_SENTENCE_GAP_MS = "mid_sentence_gap_ms";
+    private static final String KEY_PARAGRAPH_GAP_MS = "paragraph_gap_ms";
     private static final String KEY_CONNECT_TIMEOUT_MS = "connect_timeout_ms";
     private static final String KEY_READ_TIMEOUT_MS = "read_timeout_ms";
     private static final String KEY_STRIP_EMOJI = "strip_emoji";
@@ -193,6 +194,7 @@ public class KokoroTtsService extends TextToSpeechService {
         String model = pref(KEY_MODEL, DEFAULT_MODEL);
         String fmt = pref(KEY_FORMAT, "pcm");
         int midSentenceGapMs = prefInt(KEY_MID_SENTENCE_GAP_MS, 90);
+        int paragraphGapMs = prefInt(KEY_PARAGRAPH_GAP_MS, 280);
 
         int declaredMax = callback.getMaxBufferSize();
         int maxBuffer = declaredMax > 0 ? declaredMax : 8192;
@@ -235,9 +237,17 @@ public class KokoroTtsService extends TextToSpeechService {
 
                 trace.append(chunk.estimatedTokens);
                 if (chunkIndex < chunks.size() - 1) {
-                    trace.append('/');
-                    if (!endsSentence(chunk.text) && midSentenceGapMs > 0) {
-                        writeSilence(callback, sampleRate, midSentenceGapMs, maxBuffer);
+                    trace.append(chunk.paraEnd ? '|' : '/');
+                    // Three gap tiers, following ao3-reader's narration model:
+                    // a paragraph end gets the longest pause, a sentence end
+                    // inside a paragraph needs none (the audio already has it),
+                    // and a seam cut mid-sentence gets a short bridging pause so
+                    // it does not sound like a full stop. The seam itself is
+                    // independently reported as audible (kokoro issue #200).
+                    int gapMs = chunk.paraEnd ? paragraphGapMs
+                            : (endsSentence(chunk.text) ? 0 : midSentenceGapMs);
+                    if (gapMs > 0) {
+                        writeSilence(callback, sampleRate, gapMs, maxBuffer);
                     }
                 }
                 chunkIndex++;
