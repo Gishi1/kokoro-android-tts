@@ -54,6 +54,12 @@ public class KokoroTtsService extends TextToSpeechService {
     private static final String KEY_TRIM_SILENCE = SettingsActivity.KEY_TRIM_SILENCE;
     private static final String KEY_APPS_OVERRIDE_VOICE =
             SettingsActivity.KEY_APPS_OVERRIDE_VOICE;
+    /**
+     * Diagnostic: append every buffer handed to the framework into one file,
+     * so the exact audio a listener heard can be pulled and inspected. Writes
+     * to the app's own external files dir, which needs no storage permission.
+     */
+    private static final String KEY_DUMP_AUDIO = "dump_audio";
     /** Amplitude below which a sample counts as silence, in int16 units (~0.6% FS). */
     private static final int SILENCE_THRESHOLD = 200;
     /** Silence kept either side of speech so a soft release is not clipped. */
@@ -553,6 +559,10 @@ public class KokoroTtsService extends TextToSpeechService {
                 if (firstAudio[0] < 0) {
                     firstAudio[0] = System.currentTimeMillis() - requestStartMs;
                 }
+                if (prefBool(KEY_DUMP_AUDIO, false)) {
+                    dumpForDiagnosis(play, chunkIndex, chunk.text);
+                }
+
                 for (int off = 0; off < play.length; off += maxBuffer) {
                     if (stopped) return;
                     int len = Math.min(maxBuffer, play.length - off);
@@ -601,6 +611,31 @@ public class KokoroTtsService extends TextToSpeechService {
         } catch (Exception e) {
             Log.e(TAG, "synthesis failed", e);
             callback.error(-1);
+        }
+    }
+
+    /**
+     * Append one chunk of played audio to the diagnostic dump, plus a one-line
+     * caption giving its offset, so a later reader can map dump offsets to the log.
+     */
+    private void dumpForDiagnosis(byte[] data, int chunkIndex, String caption) {
+        java.io.File dir = getExternalFilesDir(null);
+        if (dir == null) return;
+        java.io.File pcm = new java.io.File(dir, "kokoro_dump.pcm");
+        java.io.File txt = new java.io.File(dir, "kokoro_dump.txt");
+        long offset = pcm.exists() ? pcm.length() : 0;
+        try (java.io.FileOutputStream out = new java.io.FileOutputStream(pcm, true)) {
+            out.write(data);
+        } catch (Exception e) {
+            Log.w(TAG, "audio dump failed", e);
+            return;
+        }
+        try (java.io.FileWriter w = new java.io.FileWriter(txt, true)) {
+            w.write(offset + " " + data.length + " chunk=" + chunkIndex
+                    + " ms=" + (data.length / 2 * 1000 / KokoroSpeechClient.SAMPLE_RATE_HZ)
+                    + " text=" + caption.replace('\n', ' ') + "\n");
+        } catch (Exception ignored) {
+            // The caption is a convenience; the PCM is the point.
         }
     }
 

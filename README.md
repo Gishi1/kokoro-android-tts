@@ -92,6 +92,21 @@ So **try `am_onyx`** if `am_michael` sounds harsh. Full table and method in
 check the listening path — Bluetooth with SBC or low-bitrate AAC causes raspy
 sibilance independently of the model.
 
+## Capturing what a listener actually heard
+
+The engine can log every buffer it hands to the framework, so the exact audio a
+session produced can be pulled and inspected. Set `dump_audio=true` (or
+`tools/set-engine-prefs.sh dump_audio=true`), then pull:
+
+```sh
+adb pull /sdcard/Android/data/dev.kokoro.tts/files/kokoro_dump.pcm
+adb pull /sdcard/Android/data/dev.kokoro.tts/files/kokoro_dump.txt   # offsets + text
+python3 tools/waveform.py kokoro_dump.pcm --out dump.png
+```
+
+It writes to the app's own external files directory, so no storage permission is
+needed. Off by default; it grows a file per session.
+
 ## Inspecting the audio
 
 `tools/waveform.py` renders a waveform PNG so audio can be looked at rather than only

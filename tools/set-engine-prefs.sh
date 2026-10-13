@@ -35,6 +35,29 @@ local_xml="$tmp/kokoro.xml"
 
 "${A[@]}" shell "run-as $PKG cat $PREFS" > "$local_xml" 2>/dev/null || true
 
+# Refuse to write unless the current file was read successfully. An earlier version
+# carried on regardless, so a failed read produced a file containing ONLY the keys
+# named on the command line -- silently dropping add_gaps, max_pause_ms and anything
+# else, and reverting them to engine defaults. That is a genuine footgun: the user
+# sees settings change on their own, with no error anywhere.
+if [ "${1:---show}" != "--show" ]; then
+  if [ ! -s "$local_xml" ]; then
+    echo "refusing to write: could not read $PREFS from $SERIAL." >&2
+    echo "Nothing has been changed. Check the device is connected and the app is installed." >&2
+    exit 1
+  fi
+  if ! python3 -c "
+import sys, xml.etree.ElementTree as ET
+root = ET.parse(sys.argv[1]).getroot()
+sys.exit(0 if root is not None and root.tag == 'map' else 1)
+" "$local_xml"; then
+    echo "refusing to write: $PREFS did not parse as a preferences file." >&2
+    echo "Nothing has been changed. Current contents:" >&2
+    cat "$local_xml" >&2
+    exit 1
+  fi
+fi
+
 if [ "${1:---show}" = "--show" ]; then
   cat "$local_xml"
   exit 0
