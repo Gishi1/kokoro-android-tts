@@ -294,7 +294,15 @@ def main() -> int:
             zipfile.ZipFile(unsigned, "w", zipfile.ZIP_DEFLATED) as dst:
         for item in src.infolist():
             dst.writestr(item, src.read(item.filename))
-        dst.write(BUILD / "dex" / "classes.dex", "classes.dex")
+        # A fixed timestamp, not ZipFile.write(): writing from the filesystem
+        # stamps the entry with the file's mtime, so two builds of the same source
+        # differed in that one field and the APK was not byte-reproducible. aapt2
+        # already stamps its own entries with a constant, so this was the only
+        # source of drift.
+        info = zipfile.ZipInfo("classes.dex", date_time=(1980, 1, 1, 0, 0, 0))
+        info.compress_type = zipfile.ZIP_DEFLATED
+        info.external_attr = 0o644 << 16
+        dst.writestr(info, (BUILD / "dex" / "classes.dex").read_bytes())
 
     aligned = BUILD / "aligned.apk"
     run([ZIPALIGN, "-f", "-p", "4", unsigned, aligned])
