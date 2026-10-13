@@ -49,6 +49,11 @@ public class KokoroTtsService extends TextToSpeechService {
     private static final String KEY_TARGET_MAX = "target_max";
     // Shared with SettingsActivity so keys and defaults cannot drift apart.
     private static final String KEY_ADD_GAPS = SettingsActivity.KEY_ADD_GAPS;
+    private static final String KEY_TRIM_SILENCE = SettingsActivity.KEY_TRIM_SILENCE;
+    /** Amplitude below which a sample counts as silence, in int16 units (~0.6% FS). */
+    private static final int SILENCE_THRESHOLD = 200;
+    /** Silence kept either side of speech so a soft onset is not clipped. */
+    private static final int TRIM_GUARD_MS = 10;
     private static final String KEY_CONNECT_TIMEOUT_MS = "connect_timeout_ms";
     private static final String KEY_READ_TIMEOUT_MS = "read_timeout_ms";
     private static final String KEY_STRIP_EMOJI = "strip_emoji";
@@ -322,6 +327,7 @@ public class KokoroTtsService extends TextToSpeechService {
                 ? prefInt(SettingsActivity.KEY_MID_SENTENCE_GAP_MS,
                           SettingsActivity.DEFAULT_MID_GAP_MS)
                 : 0;
+        boolean trimSilence = prefBool(KEY_TRIM_SILENCE, true);
         int paragraphGapMs = addGaps
                 ? prefInt(SettingsActivity.KEY_PARAGRAPH_GAP_MS,
                           SettingsActivity.DEFAULT_PARA_GAP_MS)
@@ -332,6 +338,7 @@ public class KokoroTtsService extends TextToSpeechService {
 
         StringBuilder trace = new StringBuilder();
         int silenceInsertedMs = 0;
+        int silenceTrimmedMs = 0;
         long startedAt = System.currentTimeMillis();
         int chunkIndex = 0;
 
@@ -356,10 +363,22 @@ public class KokoroTtsService extends TextToSpeechService {
                 }
 
                 byte[] audio = response.audio;
+                int from = 0;
+                int playLength = audio.length;
+                if (trimSilence) {
+                    // Kokoro pads every chunk with ~50 ms lead and ~360 ms trail, so
+                    // a seam carries ~410 ms of silence nobody asked for. Without
+                    // this, the pause setting below cannot actually control the pause.
+                    Pcm.Span span = Pcm.audibleSpan(audio, SILENCE_THRESHOLD,
+                            TRIM_GUARD_MS, sampleRate);
+                    from = span.offset;
+                    playLength = span.length;
+                    silenceTrimmedMs += span.leadingMs + span.trailingMs;
+                }
                 // Stream in callback-sized pieces; the framework may cap each call.
-                for (int off = 0; off < audio.length; off += maxBuffer) {
+                for (int off = from; off < from + playLength; off += maxBuffer) {
                     if (stopped) return;
-                    int len = Math.min(maxBuffer, audio.length - off);
+                    int len = Math.min(maxBuffer, from + playLength - off);
                     int ret = callback.audioAvailable(audio, off, len);
                     if (ret != TextToSpeech.SUCCESS) {
                         Log.e(TAG, "audioAvailable returned " + ret + " at chunk " + chunkIndex);
@@ -393,6 +412,7 @@ public class KokoroTtsService extends TextToSpeechService {
                     + " pauses=" + (addGaps ? midSentenceGapMs + "/" + paragraphGapMs + "ms"
                                             : "off")
                     + " inserted=" + silenceInsertedMs + "ms"
+                    + " trimmed=" + silenceTrimmedMs + "ms"
                     + " ms=" + (System.currentTimeMillis() - startedAt));
         } catch (Exception e) {
             Log.e(TAG, "synthesis failed", e);

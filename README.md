@@ -99,32 +99,51 @@ to make it re-read.
 The engine also advertises the fetched list through `onGetVoices()`, so any app
 that picks a TTS voice sees all of them rather than a built-in subset.
 
-### Pauses between chunks
+### Pauses between chunks, and the silence Kokoro adds itself
 
-Kokoro synthesises each chunk as a separate request, so **no natural pause exists across
-a join** — the seam is where the model stopped, not where a speaker would breathe. The
-engine therefore inserts silence at seams, with two independent lengths:
+This is the part that surprises people, so it is worth stating plainly:
 
-| setting | default | when it applies |
+**Kokoro pads every chunk with about 0.4 s of silence.** Measured against a real server on
+2026-10-12, identical across every input length tried:
+
+| | leading | trailing |
+| --- | ---: | ---: |
+| every chunk | **50 ms** | **360 ms** |
+
+So a seam between two chunks already carries 360 + 50 = **410 ms** of silence that no
+setting asked for. That is why simply turning the engine's own pauses off appeared to do
+nothing — the audible gap was never ours. The engine therefore **trims that padding** by
+default, cutting at the first and last non-silent sample (which cannot click, because the
+cut lands in a run of near-zero samples, and a 10 ms guard is kept either side).
+
+With trimming on, the pause settings control the pause exactly:
+
+| settings | inserted | total audio |
+| --- | ---: | ---: |
+| trimming on, pauses off | 0 ms | 22.386 s |
+| trimming on, pauses on at 200 ms | 400 ms | 22.786 s |
+
+The difference is exactly 400 ms — two seams x 200 ms. Before trimming, the same 200 ms
+change was buried under 410 ms of server padding per seam.
+
+| setting | default | meaning |
 | --- | ---: | --- |
-| `mid_sentence_gap_ms` | 90 ms | the seam cuts mid-sentence |
-| `paragraph_gap_ms` | 280 ms | the seam is a paragraph break |
-| `add_gaps` | `true` | master switch for both |
+| `trim_silence` | `true` | strip the 50 ms / 360 ms padding Kokoro adds to each chunk |
+| `add_gaps` | `true` | master switch for the pauses below |
+| `mid_sentence_gap_ms` | 90 ms | pause where a seam cuts mid-sentence |
+| `paragraph_gap_ms` | 280 ms | pause where a seam is a paragraph break |
 
-A seam that already lands on a sentence end gets **no** inserted silence, because the
-synthesised audio ends with its own natural pause there. So a setting of 90 ms does not
-mean every join grows by 90 ms — only the ones that would otherwise run together.
+A seam that already lands on a sentence end gets **no** inserted pause, because the
+synthesised audio ends with its own natural pause there. So 90 ms does not mean every join
+grows by 90 ms, only the ones that would otherwise run together.
 
-**Turn `add_gaps` off if the app you listen with already inserts its own pauses**, or you
-get both and the reading sounds choppy. Each utterance logs what it actually inserted:
+**Turn `add_gaps` off if the app you listen with inserts its own pauses**, or you get both
+and the reading sounds choppy. Each utterance logs what it actually did:
 
 ```
-KokoroTts: synth ok: chars=471 chunks=3 estTokens=244/234/256 voice=af_heart \
-           pauses=90/280ms inserted=180ms ms=8523
+KokoroTts: synth ok: chars=393 chunks=3 estTokens=244/234/134 voice=af_heart \
+           pauses=off inserted=0ms trimmed=1005ms ms=7165
 ```
-
-Here three chunks produced two mid-sentence seams, so 2 x 90 ms = 180 ms was inserted.
-The same text with pauses off logs `pauses=off inserted=0ms`.
 
 ![pause settings](docs/experiments/img/settings-pauses.png)
 
@@ -151,6 +170,7 @@ without a settings UI. Defaults:
 | `format` | `pcm` |
 | `hard_cap` | `360` (estimated tokens — see below) |
 | `target_min` / `target_max` | `240` / `360` |
+| `trim_silence` | `true` (strip Kokoro's per-chunk padding) |
 | `add_gaps` | `true` (master switch for inserted silence) |
 | `mid_sentence_gap_ms` | `90` (seam cut mid-sentence) |
 | `paragraph_gap_ms` | `280` (seam at a paragraph break) |

@@ -64,6 +64,8 @@ public class SettingsActivity extends Activity {
 
     /** Master switch for the silence this engine inserts between chunks. */
     static final String KEY_ADD_GAPS = "add_gaps";
+    /** Strip the silence Kokoro pads every chunk with. */
+    static final String KEY_TRIM_SILENCE = "trim_silence";
     static final String KEY_MID_SENTENCE_GAP_MS = "mid_sentence_gap_ms";
     static final String KEY_PARAGRAPH_GAP_MS = "paragraph_gap_ms";
 
@@ -160,15 +162,27 @@ public class SettingsActivity extends Activity {
         root.addView(heading("Pauses between chunks"));
 
         TextView gapNote = new TextView(this);
-        gapNote.setText("Kokoro synthesises each chunk separately, so there is no natural "
-                + "pause across a join. Switch this off if the app you listen with already "
-                + "inserts its own pauses, otherwise you get both and the reading sounds "
-                + "choppy.");
+        gapNote.setText("Kokoro synthesises each chunk separately and pads every one with "
+                + "about 0.4 s of silence (50 ms before the speech, 360 ms after), so a "
+                + "join already has a gap even when nothing is added. Trimming removes that "
+                + "padding, which is what lets the pauses below be the whole pause.");
         gapNote.setTextSize(12);
         root.addView(gapNote);
 
+        final CheckBox trimSilence = new CheckBox(this);
+        trimSilence.setText("Trim the silence Kokoro adds to each chunk");
+        trimSilence.setChecked(prefs.getBoolean(KEY_TRIM_SILENCE, true));
+        trimSilence.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                prefs.edit().putBoolean(KEY_TRIM_SILENCE, isChecked).apply();
+            }
+        });
+        root.addView(trimSilence);
+
         final CheckBox addGaps = new CheckBox(this);
-        addGaps.setText("Insert pauses between chunks");
+        addGaps.setText("Insert pauses between chunks (switch off if the app you "
+                + "listen with already adds its own)");
         addGaps.setChecked(prefs.getBoolean(KEY_ADD_GAPS, true));
         root.addView(addGaps);
 
