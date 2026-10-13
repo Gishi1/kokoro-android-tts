@@ -183,8 +183,10 @@ public final class KokoroSplitter {
             // cap and the packer always accepts the first unit whatever its size.
             int cap = targetMax;
             int min = targetMin;
+            boolean allowMerge = true;
             if (out.isEmpty() && firstChunkMax > 0) {
                 cap = firstChunkMax;
+                allowMerge = false;
                 // Without this the packer's "keep going while under targetMin" rule
                 // overrides the cap and the first chunk fills to targetMin anyway.
                 min = 0;
@@ -195,7 +197,7 @@ public final class KokoroSplitter {
                     units.addAll(0, smaller);
                 }
             }
-            java.util.List<Unit> packed = pack(units, cap, min);
+            java.util.List<Unit> packed = pack(units, cap, min, allowMerge);
             for (int i = 0; i < packed.size(); i++) {
                 Unit u = packed.get(i);
                 // Mark the paragraph's final chunk so the client can pause longer
@@ -309,7 +311,8 @@ public final class KokoroSplitter {
      * after it should pack normally, or one small opening would shrink the whole
      * utterance and multiply the request count for no gain.
      */
-    private java.util.List<Unit> pack(java.util.List<Unit> units, int firstCap, int firstMin) {
+    private java.util.List<Unit> pack(java.util.List<Unit> units, int firstCap, int firstMin,
+                                      boolean allowTrailingMerge) {
         java.util.List<Unit> out = new java.util.ArrayList<>();
         StringBuilder sb = new StringBuilder();
         int tokens = 0;
@@ -337,8 +340,10 @@ public final class KokoroSplitter {
         if (sb.length() > 0) out.add(new Unit(sb.toString(), tokens));
 
         // A tiny trailing fragment reads better attached to the previous chunk
-        // when the two together still fit the soft target.
-        if (out.size() >= 2) {
+        // when the two together still fit the soft target. Never when fast start is
+        // in play: the first chunk is small on purpose, so a trailing fragment under
+        // half the minimum would merge straight back into it and undo the whole point.
+        if (allowTrailingMerge && out.size() >= 2) {
             Unit last = out.get(out.size() - 1);
             Unit prev = out.get(out.size() - 2);
             if (last.cost < targetMin / 2 && prev.cost + last.cost <= targetMax) {
