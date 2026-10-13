@@ -31,9 +31,23 @@ REPO = ROOT.parent
 TOOLING = REPO / ".tooling"
 BUILD = ROOT / "build"
 
+
+def env(name: str, default: str = "") -> str:
+    """Read an env var, treating an empty value as unset.
+
+    CI passes unset secrets through as empty strings, which would otherwise
+    override the defaults with '' -- an empty keystore password, say.
+    """
+    return os.environ.get(name) or default
+
+
 MIN_SDK = 21
 # Preferred compileSdk. A lower platform still builds; a higher one is used as-is.
 WANT_SDK = 34
+# ...unless pinned, which is what CI does: a build machine usually has several
+# platforms installed, and "newest" would silently move compileSdk/targetSdk.
+PIN_BUILD_TOOLS = env("ANDROID_BUILD_TOOLS")
+PIN_PLATFORM = env("ANDROID_PLATFORM")
 
 
 def version_key(name: str) -> tuple:
@@ -88,8 +102,10 @@ def find_java_home():
 
 
 SDK = find_sdk()
-BT = newest_with(SDK / "build-tools", "aapt2", "d8", "zipalign", "apksigner")
-PLATFORM_DIR = find_platform(SDK)
+BT = ((SDK / "build-tools" / PIN_BUILD_TOOLS) if PIN_BUILD_TOOLS
+      else newest_with(SDK / "build-tools", "aapt2", "d8", "zipalign", "apksigner"))
+PLATFORM_DIR = ((SDK / "platforms" / PIN_PLATFORM) if PIN_PLATFORM
+                else find_platform(SDK))
 PLATFORM = (PLATFORM_DIR / "android.jar") if PLATFORM_DIR else None
 TARGET_SDK = int(PLATFORM_DIR.name.split("-")[1]) if PLATFORM_DIR else WANT_SDK
 JAVA_HOME = find_java_home()
@@ -101,8 +117,18 @@ APKSIGNER = (BT / "apksigner") if BT else None
 KEYTOOL = (JAVA_HOME / "bin" / "keytool") if JAVA_HOME else None
 
 APP_ID = "dev.kokoro.tts"
-VERSION_CODE = "1"
-VERSION_NAME = "1.0"
+# CI sets these so a tagged release reports its own version; Android wants an
+# integer versionCode that only ever increases, so callers pass a run number.
+VERSION_CODE = env("APP_VERSION_CODE", "1")
+VERSION_NAME = env("APP_VERSION_NAME", "1.0")
+
+# Signing. The default is the throwaway debug key this script generates, which is
+# fine for sideloading but is regenerated per checkout, so its signature is not
+# stable across machines. A release passes a real keystore through these instead.
+KEYSTORE = Path(env("KEYSTORE_PATH", str(ROOT / "debug.keystore")))
+KEYSTORE_PASS = env("KEYSTORE_PASS", "android")
+KEY_ALIAS = env("KEY_ALIAS", "androiddebugkey")
+KEY_PASS = env("KEY_PASS", KEYSTORE_PASS)
 
 
 def build_env() -> dict:
@@ -226,26 +252,32 @@ def main() -> int:
 
     # 7. sign
     print("[7/7] sign")
-    # Kept OUTSIDE build/ so a clean rebuild keeps the same signature and
-    # `adb install -r` upgrades in place instead of failing on a changed cert.
-    keystore = ROOT / "debug.keystore"
+    # The default keystore is kept OUTSIDE build/ so a clean rebuild keeps the same
+    # signature and `adb install -r` upgrades in place instead of failing on a
+    # changed cert. It is only generated when absent, so a keystore supplied through
+    # KEYSTORE_PATH (CI, decoding a stored release key) is used exactly as given.
+    keystore = KEYSTORE
+    keystore.parent.mkdir(parents=True, exist_ok=True)
     if not keystore.exists():
+        print(f"      generating a throwaway debug key at {keystore}")
         run([KEYTOOL, "-genkeypair", "-v",
              "-keystore", keystore,
-             "-alias", "androiddebugkey",
-             "-storepass", "android", "-keypass", "android",
+             "-alias", KEY_ALIAS,
+             "-storepass", KEYSTORE_PASS, "-keypass", KEY_PASS,
              "-keyalg", "RSA", "-keysize", "2048", "-validity", "10000",
              "-dname", "CN=Android Debug,O=Android,C=US"])
     signed = ROOT / "kokoro-tts.apk"
     run([APKSIGNER, "sign",
          "--ks", keystore,
-         "--ks-pass", "pass:android",
-         "--key-pass", "pass:android",
-         "--ks-key-alias", "androiddebugkey",
+         "--ks-pass", f"pass:{KEYSTORE_PASS}",
+         "--key-pass", f"pass:{KEY_PASS}",
+         "--ks-key-alias", KEY_ALIAS,
          "--out", signed, aligned])
     run([APKSIGNER, "verify", "--print-certs", signed])
 
-    print(f"\nbuilt {signed} ({signed.stat().st_size} bytes)")
+    print(f"\nbuilt {signed} ({signed.stat().st_size} bytes) "
+          f"versionName={VERSION_NAME} versionCode={VERSION_CODE} "
+          f"targetSdk={TARGET_SDK}")
     return 0
 
 

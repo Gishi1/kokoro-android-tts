@@ -1,5 +1,10 @@
 # Kokoro Android system TTS driver
 
+[![build](https://github.com/Gishi1/kokoro-android-tts/actions/workflows/build.yml/badge.svg)](https://github.com/Gishi1/kokoro-android-tts/actions/workflows/build.yml)
+[![release](https://img.shields.io/github/v/release/Gishi1/kokoro-android-tts?sort=semver&color=2f855a)](https://github.com/Gishi1/kokoro-android-tts/releases)
+[![licence](https://img.shields.io/github/license/Gishi1/kokoro-android-tts)](LICENSE)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-buy%20me%20a%20coffee-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/gishi)
+
 An Android **system TTS engine** (`TextToSpeechService`) that speaks through a
 Kokoro server, with the text analysis done **on the device and tuned to Kokoro
 specifically** rather than treating the API as a generic HTTP endpoint.
@@ -78,9 +83,28 @@ byte-identical (verified — `classes.dex` hashes match across a clean clone) bu
 signatures are not, so `adb install -r` between two checkouts fails with a signature
 mismatch. Uninstall first, or copy `android/debug.keystore` across.
 
+### Releasing
+
+CI (`.github/workflows/build.yml`) builds every push and pull request, and a `v*` tag
+publishes a Release with the APK attached:
+
+```sh
+git tag v1.0
+git push origin v1.0
+```
+
+`versionName` comes from the tag and `versionCode` from the run number, so it always
+increases. **Without a `KEYSTORE_BASE64` secret, each run signs with a throwaway debug
+key**, so the signature changes between releases and upgrading needs an uninstall
+first. The comment block at the top of the workflow lists the four secrets that make
+releases upgradable in place.
+
 ## Install
 
 The driver is an ordinary system TTS engine: one APK, no root, no companion app.
+Grab `kokoro-tts.apk` from [**Releases**](https://github.com/Gishi1/kokoro-android-tts/releases)
+(tagged builds are made by CI, see [`.github/workflows/build.yml`](.github/workflows/build.yml)),
+or build it yourself and install:
 
 ```sh
 adb install -r android/kokoro-tts.apk

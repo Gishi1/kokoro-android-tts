@@ -1,0 +1,200 @@
+# Build the APK, run the JVM self-tests, and publish a GitHub Release on a version tag.
+#
+# There is no Gradle here: `python3 android/build.py` drives aapt2 -> javac -> d8 ->
+# zipalign -> apksigner directly, so this needs only a JDK, the Android SDK and
+# Python 3. The SDK versions are pinned on the build step because a runner image
+# ships several platforms, and build.py would otherwise pick the newest one and
+# silently move compileSdk/targetSdk.
+#
+# Release signing is optional. Without secrets, each run signs with a throwaway
+# debug key it generates, so the signature differs every build and `adb install -r`
+# across releases fails. To sign every release with one stable key, add these
+# repository secrets:
+#
+#   KEYSTORE_BASE64  base64 of the keystore, e.g.  base64 -w0 android/debug.keystore
+#   KEYSTORE_PASS    the store password
+#   KEY_ALIAS        the key alias            (default: androiddebugkey)
+#   KEY_PASS         the key password         (default: same as KEYSTORE_PASS)
+#
+# A PKCS12 keystore (the keytool default) cannot have a key password that differs
+# from its store password, so leaving KEY_PASS unset is usually correct.
+
+name: build
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version name for the APK (e.g. 1.2). Defaults to 0.0.<run>.
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install the pinned SDK components
+        run: |
+          sdk="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
+          sdkmanager="$sdk/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$sdkmanager" ]; then
+            echo "no sdkmanager at $sdkmanager" >&2
+            ls "$sdk" >&2 || true
+            exit 1
+          fi
+          # `yes |` answers the licence prompts; it always ends up killed, so the
+          # pipeline's status says nothing useful and is deliberately ignored.
+          yes | "$sdkmanager" --licenses > /dev/null 2>&1 || true
+          "$sdkmanager" "build-tools;34.0.0" "platforms;android-34"
+
+      - name: Work out the version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            name="${GITHUB_REF_NAME#v}"
+          elif [ -n "$INPUT_VERSION" ]; then
+            name="$INPUT_VERSION"
+          else
+            name="0.0.$GITHUB_RUN_NUMBER"
+          fi
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          # Android wants an integer versionCode that only ever increases, and the
+          # run number is monotonic for the life of the repository.
+          echo "code=$GITHUB_RUN_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "Building versionName=$name versionCode=$GITHUB_RUN_NUMBER"
+
+      - name: Self-tests (splitter and trimmer)
+        run: |
+          set -e
+          bash core/build.sh
+          javac -d core/build/test-classes -cp core/build/classes \
+                core/src/test/java/dev/kokoro/tts/SplitterSelfTest.java
+          java -cp core/build/classes:core/build/test-classes \
+               dev.kokoro.tts.SplitterSelfTest
+          javac -d core/build/test-classes -cp core/build/classes \
+                core/src/test/java/dev/kokoro/tts/TrimmerSelfTest.java
+          java -cp core/build/classes:core/build/test-classes \
+               dev.kokoro.tts.TrimmerSelfTest
+
+      - name: Decode the release keystore, if one is configured
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASS_SECRET: ${{ secrets.KEYSTORE_PASS }}
+        run: |
+          if [ -z "$KEYSTORE_B64" ]; then
+            echo "No KEYSTORE_BASE64 secret, so this build signs with a throwaway"
+            echo "debug key generated in this run: the signature is NOT stable, and"
+            echo "installing one release over another needs an uninstall first."
+            echo "SIGNING=throwaway" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          if [ -z "$KEYSTORE_PASS_SECRET" ]; then
+            echo "KEYSTORE_BASE64 is set but KEYSTORE_PASS is not; refusing to guess" >&2
+            exit 1
+          fi
+          printf '%s' "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+          echo "KEYSTORE_PATH=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+          echo "SIGNING=project" >> "$GITHUB_ENV"
+
+      - name: Build the APK
+        env:
+          ANDROID_BUILD_TOOLS: '34.0.0'
+          ANDROID_PLATFORM: android-34
+          APP_VERSION_NAME: ${{ steps.version.outputs.name }}
+          APP_VERSION_CODE: ${{ steps.version.outputs.code }}
+          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          KEY_PASS: ${{ secrets.KEY_PASS }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          python3 android/build.py
+          ls -l android/kokoro-tts.apk
+          if [ "$SIGNING" = "project" ]; then
+            signing_text="the project keystore"
+          else
+            signing_text="a throwaway debug key generated in this run"
+          fi
+          {
+            echo "### Kokoro TTS ${{ steps.version.outputs.name }}"
+            echo
+            echo "- versionCode \`${{ steps.version.outputs.code }}\`"
+            echo "- signed with $signing_text"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: kokoro-tts-apk
+          path: android/kokoro-tts.apk
+          if-no-files-found: error
+
+      - name: Publish the release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          tag="$GITHUB_REF_NAME"
+          # A quoted heredoc keeps the backticks below literal; the placeholders
+          # are filled in afterwards so nothing in the notes has to be escaped.
+          cat > "$RUNNER_TEMP/notes.md" <<'NOTES'
+          Signed APK for Kokoro TTS __TAG__, built from commit __SHA__.
+
+          ### Install
+
+          ```sh
+          adb install -r kokoro-tts.apk
+          ```
+
+          Then select **Kokoro TTS** under *Settings -> System -> Languages & input
+          -> Text-to-speech output -> Preferred engine*, and point it at your Kokoro
+          server:
+
+          ```sh
+          adb reverse tcp:8880 tcp:8880
+          ```
+
+          __SIGNING_NOTE__
+          NOTES
+          python3 - "$RUNNER_TEMP/notes.md" "$tag" "$(git rev-parse --short HEAD)" "$SIGNING" <<'PY'
+          import pathlib, sys
+          path, tag, sha, signing = pathlib.Path(sys.argv[1]), *sys.argv[2:]
+          if signing == "project":
+              note = "This build is signed with the project keystore."
+          else:
+              note = ("**This build is signed with a throwaway debug key**, so its "
+                      "signature differs from every other build. Installing it over a "
+                      "previous release needs `adb uninstall dev.kokoro.tts` first.")
+          path.write_text(path.read_text().replace("__TAG__", tag)
+                                              .replace("__SHA__", sha)
+                                              .replace("__SIGNING_NOTE__", note))
+          PY
+          if gh release view "$tag" > /dev/null 2>&1; then
+            echo "release $tag already exists; replacing the APK"
+            gh release upload "$tag" android/kokoro-tts.apk --clobber
+          else
+            gh release create "$tag" \
+              --title "Kokoro TTS $tag" \
+              --notes-file "$RUNNER_TEMP/notes.md" \
+              android/kokoro-tts.apk
+          fi
+          echo "published $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/$tag"
