@@ -46,13 +46,25 @@ final class Pcm {
      *
      * @param threshold amplitude below which a sample counts as silence, in
      *                  int16 units; ~0.6% of full scale by default
-     * @param guardMs   silence to keep either side of the speech, for a natural onset
+     * @param guardMs   silence to keep either side of the speech, for a natural release
      * @param sampleRate rate of the buffer, used only for the reported durations
+     * @param leadInMs  silence to keep before the speech, which may exceed
+     *                  {@code guardMs}. Pass a larger value for the first buffer of
+     *                  an utterance so the output path can start before speech
+     *                  arrives, and 0 for buffers that follow in the same stream.
      */
-    static Span audibleSpan(byte[] pcm, int threshold, int guardMs, int sampleRate) {
+    static Span audibleSpan(byte[] pcm, int threshold, int guardMs, int sampleRate,
+                            int leadInMs) {
         int samples = pcm.length / 2;
         int guardSamples = guardMs * sampleRate / 1000;
         if (guardSamples < 0) guardSamples = 0;
+
+        // A lead-in exists to protect the first word, not to pad: the audio output
+        // path needs some samples to spin up, and speech that starts at sample 0
+        // loses its attack. Measured on 2026-10-12, the server's own 50 ms of
+        // leading padding was what previously hid this, so trimming it without
+        // keeping a replacement made the first word clip.
+        int leadSamples = Math.max(guardSamples, leadInMs * sampleRate / 1000);
 
         int first = -1;
         int last = -1;
@@ -73,7 +85,7 @@ final class Pcm {
             return new Span(0, pcm.length - (pcm.length % 2), 0, 0);
         }
 
-        int from = Math.max(0, first - guardSamples);
+        int from = Math.max(0, first - leadSamples);
         int to = Math.min(samples - 1, last + guardSamples);
         int offset = from * 2;
         int length = (to - from + 1) * 2;

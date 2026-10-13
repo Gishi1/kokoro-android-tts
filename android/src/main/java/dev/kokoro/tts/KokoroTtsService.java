@@ -52,8 +52,18 @@ public class KokoroTtsService extends TextToSpeechService {
     private static final String KEY_TRIM_SILENCE = SettingsActivity.KEY_TRIM_SILENCE;
     /** Amplitude below which a sample counts as silence, in int16 units (~0.6% FS). */
     private static final int SILENCE_THRESHOLD = 200;
-    /** Silence kept either side of speech so a soft onset is not clipped. */
-    private static final int TRIM_GUARD_MS = 10;
+    /** Silence kept either side of speech so a soft release is not clipped. */
+    private static final int TRIM_GUARD_MS = 25;
+    /**
+     * Silence kept before the first word of the utterance.
+     *
+     * <p>The audio output path needs samples to spin up; if speech begins at sample
+     * zero the attack of the first word is lost. The server's own 50 ms of leading
+     * padding used to hide this, so trimming it away without keeping a replacement
+     * introduced exactly that bug. Only the first chunk needs it: the rest are
+     * mid-stream in one continuous track.
+     */
+    private static final int FIRST_CHUNK_LEAD_IN_MS = 80;
     private static final String KEY_CONNECT_TIMEOUT_MS = "connect_timeout_ms";
     private static final String KEY_READ_TIMEOUT_MS = "read_timeout_ms";
     private static final String KEY_STRIP_EMOJI = "strip_emoji";
@@ -370,7 +380,8 @@ public class KokoroTtsService extends TextToSpeechService {
                     // a seam carries ~410 ms of silence nobody asked for. Without
                     // this, the pause setting below cannot actually control the pause.
                     Pcm.Span span = Pcm.audibleSpan(audio, SILENCE_THRESHOLD,
-                            TRIM_GUARD_MS, sampleRate);
+                            TRIM_GUARD_MS, sampleRate,
+                            chunkIndex == 0 ? FIRST_CHUNK_LEAD_IN_MS : 0);
                     from = span.offset;
                     playLength = span.length;
                     silenceTrimmedMs += span.leadingMs + span.trailingMs;

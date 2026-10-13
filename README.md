@@ -122,6 +122,14 @@ nothing — the audible gap was never ours. The engine therefore **trims that pa
 default, cutting at the first and last non-silent sample (which cannot click, because the
 cut lands in a run of near-zero samples, and a 10 ms guard is kept either side).
 
+**Trimming keeps a lead-in at the start of the utterance.** The audio output path needs
+samples to spin up, and speech that begins at sample zero loses the attack of its first
+word. The server's own leading padding was previously hiding that, so trimming it away
+without a replacement made the first word clip. The engine therefore keeps 80 ms of
+lead-in before the first chunk (measured against a 50 ms padding, so in practice the whole
+lead-in survives) and trims normally from the second chunk onward, since those are
+mid-stream in one continuous track.
+
 With trimming on, the pause settings control the pause exactly:
 
 | settings | inserted | total audio |
