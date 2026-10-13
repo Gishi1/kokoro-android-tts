@@ -78,6 +78,39 @@ If an app needs sentence granularity for highlighting, the tension is real: it i
 paying one synthesis latency per highlight boundary. A paragraph per utterance with
 internal offsets is the usual way out.
 
+## Server-side capture over the same period
+
+`docker logs -f` on the Kokoro container, captured alongside the phone:
+
+| | |
+| --- | ---: |
+| requests | 179 |
+| status codes | **all 200** |
+| synthesis completions | 179 |
+| median synthesis | 1,056 ms |
+| p90 | 2,258 ms |
+| max | 4,917 ms |
+| ms per phoneme token | **16.6** (median 14.5) |
+| errors / tracebacks | **0** |
+| `Phoneme string too long` | **0** |
+| 4xx responses | **0** |
+| truncations logged | **0** |
+| maximum requests in flight | **1** |
+
+Three things this settles.
+
+**The 16.6 ms/token figure is now measured in real use, not a microbenchmark.** It
+agrees with the 16–20 ms/token estimated earlier from isolated requests, so the
+per-utterance handoff cost can be predicted from token count alone.
+
+**Requests serialise.** The maximum number in flight was 1, confirming the
+concurrency test rather than merely being consistent with it.
+
+**No request in 179 was ever truncated.** Zero `Phoneme string too long`, zero
+`Truncating` warnings, all 200s — over a real reading session, not a fixture. This is
+the strongest evidence available that the on-device splitter holds Kokoro's 510-token
+limit in practice, which was the entire point of the project.
+
 ## What is not measured
 
 * **The app's own code was not inspected.** It is identified only by its behaviour in
