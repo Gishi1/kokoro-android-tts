@@ -72,8 +72,13 @@ java -cp core/build/classes:core/build/test-classes dev.kokoro.tts.SplitterSelfT
 
 ## Changing the voice
 
-**On the phone:** Settings > System > Languages & input > Text-to-speech output >
-**Kokoro TTS** (the gear icon). The screen fetches the voice list live from the
+**On the phone — two routes:**
+
+1. **App drawer → "Kokoro TTS"** (a launcher icon; the quickest way).
+2. **Settings > System > Languages & input > Text-to-speech output → the gear beside
+   "Preferred engine: Kokoro TTS".**
+
+![system TTS output screen](docs/experiments/img/system-tts-output-screen.png) The screen fetches the voice list live from the
 server's `/v1/audio/voices` — the server this was built against offers **67**
 voices, so nothing is hardcoded — and has a *Speak a test sentence* button so you
 can hear each one before committing. Tapping a voice applies it immediately: the
@@ -81,6 +86,10 @@ settings screen and the engine share one process, so the engine sees the new
 value on the next utterance.
 
 ![voice picker](docs/experiments/img/settings-voice-picker.png)
+
+Both routes are verified on a real device; see
+`docs/experiments/img/settings-from-app-icon.png` and
+`docs/experiments/img/settings-from-system-gear.png`.
 
 **From a shell:** `tools/set-voice.sh --list` to see what the server offers, then
 `tools/set-voice.sh bm_george`. This writes the preference file directly, which the

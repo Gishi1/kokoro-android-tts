@@ -14,7 +14,19 @@
         <activity
             android:name="dev.kokoro.tts.SettingsActivity"
             android:exported="true"
-            android:label="Kokoro TTS settings" />
+            android:label="Kokoro TTS"
+            android:icon="@android:drawable/ic_btn_speak_now">
+            <!--
+              Also a normal launcher entry, so the settings screen can be opened
+              from the app drawer. Without this the only route is
+              Settings > System > Languages & input > Text-to-speech output >
+              Kokoro TTS, which is a long way to go to change a voice.
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="dev.kokoro.tts.EngineTestActivity"
@@ -43,8 +55,17 @@
                 -->
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <!--
+              The key must be exactly TextToSpeech.Engine.SERVICE_META_DATA, whose
+              value is the literal string "android.speech.tts". It is NOT the
+              longer "android.speech.tts.engine.TTS_ENGINE_METADATA", which
+              nothing reads. With a wrong key
+              TtsEngines.settingsActivityFromServiceInfo() cannot load the XML,
+              logs "No meta-data found for :ServiceInfo{...}", and the gear beside
+              the engine in Settings does nothing at all.
+            -->
             <meta-data
-                android:name="android.speech.tts.engine.TTS_ENGINE_METADATA"
+                android:name="android.speech.tts"
                 android:resource="@xml/tts_engine" />
         </service>
 
