@@ -74,6 +74,10 @@ public class SettingsActivity extends Activity {
     static final String KEY_APPS_OVERRIDE_VOICE = "apps_override_voice";
     static final String KEY_MID_SENTENCE_GAP_MS = "mid_sentence_gap_ms";
     static final String KEY_PARAGRAPH_GAP_MS = "paragraph_gap_ms";
+    /** 0 disables capping; Kokoro's own long pauses are left as they are. */
+    static final String KEY_MAX_PAUSE_MS = "max_pause_ms";
+    static final int DEFAULT_MAX_PAUSE_MS = 0;
+    private static final int MAX_PAUSE_LIMIT_MS = 1500;
 
     static final int DEFAULT_MID_GAP_MS = 90;
     static final int DEFAULT_PARA_GAP_MS = 280;
@@ -384,6 +388,36 @@ public class SettingsActivity extends Activity {
                 "End of a paragraph");
         pane.addView(paraLabel);
         pane.addView(paraSeek);
+
+        final TextView maxPauseLabel = new TextView(this);
+        final SeekBar maxPauseSeek = new SeekBar(this);
+        maxPauseSeek.setMax(MAX_PAUSE_LIMIT_MS / GAP_STEP_MS);
+        maxPauseSeek.setProgress(prefs.getInt(KEY_MAX_PAUSE_MS, DEFAULT_MAX_PAUSE_MS)
+                / GAP_STEP_MS);
+        maxPauseSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int ms = progress * GAP_STEP_MS;
+                maxPauseLabel.setText("Longest pause allowed inside Kokoro's own audio: "
+                        + (ms == 0 ? "no limit" : ms + " ms"));
+                if (fromUser) {
+                    prefs.edit().putInt(KEY_MAX_PAUSE_MS, ms).apply();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        int curMaxPause = prefs.getInt(KEY_MAX_PAUSE_MS, DEFAULT_MAX_PAUSE_MS);
+        maxPauseLabel.setText("Longest pause allowed inside Kokoro's own audio: "
+                + (curMaxPause == 0 ? "no limit" : curMaxPause + " ms"));
+        pane.addView(maxPauseLabel);
+        pane.addView(maxPauseSeek);
 
         final Runnable applyEnabled = new Runnable() {
             @Override

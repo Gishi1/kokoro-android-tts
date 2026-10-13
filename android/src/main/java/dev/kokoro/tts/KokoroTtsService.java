@@ -58,6 +58,8 @@ public class KokoroTtsService extends TextToSpeechService {
     private static final int SILENCE_THRESHOLD = 200;
     /** Silence kept either side of speech so a soft release is not clipped. */
     private static final int TRIM_GUARD_MS = 25;
+    /** 0 leaves Kokoro's own long pauses alone. */
+    private static final String KEY_MAX_PAUSE_MS = SettingsActivity.KEY_MAX_PAUSE_MS;
     /**
      * Silence kept before the first word of the utterance.
      *
@@ -451,6 +453,7 @@ public class KokoroTtsService extends TextToSpeechService {
                 int playLength = audio.length;
                 int trimFront = 0;
                 int trimBack = 0;
+                int cappedMs = 0;
                 if (trimSilence) {
                     // Kokoro pads every chunk with ~50 ms lead and ~360 ms trail, so a
                     // seam otherwise carries ~410 ms of silence nobody asked for. The
@@ -466,6 +469,18 @@ public class KokoroTtsService extends TextToSpeechService {
                     silenceTrimmedMs += trimFront + trimBack;
                 }
 
+                // Kokoro's own long pauses survive trimming, so cap them if asked.
+                int maxPauseMs = prefInt(KEY_MAX_PAUSE_MS, 0);
+                byte[] play = audio;
+                if (from != 0 || playLength != audio.length) {
+                    play = java.util.Arrays.copyOfRange(audio, from, from + playLength);
+                }
+                if (maxPauseMs > 0) {
+                    int before = play.length;
+                    play = Pcm.capSilences(play, SILENCE_THRESHOLD, maxPauseMs, sampleRate);
+                    cappedMs = (before - play.length) / 2 * 1000 / sampleRate;
+                }
+
                 Log.i(TAG, "chunk " + chunkIndex + "/" + chunks.size()
                         + " chars=" + chunk.text.length()
                         + " est=" + chunk.estimatedTokens
@@ -473,17 +488,18 @@ public class KokoroTtsService extends TextToSpeechService {
                         + " wait=" + result.waitMs + "ms"
                         + " body=" + result.bodyMs + "ms"
                         + " bytes=" + result.bytes
-                        + " trimFront=" + trimFront + "ms trimBack=" + trimBack + "ms");
+                        + " trimFront=" + trimFront + "ms trimBack=" + trimBack + "ms"
+                        + (cappedMs > 0 ? " cappedPauses=" + cappedMs + "ms" : ""));
 
                 totalWaitMs += result.waitMs;
 
                 if (firstAudio[0] < 0) {
                     firstAudio[0] = System.currentTimeMillis() - requestStartMs;
                 }
-                for (int off = from; off < from + playLength; off += maxBuffer) {
+                for (int off = 0; off < play.length; off += maxBuffer) {
                     if (stopped) return;
-                    int len = Math.min(maxBuffer, from + playLength - off);
-                    if (callback.audioAvailable(audio, off, len) != TextToSpeech.SUCCESS) {
+                    int len = Math.min(maxBuffer, play.length - off);
+                    if (callback.audioAvailable(play, off, len) != TextToSpeech.SUCCESS) {
                         Log.e(TAG, "audioAvailable refused at chunk " + chunkIndex);
                         return;
                     }

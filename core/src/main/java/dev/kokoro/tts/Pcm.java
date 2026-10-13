@@ -25,6 +25,53 @@ final class Pcm {
     private Pcm() {
     }
 
+    /**
+     * Shorten any silence longer than {@code maxPauseMs} down to that length.
+     *
+     * <p>Kokoro inserts its own pauses: measured 2026-10-12, 280-490 ms inside single
+     * chunks, at clause boundaries such as a semicolon or colon. Those arrive whether
+     * or not this engine adds anything of its own, so a listener who finds them
+     * distractingly long has no other lever. Samples are removed from the middle of
+     * the run, which cannot click because both sides are already silence.
+     *
+     * @return a new buffer, or the original when nothing exceeded the limit
+     */
+    static byte[] capSilences(byte[] pcm, int threshold, int maxPauseMs, int sampleRate) {
+        int samples = pcm.length / 2;
+        int maxSamples = maxPauseMs * sampleRate / 1000;
+        if (maxSamples <= 0 || samples == 0) return pcm;
+
+        java.io.ByteArrayOutputStream out =
+                new java.io.ByteArrayOutputStream(pcm.length);
+        byte[] pair = new byte[2];
+        int i = 0;
+        while (i < samples) {
+            boolean silent = isSilent(pcm, i, threshold);
+            int j = i;
+            while (j < samples && isSilent(pcm, j, threshold) == silent) j++;
+            int run = j - i;
+            int keep = silent ? Math.min(run, maxSamples) : run;
+            // Take the kept slice from the middle of the run, so trimming is symmetric
+            // and always leaves silence rather than a partial waveform edge.
+            int start = silent ? i + (run - keep) / 2 : i;
+            for (int k = start; k < start + keep; k++) {
+                pair[0] = pcm[2 * k];
+                pair[1] = pcm[2 * k + 1];
+                out.write(pair, 0, 2);
+            }
+            i = j;
+        }
+        return out.toByteArray();
+    }
+
+    private static boolean isSilent(byte[] pcm, int sample, int threshold) {
+        int lo = pcm[2 * sample] & 0xFF;
+        int hi = pcm[2 * sample + 1];
+        int value = (hi << 8) | lo;
+        if (value < 0) value = -value;
+        return value < threshold;
+    }
+
     /** Byte offset and byte length of the region worth playing. */
     static final class Span {
         final int offset;

@@ -141,6 +141,30 @@ real time, so playback keeps up comfortably in steady state; what it costs is
 **time-to-first-audio**, because the first chunk must be fully synthesised before
 anything can be played. Smaller chunks trade more requests for a shorter wait.
 
+### Kokoro's own pauses, and capping them
+
+Disabling the engine's pauses does **not** remove every gap, and this is the one that
+surprises people. Kokoro inserts long pauses of its own **inside a single chunk**.
+Measured on a 393-character passage with pauses off, the raw server audio and the
+device output contained pauses at *identical* positions:
+
+| chunk | in the raw server audio | in the device output |
+| --- | --- | --- |
+| 0 | 485 ms at 4.97 s | 485 ms at 4.97 s |
+| 1 | 490 ms at 3.64 s into the chunk | 490 ms at 11.64 s |
+| 2 | 280 ms at 1.52 s into the chunk | 280 ms at 17.22 s |
+
+Nothing in the driver introduced them, and there were no long pauses at the two chunk
+seams — a seam is capped at 50 ms by construction (25 ms guard either side).
+
+*Pauses between chunks → Longest pause allowed inside Kokoro's own audio* caps them.
+Set it to 400 ms and the longest pause becomes exactly 400 ms; the passage above
+shortens from 20.03 s to 19.85 s. Samples are removed from the middle of the silent
+run, so both sides stay silence and no click is introduced (peak sample-to-sample
+jump unchanged at ~11,300, which is ordinary high-frequency content).
+
+It defaults to **no limit** — this only ever shortens audio, so it is opt-in.
+
 ### Prefetching
 
 The engine fetches chunk *N+1* while chunk *N* is still being written to the
