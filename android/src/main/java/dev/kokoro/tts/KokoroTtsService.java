@@ -97,7 +97,7 @@ public class KokoroTtsService extends TextToSpeechService {
     private static final String KEY_STRIP_EMOJI = "strip_emoji";
     private static final String KEY_VOICE_LIST = "voice_list";
 
-    static final String DEFAULT_ENDPOINT = "http://10.0.2.2:8880/v1/audio/speech";
+    static final String DEFAULT_ENDPOINT = "http://localhost:8880/v1/audio/speech";
     static final String DEFAULT_VOICE = "af_heart";
     static final String DEFAULT_MODEL = "kokoro";
 

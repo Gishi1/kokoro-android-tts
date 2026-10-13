@@ -1,8 +1,8 @@
 # Sibilance by voice: why some Kokoro voices sound raspy on "s"
 
 Research date: **2026-10-12**. Target: `ghcr.io/remsky/kokoro-fastapi-cpu:latest`
-(Kokoro TTS API v0.5.0) on `localhost:8880`, and this driver's output on a a physical phone
-2025 running Android 16.
+(Kokoro TTS API v0.5.0) on `localhost:8880`, and this driver's output on a physical
+Android phone running Android 16.
 
 Reported symptom: *the audio seems a bit raspy on s's.*
 
