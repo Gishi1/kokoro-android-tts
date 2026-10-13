@@ -39,7 +39,7 @@ Repo: https://github.com/Gishi1/kokoro-android-tts
 Builds:
   - versionName: '1.0'
     versionCode: 1
-    commit: b5765c51533da270ae5451b5c1af8106c61019b3
+    commit: 4e457255a791fc38f1b254b4d81f344153310b7d
     # No Gradle: android/build.py drives aapt2 -> javac -> d8 -> zipalign itself. It
     # needs only a JDK and the Android SDK, takes minSdk/targetSdk from the manifest,
     # and compiles against whichever build-tools and platform the build server has,
