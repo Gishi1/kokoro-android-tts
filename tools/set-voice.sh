@@ -14,7 +14,15 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(cd "$HERE/.." && pwd)"
-ADB="$REPO/.tooling/android-sdk/platform-tools/adb"
+# Prefer an adb on PATH, then $ANDROID_HOME/$ANDROID_SDK_ROOT, then the local
+# .tooling checkout, so the scripts work on a plain clone.
+ADB="${ADB:-$(command -v adb || true)}"
+if [ -z "$ADB" ]; then
+  for sdk in "${ANDROID_HOME:-}" "${ANDROID_SDK_ROOT:-}" "$REPO/.tooling/android-sdk"; do
+    [ -n "$sdk" ] && [ -x "$sdk/platform-tools/adb" ] && ADB="$sdk/platform-tools/adb" && break
+  done
+fi
+[ -n "$ADB" ] || { echo "no adb found; set ANDROID_HOME or put adb on PATH" >&2; exit 1; }
 PKG=dev.kokoro.tts
 
 VOICE=""
@@ -43,7 +51,9 @@ fi
 [ -n "$SERIAL" ] || { echo "no device attached; run 'adb devices'" >&2; exit 1; }
 A=("$ADB" -s "$SERIAL")
 
-current_endpoint="$("${A[@]}" shell "run-as $PKG grep -o 'http://[^<]*' shared_prefs/kokoro.xml" 2>/dev/null | tr -d '\r' | head -1)"
+# `|| true`: right after a fresh install there is no prefs file yet, so `run-as`
+# exits non-zero -- and under `set -o pipefail` that aborted the script silently.
+current_endpoint="$("${A[@]}" shell "run-as $PKG grep -o 'http://[^<]*' shared_prefs/kokoro.xml" 2>/dev/null | tr -d '\r' | head -1 || true)"
 current_endpoint="${current_endpoint:-http://localhost:8880/v1/audio/speech}"
 
 if [ "$LIST" = 1 ]; then

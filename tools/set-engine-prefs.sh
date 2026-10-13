@@ -16,7 +16,15 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(cd "$HERE/.." && pwd)"
-ADB="$REPO/.tooling/android-sdk/platform-tools/adb"
+# Prefer an adb on PATH, then $ANDROID_HOME/$ANDROID_SDK_ROOT, then the local
+# .tooling checkout, so the scripts work on a plain clone.
+ADB="${ADB:-$(command -v adb || true)}"
+if [ -z "$ADB" ]; then
+  for sdk in "${ANDROID_HOME:-}" "${ANDROID_SDK_ROOT:-}" "$REPO/.tooling/android-sdk"; do
+    [ -n "$sdk" ] && [ -x "$sdk/platform-tools/adb" ] && ADB="$sdk/platform-tools/adb" && break
+  done
+fi
+[ -n "$ADB" ] || { echo "no adb found; set ANDROID_HOME or put adb on PATH" >&2; exit 1; }
 PKG=dev.kokoro.tts
 PREFS=shared_prefs/kokoro.xml
 
@@ -35,6 +43,11 @@ local_xml="$tmp/kokoro.xml"
 
 "${A[@]}" shell "run-as $PKG cat $PREFS" > "$local_xml" 2>/dev/null || true
 
+# An empty read means one of two very different things: the app is unreachable, or
+# it simply has not written any preferences yet. Only the first is unsafe to write
+# over, so ask the device which it is.
+prefs_state="$("${A[@]}" shell "run-as $PKG sh -c 'test -f $PREFS && echo PRESENT || echo ABSENT'" 2>/dev/null | tr -d '\r' | head -1 || true)"
+
 # Refuse to write unless the current file was read successfully. An earlier version
 # carried on regardless, so a failed read produced a file containing ONLY the keys
 # named on the command line -- silently dropping add_gaps, max_pause_ms and anything
@@ -42,9 +55,18 @@ local_xml="$tmp/kokoro.xml"
 # sees settings change on their own, with no error anywhere.
 if [ "${1:---show}" != "--show" ]; then
   if [ ! -s "$local_xml" ]; then
-    echo "refusing to write: could not read $PREFS from $SERIAL." >&2
-    echo "Nothing has been changed. Check the device is connected and the app is installed." >&2
-    exit 1
+    if [ "$prefs_state" = "ABSENT" ]; then
+      # Fresh install: nothing has ever been saved, so there is no key to drop.
+      # Start from the empty map Android itself would have written.
+      cat > "$local_xml" <<'XML'
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map />
+XML
+    else
+      echo "refusing to write: could not read $PREFS from $SERIAL." >&2
+      echo "Nothing has been changed. Check the device is connected and the app is installed." >&2
+      exit 1
+    fi
   fi
   if ! python3 -c "
 import sys, xml.etree.ElementTree as ET
@@ -59,7 +81,11 @@ sys.exit(0 if root is not None and root.tag == 'map' else 1)
 fi
 
 if [ "${1:---show}" = "--show" ]; then
-  cat "$local_xml"
+  if [ -s "$local_xml" ]; then
+    cat "$local_xml"
+  else
+    echo "(no $PREFS on $SERIAL yet - the engine is using its built-in defaults)" >&2
+  fi
   exit 0
 fi
 

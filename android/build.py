@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -28,19 +29,76 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parent
 TOOLING = REPO / ".tooling"
-SDK = TOOLING / "android-sdk"
 BUILD = ROOT / "build"
-JAVA_HOME = os.environ.get(
-    "JAVA_HOME",
-    "/nix/store/5badkg3gmzg1c29akwglknkizfg6zj0g-openjdk-17.0.17+8/lib/openjdk")
 
-PLATFORM = SDK / "platforms" / "android-34" / "android.jar"
-BT = SDK / "build-tools" / "34.0.0"
-AAPT2 = BT / "aapt2"
-D8 = BT / "d8"
-ZIPALIGN = BT / "zipalign"
-APKSIGNER = BT / "apksigner"
-KEYTOOL = Path(JAVA_HOME) / "bin" / "keytool"
+MIN_SDK = 21
+# Preferred compileSdk. A lower platform still builds; a higher one is used as-is.
+WANT_SDK = 34
+
+
+def version_key(name: str) -> tuple:
+    """'34.0.0' -> (34, 0, 0); a non-numeric part sorts below any number."""
+    return tuple(int(p) if p.isdigit() else -1 for p in re.split(r"[._-]", name))
+
+
+def find_sdk() -> Path:
+    """$ANDROID_HOME, then $ANDROID_SDK_ROOT, then a local .tooling checkout."""
+    for var in ("ANDROID_HOME", "ANDROID_SDK_ROOT"):
+        value = os.environ.get(var)
+        if value and Path(value).is_dir():
+            return Path(value)
+    return TOOLING / "android-sdk"
+
+
+def newest_with(parent: Path, *required: str):
+    """Highest-versioned subdirectory of `parent` holding all of `required`."""
+    if not parent.is_dir():
+        return None
+    candidates = [d for d in parent.iterdir()
+                  if d.is_dir() and all((d / r).exists() for r in required)]
+    return max(candidates, key=lambda d: version_key(d.name), default=None)
+
+
+def find_platform(sdk: Path):
+    """Newest installed android-<N>, preferring one at or above WANT_SDK."""
+    platforms = sdk / "platforms"
+    if not platforms.is_dir():
+        return None
+    candidates = [d for d in platforms.iterdir()
+                  if d.is_dir() and re.fullmatch(r"android-\d+", d.name)
+                  and (d / "android.jar").exists()]
+    if not candidates:
+        return None
+    api = lambda d: int(d.name.split("-")[1])
+    modern = [d for d in candidates if api(d) >= WANT_SDK]
+    return max(modern or candidates, key=api)
+
+
+def find_java_home():
+    """$JAVA_HOME, else the JDK that owns the `javac` on PATH."""
+    env = os.environ.get("JAVA_HOME")
+    if env and (Path(env) / "bin" / "javac").exists():
+        return Path(env)
+    javac = shutil.which("javac")
+    if javac:
+        # .../lib/openjdk/bin/javac -> .../lib/openjdk   (NixOS)
+        # .../jdk-17/bin/javac      -> .../jdk-17        (ordinary installs)
+        return Path(javac).resolve().parent.parent
+    return None
+
+
+SDK = find_sdk()
+BT = newest_with(SDK / "build-tools", "aapt2", "d8", "zipalign", "apksigner")
+PLATFORM_DIR = find_platform(SDK)
+PLATFORM = (PLATFORM_DIR / "android.jar") if PLATFORM_DIR else None
+TARGET_SDK = int(PLATFORM_DIR.name.split("-")[1]) if PLATFORM_DIR else WANT_SDK
+JAVA_HOME = find_java_home()
+
+AAPT2 = (BT / "aapt2") if BT else None
+D8 = (BT / "d8") if BT else None
+ZIPALIGN = (BT / "zipalign") if BT else None
+APKSIGNER = (BT / "apksigner") if BT else None
+KEYTOOL = (JAVA_HOME / "bin" / "keytool") if JAVA_HOME else None
 
 APP_ID = "dev.kokoro.tts"
 VERSION_CODE = "1"
@@ -83,11 +141,24 @@ def main() -> int:
                     help="keystore/signing uses the debug key either way; reserved")
     args = ap.parse_args()
 
-    for tool in (AAPT2, D8, ZIPALIGN, APKSIGNER, KEYTOOL):
-        if not tool.exists():
-            raise SystemExit(f"missing build tool: {tool}")
-    if not PLATFORM.exists():
-        raise SystemExit(f"missing android.jar: {PLATFORM}")
+    if not SDK.is_dir():
+        raise SystemExit(
+            "no Android SDK found. Set ANDROID_HOME (or ANDROID_SDK_ROOT), or "
+            f"install one into {TOOLING / 'android-sdk'}")
+    if JAVA_HOME is None:
+        raise SystemExit(
+            "no JDK found. Set JAVA_HOME, or put `javac` on PATH "
+            "(the SDK's d8/apksigner are scripts that need `java`)")
+    for label, tool in (("build-tools", BT), ("android.jar", PLATFORM),
+                        ("keytool", KEYTOOL), ("aapt2", AAPT2), ("d8", D8),
+                        ("zipalign", ZIPALIGN), ("apksigner", APKSIGNER)):
+        if tool is None or not Path(tool).exists():
+            raise SystemExit(f"missing {label}: {tool}")
+
+    print(f"SDK        {SDK}")
+    print(f"build-tools {BT.name}")
+    print(f"platform   {PLATFORM_DIR.name}")
+    print(f"JDK        {JAVA_HOME}")
 
     if BUILD.exists():
         shutil.rmtree(BUILD)
@@ -108,8 +179,8 @@ def main() -> int:
          "--manifest", ROOT / "AndroidManifest.xml",
          "-R", BUILD / "res.zip",
          "--java", BUILD / "gen",
-         "--min-sdk-version", "21",
-         "--target-sdk-version", "34",
+         "--min-sdk-version", str(MIN_SDK),
+         "--target-sdk-version", str(TARGET_SDK),
          "--version-code", VERSION_CODE,
          "--version-name", VERSION_NAME,
          "--auto-add-overlay"])
@@ -138,7 +209,7 @@ def main() -> int:
 
     # 5. dex
     print("[5/7] d8")
-    run([D8, "--lib", PLATFORM, "--min-api", "21",
+    run([D8, "--lib", PLATFORM, "--min-api", str(MIN_SDK),
          "--output", BUILD / "dex", classes_jar])
 
     # 6. put classes.dex into the APK
