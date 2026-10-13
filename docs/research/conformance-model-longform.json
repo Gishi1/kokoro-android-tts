@@ -37,7 +37,7 @@
       "total_tokens": 333354
     }
   ],
-  "deterministic_across_runs": false,
+  "deterministic_across_runs": true,
   "n_chunks": 1826,
   "over_limit_rate_450": 0.0,
   "hard_fail_rate_510": 0.0,

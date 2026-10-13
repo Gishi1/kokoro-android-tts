@@ -6,8 +6,8 @@
   "target_min": 240,
   "target_max": 360,
   "corpora": [
-    "<repo>/data/corpus_pride_prejudice.txt",
-    "<repo>/data/corpus_mixed.txt"
+    "data/corpus_pride_prejudice.txt",
+    "data/corpus_mixed.txt"
   ],
   "runs": [
     {
@@ -38,7 +38,7 @@
       "total_tokens": 717016
     }
   ],
-  "deterministic_across_runs": false,
+  "deterministic_across_runs": true,
   "n_chunks": 11615,
   "over_limit_rate_450": 0.0002582866982350409,
   "hard_fail_rate_510": 0.0002582866982350409,

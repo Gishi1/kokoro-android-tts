@@ -139,8 +139,11 @@ def main() -> int:
         "target_max": args.target_max,
         "corpora": [str(c) for c in args.corpus],
         "runs": run_results,
+        # Compare everything except the run index itself, which naturally differs.
         "deterministic_across_runs": all(
-            r == run_results[0] for r in run_results) if run_results else None,
+            {k: v for k, v in r.items() if k != "run"}
+            == {k: v for k, v in run_results[0].items() if k != "run"}
+            for r in run_results) if run_results else None,
         "n_chunks": n,
         "over_limit_rate_450": over450 / n if n else None,
         "hard_fail_rate_510": over510 / n if n else None,

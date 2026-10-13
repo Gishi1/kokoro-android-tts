@@ -166,13 +166,75 @@ fitted to not under-predict, rather than least-squares centred on the data:
 estimate = safety * ( c0 + sum over chars of c[class(char)] )
 ```
 
-Held-out results are in §"What to measure next" below and in
+Held-out results are in the experiment section at the end of this report and in
 `docs/research/token_model.json`; the Java port is generated from that file by
 `tools/gen_cost_model.py` so the two cannot drift.
 
 A centred least-squares fit was tried first and rejected: it needed a **2.13×** blanket
 safety factor (max over-estimate 6.62×) because half the samples sit above the fit line,
 which would have pushed real chunks to roughly half their intended length.
+
+## 10. The real server returns **HTTP 200 for text it cannot read correctly** `[M]`
+
+Everything above is read from source. The following was measured against the Kokoro
+server actually running on this machine — `ghcr.io/remsky/kokoro-fastapi-cpu:latest`,
+`openapi.json` reporting "Kokoro TTS API" v0.5.0, listening on `0.0.0.0:8880` — via
+`tools/probe_real_server.py`. Raw results: `docs/research/server-probe.json`.
+
+| request | chars | HTTP | time to first byte | total | audio produced |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Chinese text, English voice | 42 | **200** | 10.31 s | 10.32 s | **27.13 s** |
+| no-punctuation wall | 1,013 | **200** | 10.49 s | 21.70 s | 57.38 s |
+| long prose paragraph | 1,883 | **200** | 6.11 s | 35.36 s | 104.08 s |
+
+The first row is the finding that matters most for a client. That input is **545 phoneme
+tokens** and, through the English G2P, every glyph is the same ~13-token fallback (§3b).
+The server answered **200 OK** and returned 27 seconds of audio — roughly 0.65 s per
+character, which is the signature of reading the fallback out in full.
+
+**A client cannot detect this failure from the HTTP response.** There is no error status,
+no truncation flag, and no field distinguishing real speech from a per-character
+fallback. A driver that only guards against length and errors still ships nonsense audio
+to the user. Guarding this requires the client to notice the script/language mismatch
+itself — which is a reason to do the text analysis on the device rather than delegate it.
+
+## 11. Splitting also removes a long, opaque wait before the first sound `[M]`
+
+Same server, same paragraph (1,883 characters), measured both ways:
+
+| | time to first audio | total | audio produced |
+| --- | ---: | ---: | ---: |
+| one request for the whole utterance | **6.108 s** | 35.36 s | 104.08 s |
+| split into 12 chunks and streamed | **3.545 s** | 35.20 s | 104.08 s |
+
+Time-to-first-audio improves **1.72x**; total time is unchanged (35.36 s vs 35.20 s). For
+a system TTS engine this is the difference between the caller waiting 6 seconds for any
+sound and hearing the first words in under 4 — and total time is not a proxy for it.
+
+This is a single paragraph on a single machine and is reported as such; it is a
+measurement, not a model. Note also that Android's `SynthesisCallback` is a streaming
+interface, so the client *can* exploit this without waiting for the whole utterance.
+
+## 12. The result holds on a real device, not only in a harness `[M]`
+
+The signed APK was installed on an Android 14 (API 34, x86_64) emulator, discovered by
+the framework, and driven through `TextToSpeech.synthesizeToFile()` against the server on
+`10.0.2.2:8880`. The engine's own log:
+
+```
+KokoroTts: engine created; endpoint=http://10.0.2.2:8880/v1/audio/speech
+KokoroTts: synth ok: chars=100 chunks=1 estTokens=163 voice=af_heart ms=1980
+KokoroTts: synth ok: chars=442 chunks=4 estTokens=322/194/223/241 voice=af_heart ms=11019
+```
+
+The 442-character utterance was cut into four requests on-device, each below the cap, and
+the pulled file is a valid 24 kHz mono 16-bit WAV of 38.67 s (RIFF header read from the
+file, not inferred from the log). Two integration facts cost real time and are worth
+recording: an engine whose `TTS_SERVICE` intent filter lacks
+`android.intent.category.DEFAULT` is registered with `PackageManager` but **invisible to
+`TextToSpeech.getEngines()`** (which queries with `MATCH_DEFAULT_ONLY`), and
+`TextToSpeech.setEngineByPackageName()` is a deprecated no-op — the engine must be set as
+the system default or passed to the three-argument constructor.
 
 ---
 
@@ -196,6 +258,14 @@ classes from §4, and phonemize every emitted chunk with the real `KPipeline`.
   chunk tokens inside `[175, 250]`.
 * **Abandon rule.** any chunk above 510 true tokens, or a median outside `[100, 300]`.
 * Pre-registered in `docs/experiments/2026-10-12-kokoro-splitter.md` before any measurement.
+
+**Outcome (2026-10-12).** Run. The safety half passed decisively — the prototype produced
+**0 chunks above 510 tokens and 0 above 450** against the naive baseline's **3 hard
+failures, worst case 672 tokens**, with both splitters verified lossless. The median
+criterion **failed** on the mixed corpus (68, because that corpus is line-oriented) and
+**passed** on a long-form corpus added afterwards as a diagnostic (median 194.0). The
+rule is recorded as partially failed rather than re-scored; the full table, the failing
+criterion and the reason are in the experiment report.
 
 **Expected cost.** ~5 minutes of CPU; no GPU and no model weights are needed because
 `KPipeline(model=False)` performs G2P only.
