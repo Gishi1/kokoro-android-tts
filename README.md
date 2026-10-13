@@ -52,7 +52,7 @@ core/     pure Java, no Android imports, unit-testable on a plain JVM
   Emoji                 strips symbols that have no spoken form
   CharBaselineSplitter  the naive 400-char baseline, kept for measurement
 android/  the system TTS engine and an adb-driven end-to-end probe
-tools/    calibration, model fitting, conformance harness, server probe
+tools/    calibration, model fitting, conformance harness, server probe, PNG figures
 docs/     research report, experiment report, raw primary sources
 data/     corpora (public domain + authored fixtures)
 ```
@@ -233,6 +233,18 @@ The bottom band marks where the signal is below the silence threshold, so gaps r
 at a glance. `docs/experiments/audio-inspection.md` works through four examples:
 an intact onset, Kokoro's visible padding, a bounded seam, and a whole utterance.
 
+`tools/pngtool.py` is the same idea for the figures themselves: a dependency-free PNG
+decoder/encoder with `montage` (lay panels out in a grid), `redact` (blank a rectangle,
+which is how the server address was removed from the screenshots above) and `info`.
+Without it, rebuilding a figure or scrubbing a screenshot would need Pillow or
+ImageMagick:
+
+```sh
+python3 tools/pngtool.py montage --out fig.png --cols 3 --width 480 a.png b.png c.png
+python3 tools/pngtool.py redact --in raw.png --out clean.png --box 0,419,720,465 --colour E9EFED
+python3 tools/pngtool.py info fig.png
+```
+
 ## Performance: where the time actually goes
 
 Measured against a real Kokoro-FastAPI server on 2026-10-12, per chunk. Every
@@ -354,7 +366,11 @@ playing the current chunk.
 2. **Settings > System > Languages & input > Text-to-speech output → the gear beside
    "Preferred engine: Kokoro TTS".**
 
-![system TTS output screen](docs/experiments/img/system-tts-output-screen.png)
+All six screens below are one figure — row 1: the Android screen, then the settings
+screen reached by each of those two routes; row 2: its two tabs, with the filter in use.
+(The server address field is blanked in these captures.)
+
+![the settings screens](docs/experiments/img/settings-tour.png)
 
 The screen fetches the voice list live from the
 server's `/v1/audio/voices` — the server this was built against offers **67**
@@ -365,15 +381,7 @@ value on the next utterance.
 
 The screen is split into two tabs so the voice list gets the full height rather than
 competing with the configuration controls. Voices also has a filter, which matters when a
-server offers 67 of them:
-
-![voices tab](docs/experiments/img/settings-voices-tab.png)
-
-![voice filter](docs/experiments/img/settings-voice-filter.png)
-
-Both routes are verified on a real device; see
-`docs/experiments/img/settings-from-app-icon.png` and
-`docs/experiments/img/settings-from-system-gear.png`.
+server offers 67 of them.
 
 **From a shell:** `tools/set-voice.sh --list` to see what the server offers, then
 `tools/set-voice.sh bm_george`. This writes the preference file directly, which the
@@ -437,7 +445,9 @@ KokoroTts: synth ok: chars=393 chunks=3 estTokens=244/234/134 voice=af_heart \
            pauses=off inserted=0ms trimmed=1005ms ms=7165
 ```
 
-![pause settings](docs/experiments/img/settings-settings-tab.png)
+The Settings tab (bottom-right in the figure above) holds these controls, and the
+checkbox that turns the inserted pauses off entirely.
+
 
 ### Which voice wins
 
