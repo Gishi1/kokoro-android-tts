@@ -90,6 +90,16 @@ to make it re-read.
 The engine also advertises the fetched list through `onGetVoices()`, so any app
 that picks a TTS voice sees all of them rather than a built-in subset.
 
+### Which voice wins
+
+The engine's own setting is the default for the phone. An app that calls
+`TextToSpeech.setVoice()` **after** you last changed the setting gets its choice for
+its own session; a voice the framework loaded **before** your change is treated as a
+stale default and ignored. That distinction exists because the framework loads a
+voice into every client session — including one resolved before you picked — so
+honouring it unconditionally made selection appear to do nothing. `onLoadVoice` never
+writes the preference; only the settings screen owns it.
+
 ## Configure the engine
 
 Configuration is read from SharedPreferences (`kokoro`), so it can be set over adb

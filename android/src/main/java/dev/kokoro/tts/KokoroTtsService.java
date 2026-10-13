@@ -66,12 +66,41 @@ public class KokoroTtsService extends TextToSpeechService {
 
     private SharedPreferences prefs;
     private volatile boolean stopped;
+
+    /**
+     * Voice the framework asked to load, and when, versus when the user last
+     * changed the engine's own default voice.
+     *
+     * <p>These exist because {@code onLoadVoice} and the settings screen were both
+     * writing {@code KEY_VOICE}. The framework calls {@code onLoadVoice} to load a
+     * voice into a client's session — including the *default*, which a long-lived
+     * client may have resolved before the user changed anything. Persisting that
+     * value silently reverted the user's selection, so the voice appeared not to
+     * change. The user's choice is now owned by the settings screen alone.
+     */
+    private volatile String requestedVoice;
+    private volatile long requestedVoiceAtMs;
+    private volatile long voicePrefChangedAtMs;
     private volatile Thread worker;
 
     @Override
     public void onCreate() {
         super.onCreate();
         prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        // The settings screen writes KEY_VOICE; note when, so a stale voice that
+        // the framework loaded earlier cannot override the newer choice.
+        prefs.registerOnSharedPreferenceChangeListener(
+                new SharedPreferences.OnSharedPreferenceChangeListener() {
+                    @Override
+                    public void onSharedPreferenceChanged(SharedPreferences p, String key) {
+                        if (KEY_VOICE.equals(key)) {
+                            voicePrefChangedAtMs = android.os.SystemClock.elapsedRealtime();
+                            requestedVoice = null;
+                            Log.i(TAG, "default voice set to '"
+                                    + pref(KEY_VOICE, DEFAULT_VOICE) + "'");
+                        }
+                    }
+                });
         Log.i(TAG, "engine created; endpoint=" + endpoint());
     }
 
@@ -124,11 +153,30 @@ public class KokoroTtsService extends TextToSpeechService {
         return pref(KEY_ENDPOINT, DEFAULT_ENDPOINT);
     }
 
+    /**
+     * Decide which voice this utterance uses.
+     *
+     * <p>Precedence: the user's choice in the engine settings screen wins, because
+     * that is the whole point of picking one. An app that explicitly loaded a voice
+     * <em>after</em> that choice is honoured for its own session. A voice the
+     * framework loaded <em>before</em> the choice is treated as a stale default and
+     * ignored — which is the case that made selection appear to do nothing.
+     */
     private String voice(SynthesisRequest request) {
+        String prefVoice = pref(KEY_VOICE, DEFAULT_VOICE);
+
         String requested = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                 ? request.getVoiceName() : null;
-        if (requested != null && !requested.isEmpty()) return requested;
-        return pref(KEY_VOICE, DEFAULT_VOICE);
+        if (requested == null || requested.isEmpty()) requested = requestedVoice;
+
+        boolean appChoseItSince = requested != null && !requested.isEmpty()
+                && !requested.equals(prefVoice)
+                && requestedVoiceAtMs > voicePrefChangedAtMs;
+
+        String chosen = appChoseItSince ? requested : prefVoice;
+        Log.i(TAG, "voice: default=" + prefVoice + " requested=" + requested
+                + " -> " + chosen + (appChoseItSince ? " (app choice)" : " (default)"));
+        return chosen;
     }
 
     private KokoroSplitter newSplitter() {
@@ -194,7 +242,13 @@ public class KokoroTtsService extends TextToSpeechService {
 
     @Override
     public int onLoadVoice(String voiceName) {
-        prefs.edit().putString(KEY_VOICE, voiceName).apply();
+        // Record only. Persisting here is what reverted the user's selection: the
+        // framework loads the default voice into every new client session, and a
+        // client that resolved the default before the user changed it hands the
+        // old name straight back.
+        requestedVoice = voiceName;
+        requestedVoiceAtMs = android.os.SystemClock.elapsedRealtime();
+        Log.i(TAG, "voice loaded by client: " + voiceName + " (not persisted)");
         return TextToSpeech.SUCCESS;
     }
 

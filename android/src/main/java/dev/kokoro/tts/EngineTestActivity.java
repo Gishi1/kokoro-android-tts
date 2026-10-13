@@ -107,6 +107,20 @@ public class EngineTestActivity extends Activity {
                     }
                 });
 
+                // Optional: exercise the app-explicit path, i.e. TextToSpeech.setVoice().
+                String wantVoice = getIntent().getStringExtra("voice");
+                if (wantVoice != null && !wantVoice.isEmpty()) {
+                    try {
+                        tts.setVoice(new android.speech.tts.Voice(wantVoice, Locale.US,
+                                android.speech.tts.Voice.QUALITY_VERY_HIGH,
+                                android.speech.tts.Voice.LATENCY_NORMAL, false,
+                                new java.util.HashSet<String>()));
+                        Log.i(TAG, "app called setVoice(" + wantVoice + ")");
+                    } catch (Throwable t) {
+                        Log.w(TAG, "setVoice failed", t);
+                    }
+                }
+
                 Bundle params = new Bundle();
                 params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
                 startedAt = System.currentTimeMillis();
