@@ -395,6 +395,9 @@ public class KokoroTtsService extends TextToSpeechService {
         int silenceInsertedMs = 0;
         int silenceTrimmedMs = 0;
         int totalWaitMs = 0;
+        // Trailing silence of the previous chunk in this utterance, so a
+        // pause spanning a seam can be capped as one pause.
+        int previousTrailingMs = 0;
         // Wall time from starting the first request to the first audio handed to
         // the framework: the number that decides whether playback keeps up.
         long requestStartMs = System.currentTimeMillis();
@@ -544,8 +547,17 @@ public class KokoroTtsService extends TextToSpeechService {
                 }
                 if (maxPauseMs > 0) {
                     int before = play.length;
-                    play = Pcm.capSilences(play, SILENCE_THRESHOLD, maxPauseMs, sampleRate);
+                    // A pause can straddle a chunk boundary, so the silence this chunk
+                    // starts with only gets what the previous chunk's tail left of the
+                    // budget. Without this the two runs add up across the seam.
+                    int maxLeading = previousTrailingMs > 0
+                            ? Math.max(0, maxPauseMs - previousTrailingMs)
+                            : maxPauseMs;
+                    play = Pcm.capSilences(play, SILENCE_THRESHOLD, maxPauseMs, sampleRate,
+                            maxLeading);
                     cappedMs = (before - play.length) / 2 * 1000 / sampleRate;
+                    previousTrailingMs = Pcm.trailingSilenceMs(play, SILENCE_THRESHOLD,
+                            sampleRate);
                 }
 
                 Log.i(TAG, "chunk " + chunkIndex + "/" + chunks.size()

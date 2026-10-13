@@ -201,6 +201,14 @@ jump unchanged at ~11,300, which is ordinary high-frequency content).
 
 It defaults to **no limit** — this only ever shortens audio, so it is opt-in.
 
+**A pause can straddle a chunk boundary**, and capping each chunk on its own left the
+previous chunk's trailing silence and the next chunk's leading silence adjacent in the
+output. Measured over nine minutes of reading, a 350 ms cap still left 11 pauses above
+it, the longest 657 ms, every one of them at a seam. The engine now carries the
+previous chunk's trailing silence forward and gives the next chunk only what remains of
+the budget, so a seam is capped as one pause. Verified: seven pauses, longest exactly
+350 ms, none over.
+
 ### The delay is the app's, not the engine's
 
 Watching a real reading session (18 utterances, 135 s) separates the two cleanly:

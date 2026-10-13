@@ -33,6 +33,18 @@ public final class TrimmerSelfTest {
         check("buffered: trims most of the 360 ms back padding (got " + bufferedBackMs + ")",
                 bufferedBackMs >= 250 && bufferedBackMs <= 360);
 
+        // ---- pausing across a seam
+        // Chunk A ends with 300 ms of silence, chunk B starts with 300 ms of it. Capped
+        // independently they leave 600 ms at the join, which is the bug this covers.
+        byte[] a = concat(tone(bytes(400), 9000), new byte[bytes(300)]);
+        byte[] b = concat(new byte[bytes(300)], tone(bytes(400), 9000));
+        byte[] aCapped = Pcm.capSilences(a, 200, 350, RATE);
+        int aTail = Pcm.trailingSilenceMs(aCapped, 200, RATE);
+        byte[] bCapped = Pcm.capSilences(b, 200, 350, RATE, Math.max(0, 350 - aTail));
+        int bHead = leadingSilenceMs(bCapped);
+        check("seam silence is capped as one pause (" + (aTail + bHead) + " ms)",
+                aTail + bHead <= 350 + 15);
+
         System.out.println();
         if (failures == 0) {
             System.out.println("TRIMMER SELF-TEST PASSED (" + checks + " checks)");
@@ -40,6 +52,19 @@ public final class TrimmerSelfTest {
             System.out.println("TRIMMER SELF-TEST FAILED: " + failures + " of " + checks);
             System.exit(1);
         }
+    }
+
+    /** Milliseconds of silence at the start of a buffer. */
+    private static int leadingSilenceMs(byte[] pcm) {
+        int run = 0;
+        int samples = pcm.length / 2;
+        while (run < samples) {
+            int v = ((pcm[2 * run + 1] << 8) | (pcm[2 * run] & 0xFF));
+            if (v < 0) v = -v;
+            if (v >= 200) break;
+            run++;
+        }
+        return run * 1000 / RATE;
     }
 
     private static int bytes(int ms) {
