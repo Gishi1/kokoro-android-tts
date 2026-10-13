@@ -99,6 +99,35 @@ to make it re-read.
 The engine also advertises the fetched list through `onGetVoices()`, so any app
 that picks a TTS voice sees all of them rather than a built-in subset.
 
+### Pauses between chunks
+
+Kokoro synthesises each chunk as a separate request, so **no natural pause exists across
+a join** — the seam is where the model stopped, not where a speaker would breathe. The
+engine therefore inserts silence at seams, with two independent lengths:
+
+| setting | default | when it applies |
+| --- | ---: | --- |
+| `mid_sentence_gap_ms` | 90 ms | the seam cuts mid-sentence |
+| `paragraph_gap_ms` | 280 ms | the seam is a paragraph break |
+| `add_gaps` | `true` | master switch for both |
+
+A seam that already lands on a sentence end gets **no** inserted silence, because the
+synthesised audio ends with its own natural pause there. So a setting of 90 ms does not
+mean every join grows by 90 ms — only the ones that would otherwise run together.
+
+**Turn `add_gaps` off if the app you listen with already inserts its own pauses**, or you
+get both and the reading sounds choppy. Each utterance logs what it actually inserted:
+
+```
+KokoroTts: synth ok: chars=471 chunks=3 estTokens=244/234/256 voice=af_heart \
+           pauses=90/280ms inserted=180ms ms=8523
+```
+
+Here three chunks produced two mid-sentence seams, so 2 x 90 ms = 180 ms was inserted.
+The same text with pauses off logs `pauses=off inserted=0ms`.
+
+![pause settings](docs/experiments/img/settings-pauses.png)
+
 ### Which voice wins
 
 The engine's own setting is the default for the phone. An app that calls
@@ -122,6 +151,7 @@ without a settings UI. Defaults:
 | `format` | `pcm` |
 | `hard_cap` | `360` (estimated tokens — see below) |
 | `target_min` / `target_max` | `240` / `360` |
+| `add_gaps` | `true` (master switch for inserted silence) |
 | `mid_sentence_gap_ms` | `90` (seam cut mid-sentence) |
 | `paragraph_gap_ms` | `280` (seam at a paragraph break) |
 
@@ -164,6 +194,15 @@ Two independent concerns get conflated when picking a chunk size:
   same number, because prose is ~1.0 tokens/char.
 * **The 510-token ceiling** — a hard limit that a character budget cannot
   enforce, because the cost per character ranges from ~1.0 (prose) to ~13 (CJK).
+
+## Support
+
+If this is useful to you, you can buy me a coffee — or, given what it does, help keep the
+GPU warm:
+
+**<https://ko-fi.com/gishi>**
+
+There is also a *Support this project on Ko-fi* button in the app's settings screen.
 
 ## Licence
 

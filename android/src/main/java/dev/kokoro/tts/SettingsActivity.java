@@ -2,7 +2,9 @@ package dev.kokoro.tts;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,9 +16,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,21 +39,21 @@ import java.util.List;
 /**
  * Settings screen for the Kokoro TTS engine.
  *
- * <p>Reached from Android Settings &gt; System &gt; Languages &amp; input &gt;
- * Text-to-speech output &gt; Kokoro TTS, via the {@code settingsActivity}
- * attribute in {@code res/xml/tts_engine.xml}.
+ * <p>Reached from the app drawer, or from Android Settings &gt; System &gt;
+ * Languages &amp; input &gt; Text-to-speech output &gt; the gear beside the engine
+ * (via the {@code settingsActivity} attribute in {@code res/xml/tts_engine.xml}).
  *
  * <p>The voice list is fetched from the server's {@code /v1/audio/voices} rather
  * than hardcoded, because a Kokoro deployment's voices are a property of the
- * server, not of this client: the server attached during development offers 67,
+ * server, not of this client: the server this was built against offers 67,
  * against the 11 a hardcoded list would have shown.
  *
- * <p>Changing the voice here takes effect immediately. This activity runs in the
+ * <p>Changing anything here takes effect immediately. This activity runs in the
  * same process as {@link KokoroTtsService}, so they share one
- * {@link SharedPreferences} instance and the engine sees the new value on the
- * next utterance. (Changing the file externally with adb does <em>not</em> have
- * that property — the process caches it, which is why
- * {@code tools/set-voice.sh} force-stops the app.)
+ * {@link SharedPreferences} instance and the engine sees new values on the next
+ * utterance. (Changing the file externally with adb does <em>not</em> have that
+ * property — the process caches it, which is why {@code tools/set-voice.sh}
+ * force-stops the app.)
  */
 public class SettingsActivity extends Activity {
 
@@ -56,6 +61,21 @@ public class SettingsActivity extends Activity {
     private static final String KEY_ENDPOINT = "endpoint";
     private static final String KEY_VOICE = "voice";
     private static final String KEY_VOICE_LIST = "voice_list";
+
+    /** Master switch for the silence this engine inserts between chunks. */
+    static final String KEY_ADD_GAPS = "add_gaps";
+    static final String KEY_MID_SENTENCE_GAP_MS = "mid_sentence_gap_ms";
+    static final String KEY_PARAGRAPH_GAP_MS = "paragraph_gap_ms";
+
+    static final int DEFAULT_MID_GAP_MS = 90;
+    static final int DEFAULT_PARA_GAP_MS = 280;
+
+    /** Ranges offered by the sliders. */
+    private static final int MAX_MID_GAP_MS = 600;
+    private static final int MAX_PARA_GAP_MS = 1200;
+    private static final int GAP_STEP_MS = 10;
+
+    static final String KOFI_URL = "https://ko-fi.com/gishi";
 
     /** Shown only until the server answers; not a claim about what the server has. */
     private static final String[] FALLBACK_VOICES = {
@@ -72,6 +92,8 @@ public class SettingsActivity extends Activity {
     private ListView list;
     private ArrayAdapter<String> adapter;
     private final List<String> voices = new ArrayList<>();
+    private SeekBar midSeek;
+    private SeekBar paraSeek;
     private TextToSpeech tts;
     private final Handler ui = new Handler(Looper.getMainLooper());
 
@@ -86,8 +108,20 @@ public class SettingsActivity extends Activity {
 
     // ------------------------------------------------------------------- UI
 
+    private int dp(float value) {
+        return (int) (value * getResources().getDisplayMetrics().density);
+    }
+
+    private TextView heading(String text) {
+        TextView tv = new TextView(this);
+        tv.setText(text);
+        tv.setTextSize(15);
+        tv.setPadding(0, dp(14), 0, dp(4));
+        return tv;
+    }
+
     private View buildUi() {
-        int pad = (int) (16 * getResources().getDisplayMetrics().density);
+        int pad = dp(16);
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setPadding(pad, pad, pad, pad);
@@ -95,13 +129,11 @@ public class SettingsActivity extends Activity {
         TextView title = new TextView(this);
         title.setText("Kokoro TTS");
         title.setTextSize(22);
-        title.setPadding(0, 0, 0, pad / 2);
+        title.setPadding(0, 0, 0, dp(8));
         root.addView(title);
 
-        TextView endpointLabel = new TextView(this);
-        endpointLabel.setText("Server endpoint");
-        root.addView(endpointLabel);
-
+        // ---- endpoint
+        root.addView(heading("Server endpoint"));
         endpointField = new EditText(this);
         endpointField.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
         endpointField.setText(prefs.getString(KEY_ENDPOINT, KokoroTtsService.DEFAULT_ENDPOINT));
@@ -121,9 +153,66 @@ public class SettingsActivity extends Activity {
         root.addView(reload);
 
         status = new TextView(this);
-        status.setPadding(0, pad / 2, 0, pad / 2);
+        status.setPadding(0, dp(8), 0, dp(8));
         root.addView(status);
 
+        // ---- pause controls
+        root.addView(heading("Pauses between chunks"));
+
+        TextView gapNote = new TextView(this);
+        gapNote.setText("Kokoro synthesises each chunk separately, so there is no natural "
+                + "pause across a join. Switch this off if the app you listen with already "
+                + "inserts its own pauses, otherwise you get both and the reading sounds "
+                + "choppy.");
+        gapNote.setTextSize(12);
+        root.addView(gapNote);
+
+        final CheckBox addGaps = new CheckBox(this);
+        addGaps.setText("Insert pauses between chunks");
+        addGaps.setChecked(prefs.getBoolean(KEY_ADD_GAPS, true));
+        root.addView(addGaps);
+
+        TextView midLabel = new TextView(this);
+        midSeek = new SeekBar(this);
+        midSeek.setMax(MAX_MID_GAP_MS / GAP_STEP_MS);
+        midSeek.setProgress(prefs.getInt(KEY_MID_SENTENCE_GAP_MS, DEFAULT_MID_GAP_MS)
+                / GAP_STEP_MS);
+        hookSlider(midSeek, midLabel, KEY_MID_SENTENCE_GAP_MS,
+                DEFAULT_MID_GAP_MS, "Seam cut mid-sentence");
+        root.addView(midLabel);
+        root.addView(midSeek);
+
+        TextView paraLabel = new TextView(this);
+        paraSeek = new SeekBar(this);
+        paraSeek.setMax(MAX_PARA_GAP_MS / GAP_STEP_MS);
+        paraSeek.setProgress(prefs.getInt(KEY_PARAGRAPH_GAP_MS, DEFAULT_PARA_GAP_MS)
+                / GAP_STEP_MS);
+        hookSlider(paraSeek, paraLabel, KEY_PARAGRAPH_GAP_MS,
+                DEFAULT_PARA_GAP_MS, "End of a paragraph");
+        root.addView(paraLabel);
+        root.addView(paraSeek);
+
+        final Runnable applyEnabled = new Runnable() {
+            @Override
+            public void run() {
+                boolean on = addGaps.isChecked();
+                midSeek.setEnabled(on);
+                paraSeek.setEnabled(on);
+                float alpha = on ? 1f : 0.4f;
+                midSeek.setAlpha(alpha);
+                paraSeek.setAlpha(alpha);
+            }
+        };
+        addGaps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                prefs.edit().putBoolean(KEY_ADD_GAPS, isChecked).apply();
+                applyEnabled.run();
+            }
+        });
+        applyEnabled.run();
+
+        // ---- preview
         Button test = new Button(this);
         test.setText("Speak a test sentence in the selected voice");
         test.setOnClickListener(new View.OnClickListener() {
@@ -136,11 +225,36 @@ public class SettingsActivity extends Activity {
         });
         root.addView(test);
 
+        // ---- support link, above the list so it is always visible
+        Button kofi = new Button(this);
+        kofi.setText("Support this project on Ko-fi");
+        kofi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(KOFI_URL)));
+                } catch (Exception e) {
+                    // No browser installed is not worth crashing over; show the URL.
+                    Toast.makeText(SettingsActivity.this, KOFI_URL,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        root.addView(kofi);
+
+        TextView kofiUrl = new TextView(this);
+        kofiUrl.setText(KOFI_URL);
+        kofiUrl.setTextSize(12);
+        kofiUrl.setGravity(Gravity.CENTER_HORIZONTAL);
+        kofiUrl.setPadding(0, 0, 0, dp(8));
+        root.addView(kofiUrl);
+
+        // ---- voices
         list = new ListView(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f);
-        list.setLayoutParams(lp);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, voices);
+        list.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice,
+                voices);
         list.setAdapter(adapter);
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -154,6 +268,31 @@ public class SettingsActivity extends Activity {
         });
         root.addView(list);
         return root;
+    }
+
+    /** Wire a slider to a millisecond preference, keeping its label in step. */
+    private void hookSlider(final SeekBar bar, final TextView label, final String key,
+                            final int fallbackMs, final String caption) {
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int ms = progress * GAP_STEP_MS;
+                label.setText(caption + ": " + (ms == 0 ? "no pause" : ms + " ms"));
+                if (fromUser) {
+                    prefs.edit().putInt(key, ms).apply();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        int current = prefs.getInt(key, fallbackMs);
+        label.setText(caption + ": " + (current == 0 ? "no pause" : current + " ms"));
     }
 
     private void markCurrent() {
@@ -190,8 +329,7 @@ public class SettingsActivity extends Activity {
                             voices.addAll(fetched);
                             status.setText(voices.size() + " voices from the server. "
                                     + "Tap one to select it, then use the test button.");
-                            prefs.edit().putString(KEY_VOICE_LIST,
-                                    join(voices)).apply();
+                            prefs.edit().putString(KEY_VOICE_LIST, join(voices)).apply();
                         }
                         adapter.notifyDataSetChanged();
                         markCurrent();

@@ -47,8 +47,8 @@ public class KokoroTtsService extends TextToSpeechService {
     private static final String KEY_HARD_CAP = "hard_cap";
     private static final String KEY_TARGET_MIN = "target_min";
     private static final String KEY_TARGET_MAX = "target_max";
-    private static final String KEY_MID_SENTENCE_GAP_MS = "mid_sentence_gap_ms";
-    private static final String KEY_PARAGRAPH_GAP_MS = "paragraph_gap_ms";
+    // Shared with SettingsActivity so keys and defaults cannot drift apart.
+    private static final String KEY_ADD_GAPS = SettingsActivity.KEY_ADD_GAPS;
     private static final String KEY_CONNECT_TIMEOUT_MS = "connect_timeout_ms";
     private static final String KEY_READ_TIMEOUT_MS = "read_timeout_ms";
     private static final String KEY_STRIP_EMOJI = "strip_emoji";
@@ -314,13 +314,24 @@ public class KokoroTtsService extends TextToSpeechService {
         String voice = voice(request);
         String model = pref(KEY_MODEL, DEFAULT_MODEL);
         String fmt = pref(KEY_FORMAT, "pcm");
-        int midSentenceGapMs = prefInt(KEY_MID_SENTENCE_GAP_MS, 90);
-        int paragraphGapMs = prefInt(KEY_PARAGRAPH_GAP_MS, 280);
+        // Apps that insert their own pauses between utterances would otherwise get
+        // this engine's pauses on top of theirs, which reads as choppy. The setting
+        // screen exists so the user can turn ours off.
+        boolean addGaps = prefBool(KEY_ADD_GAPS, true);
+        int midSentenceGapMs = addGaps
+                ? prefInt(SettingsActivity.KEY_MID_SENTENCE_GAP_MS,
+                          SettingsActivity.DEFAULT_MID_GAP_MS)
+                : 0;
+        int paragraphGapMs = addGaps
+                ? prefInt(SettingsActivity.KEY_PARAGRAPH_GAP_MS,
+                          SettingsActivity.DEFAULT_PARA_GAP_MS)
+                : 0;
 
         int declaredMax = callback.getMaxBufferSize();
         int maxBuffer = declaredMax > 0 ? declaredMax : 8192;
 
         StringBuilder trace = new StringBuilder();
+        int silenceInsertedMs = 0;
         long startedAt = System.currentTimeMillis();
         int chunkIndex = 0;
 
@@ -369,6 +380,7 @@ public class KokoroTtsService extends TextToSpeechService {
                             : (endsSentence(chunk.text) ? 0 : midSentenceGapMs);
                     if (gapMs > 0) {
                         writeSilence(callback, sampleRate, gapMs, maxBuffer);
+                        silenceInsertedMs += gapMs;
                     }
                 }
                 chunkIndex++;
@@ -378,6 +390,9 @@ public class KokoroTtsService extends TextToSpeechService {
                     + " chunks=" + chunks.size()
                     + " estTokens=" + trace
                     + " voice=" + voice
+                    + " pauses=" + (addGaps ? midSentenceGapMs + "/" + paragraphGapMs + "ms"
+                                            : "off")
+                    + " inserted=" + silenceInsertedMs + "ms"
                     + " ms=" + (System.currentTimeMillis() - startedAt));
         } catch (Exception e) {
             Log.e(TAG, "synthesis failed", e);
