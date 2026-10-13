@@ -210,4 +210,9 @@ jobs:
               --notes-file "$RUNNER_TEMP/notes.md" \
               android/kokoro-tts.apk
           fi
+          # Deleting and re-pushing a tag turns its GitHub release into a DRAFT,
+          # which is invisible to everyone and silently 404s /releases/latest.
+          # Publishing explicitly makes moving a tag safe; on an already-published
+          # release this is a no-op.
+          gh release edit "$tag" --draft=false > /dev/null
           echo "published $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/$tag"
