@@ -67,9 +67,16 @@ python3 android/build.py          # -> android/kokoro-tts.apk
 bash core/build.sh                # core only, for the JVM harnesses
 ```
 
-`android/build.py` needs only `ANDROID_HOME` (or `ANDROID_SDK_ROOT`) and a JDK; it
-locates the newest build-tools and platform it finds. The APK is signed with a debug
-keystore that is generated on first build, so nothing secret is in the repository.
+`android/build.py` resolves its SDK from `ANDROID_HOME` (or `ANDROID_SDK_ROOT`),
+falling back to `.tooling/android-sdk`, and its JDK from `JAVA_HOME` or the `javac`
+on `PATH`. It picks the newest build-tools that has all four tools and the newest
+installed platform, so a different SDK layout works without editing the script.
+
+The APK is signed with a debug keystore generated on first build, so no key material
+is in the repository. Each checkout therefore mints its *own* key: build outputs are
+byte-identical (verified — `classes.dex` hashes match across a clean clone) but the
+signatures are not, so `adb install -r` between two checkouts fails with a signature
+mismatch. Uninstall first, or copy `android/debug.keystore` across.
 
 ## Install
 
@@ -142,6 +149,13 @@ java -cp core/build/classes:core/build/test-classes dev.kokoro.tts.SplitterSelfT
     --mode model --corpus data/corpus_mixed.txt \
     --out docs/research/conformance-model.json --check-lossless
 ```
+
+The JVM tests need only a JDK. The conformance harness additionally needs the real
+Kokoro G2P, which is why it runs under `.tooling/kokoro-venv` — a Python 3.12 venv with
+`kokoro` 0.9.4, `misaki` 0.9.4, CPU-only PyTorch and the `en_core_web_sm` spaCy model
+that misaki's English G2P needs. It constructs `KPipeline(lang_code=..., model=False)`,
+so no weights are downloaded and no GPU is required. `waveform.py` and the other
+scripts are standard library only and run under any Python 3.
 
 ## If a voice sounds raspy on "s"
 
