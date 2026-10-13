@@ -1,0 +1,226 @@
+{
+  "corpus": "data/corpus_pride_prejudice.txt",
+  "corpus_chars": 725237,
+  "seed": 20261012,
+  "hard_limit_tokens": 510,
+  "server_absolute_max_tokens": 450,
+  "server_target_min_tokens": 175,
+  "server_target_max_tokens": 250,
+  "budgets": {
+    "150": {
+      "n_spans": 375,
+      "chars_median": 118,
+      "tokens_min": 19,
+      "tokens_p50": 119,
+      "tokens_p95": 149,
+      "tokens_p99": 156,
+      "tokens_max": 250,
+      "ratio_tokens_per_char_p50": 1.0,
+      "ratio_tokens_per_char_p95": 1.0673076923076923,
+      "ratio_tokens_per_char_max": 1.8333333333333333,
+      "spans_over_450": 0,
+      "spans_over_510": 0,
+      "errors": 0
+    },
+    "200": {
+      "n_spans": 388,
+      "chars_median": 162.5,
+      "tokens_min": 20,
+      "tokens_p50": 164,
+      "tokens_p95": 201,
+      "tokens_p99": 209,
+      "tokens_max": 311,
+      "ratio_tokens_per_char_p50": 1.0,
+      "ratio_tokens_per_char_p95": 1.0729166666666667,
+      "ratio_tokens_per_char_max": 1.7005988023952097,
+      "spans_over_450": 0,
+      "spans_over_510": 0,
+      "errors": 0
+    },
+    "250": {
+      "n_spans": 386,
+      "chars_median": 203.0,
+      "tokens_min": 22,
+      "tokens_p50": 202,
+      "tokens_p95": 249,
+      "tokens_p99": 257,
+      "tokens_max": 284,
+      "ratio_tokens_per_char_p50": 1.0,
+      "ratio_tokens_per_char_p95": 1.0590717299578059,
+      "ratio_tokens_per_char_max": 1.7466666666666666,
+      "spans_over_450": 0,
+      "spans_over_510": 0,
+      "errors": 0
+    },
+    "300": {
+      "n_spans": 396,
+      "chars_median": 250.5,
+      "tokens_min": 30,
+      "tokens_p50": 250,
+      "tokens_p95": 299,
+      "tokens_p99": 307,
+      "tokens_max": 333,
+      "ratio_tokens_per_char_p50": 1.0,
+      "ratio_tokens_per_char_p95": 1.0477941176470589,
+      "ratio_tokens_per_char_max": 1.5783132530120483,
+      "spans_over_450": 0,
+      "spans_over_510": 0,
+      "errors": 0
+    },
+    "350": {
+      "n_spans": 395,
+      "chars_median": 281,
+      "tokens_min": 25,
+      "tokens_p50": 282,
+      "tokens_p95": 345,
+      "tokens_p99": 355,
+      "tokens_max": 360,
+      "ratio_tokens_per_char_p50": 0.9947643979057592,
+      "ratio_tokens_per_char_p95": 1.042042042042042,
+      "ratio_tokens_per_char_max": 1.8218390804597702,
+      "spans_over_450": 0,
+      "spans_over_510": 0,
+      "errors": 0
+    },
+    "400": {
+      "n_spans": 399,
+      "chars_median": 335,
+      "tokens_min": 31,
+      "tokens_p50": 333,
+      "tokens_p95": 396,
+      "tokens_p99": 407,
+      "tokens_max": 419,
+      "ratio_tokens_per_char_p50": 0.9974554707379135,
+      "ratio_tokens_per_char_p95": 1.04,
+      "ratio_tokens_per_char_max": 1.6458333333333333,
+      "spans_over_450": 0,
+      "spans_over_510": 0,
+      "errors": 0
+    },
+    "450": {
+      "n_spans": 399,
+      "chars_median": 395,
+      "tokens_min": 23,
+      "tokens_p50": 395,
+      "tokens_p95": 446,
+      "tokens_p99": 458,
+      "tokens_max": 551,
+      "ratio_tokens_per_char_p50": 1.0,
+      "ratio_tokens_per_char_p95": 1.0380710659898478,
+      "ratio_tokens_per_char_max": 1.2271714922048997,
+      "spans_over_450": 11,
+      "spans_over_510": 1,
+      "errors": 0
+    },
+    "500": {
+      "n_spans": 399,
+      "chars_median": 439,
+      "tokens_min": 36,
+      "tokens_p50": 439,
+      "tokens_p95": 499,
+      "tokens_p99": 510,
+      "tokens_max": 551,
+      "ratio_tokens_per_char_p50": 1.0,
+      "ratio_tokens_per_char_p95": 1.0331262939958592,
+      "ratio_tokens_per_char_max": 1.2271714922048997,
+      "spans_over_450": 176,
+      "spans_over_510": 4,
+      "errors": 0
+    }
+  },
+  "adversarial": [
+    {
+      "chars": 66,
+      "tokens": 209,
+      "ratio": 3.1666666666666665,
+      "text": "The invoice total was $1,234,567.89 on 2026-10-12 at 15:45:07 GMT."
+    },
+    {
+      "chars": 67,
+      "tokens": 192,
+      "ratio": 2.8656716417910446,
+      "text": "Call 1-800-555-0199 or 44-20-7946-0958 ext. 4823 before 11/12/2026."
+    },
+    {
+      "chars": 62,
+      "tokens": 134,
+      "ratio": 2.161290322580645,
+      "text": "Serial 9X4-88712-A7, batch 0042, revision 2025.11.003 shipped."
+    },
+    {
+      "chars": 67,
+      "tokens": 237,
+      "ratio": 3.537313432835821,
+      "text": "In 1897 the population was 1234567 and by 2025 it reached 98765432."
+    },
+    {
+      "chars": 75,
+      "tokens": 160,
+      "ratio": 2.1333333333333333,
+      "text": "The NASA JPL NOAA USGS FBI CIA NSA DHS DOD DOE HHS USDA VA SSA CMS API"
+    },
+    {
+      "chars": 77,
+      "tokens": 176,
+      "ratio": 2.2857142857142856,
+      "text": "Use HTTPS TLS SSH TCP UDP IPv4 IPv6 DNS DHCP VPN NTP SMTP IMAP POP3 LD"
+    },
+    {
+      "chars": 84,
+      "tokens": 202,
+      "ratio": 2.4047619047619047,
+      "text": "Visit https://example.com/a/b/c?x=1&y=2#frag or ftp://files.example.or"
+    },
+    {
+      "chars": 71,
+      "tokens": 150,
+      "ratio": 2.112676056338028,
+      "text": "Open C:/Users/name/AppData/Local/Temp/file_2026_10_12_final_v3.zip now"
+    },
+    {
+      "chars": 71,
+      "tokens": 169,
+      "ratio": 2.380281690140845,
+      "text": "Solve x^2 + 3y <= 42 && (a != b) || c >= 10% per unit ~ approx 3.14159"
+    },
+    {
+      "chars": 84,
+      "tokens": 127,
+      "ratio": 1.5119047619047619,
+      "text": "@user123 check #Release2026 with getInputStreamFromNetworkAsync() and "
+    },
+    {
+      "chars": 69,
+      "tokens": 164,
+      "ratio": 2.3768115942028984,
+      "text": "It measured 12.5mm x 3.75cm x 0.002km and weighed 1,200.5kg at 98.6F."
+    },
+    {
+      "chars": 73,
+      "tokens": 136,
+      "ratio": 1.8630136986301369,
+      "text": "The 1st, 2nd, 3rd, 4th, 21st, 22nd, 23rd and 100th items cost $0.99 ea"
+    },
+    {
+      "chars": 168,
+      "tokens": 172,
+      "ratio": 1.0238095238095237,
+      "text": "the quick brown fox jumps over the lazy dog and then keeps running wit"
+    },
+    {
+      "chars": 42,
+      "tokens": 545,
+      "ratio": 12.976190476190476,
+      "text": "这是一个用于测试语音合成系统的很长的中文句子它包含了很多汉字用来验证分词逻辑是否正确"
+    },
+    {
+      "chars": 47,
+      "tokens": 672,
+      "ratio": 14.297872340425531,
+      "text": "日本語のテキストを音声合成システムで読み上げるためのテスト文です区切りがないため注意が必要です"
+    }
+  ],
+  "adversarial_worst_ratio": 14.297872340425531,
+  "adversarial_worst_text": "日本語のテキストを音声合成システムで読み上げるためのテスト文です区切りがないため注意が必要です",
+  "adversarial_median_ratio": 2.3768115942028984
+}

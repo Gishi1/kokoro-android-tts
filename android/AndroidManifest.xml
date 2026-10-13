@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.kokoro.tts">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:label="Kokoro TTS"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:usesCleartextTraffic="true"
+        android:debuggable="true">
+
+        <activity
+            android:name="dev.kokoro.tts.EngineTestActivity"
+            android:exported="true"
+            android:label="Kokoro engine test"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!--
+          A system TTS engine is discovered by the framework through this
+          intent filter plus the TTS_ENGINE_METADATA meta-data. Without both,
+          the engine never appears in Settings > Accessibility > Text-to-speech.
+        -->
+        <service
+            android:name="dev.kokoro.tts.KokoroTtsService"
+            android:exported="true"
+            android:label="Kokoro TTS">
+            <intent-filter>
+                <action android:name="android.intent.action.TTS_SERVICE" />
+                <!--
+                  The DEFAULT category is required. The framework discovers
+                  engines with queryIntentServices(..., MATCH_DEFAULT_ONLY), so
+                  without it the service is registered with PackageManager but
+                  invisible to TextToSpeech.getEngines(), and binding falls back
+                  to another engine or fails with onInit(ERROR).
+                -->
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.speech.tts.engine.TTS_ENGINE_METADATA"
+                android:resource="@xml/tts_engine" />
+        </service>
+
+    </application>
+</manifest>

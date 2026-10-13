@@ -1,0 +1,54 @@
+{
+  "url": "http://127.0.0.1:8880/v1/audio/speech",
+  "voice": "af_heart",
+  "probes": [
+    {
+      "name": "cjk_42chars_english_voice",
+      "chars": 42,
+      "http": 200,
+      "bytes": 1302532,
+      "ttfb_s": 10.314,
+      "total_s": 10.319,
+      "audio_seconds": 27.134,
+      "realtime_factor": 0.38,
+      "note": "545 phoneme tokens through the English G2P; well over the 510 limit"
+    },
+    {
+      "name": "no_punctuation_wall",
+      "chars": 1013,
+      "http": 200,
+      "bytes": 2754528,
+      "ttfb_s": 10.491,
+      "total_s": 21.703,
+      "audio_seconds": 57.384,
+      "realtime_factor": 0.378
+    },
+    {
+      "name": "whole_utterance",
+      "chars": 1883,
+      "http": 200,
+      "bytes": 4996066,
+      "ttfb_s": 6.108,
+      "total_s": 35.356,
+      "audio_seconds": 104.083,
+      "realtime_factor": 0.34
+    },
+    {
+      "name": "split_and_streamed",
+      "chars": 1883,
+      "chunks": 12,
+      "first_chunk_ready_s": 3.545,
+      "median_chunk_s": 2.802,
+      "total_s": 35.202,
+      "audio_seconds": 104.083,
+      "realtime_factor": 0.338
+    }
+  ],
+  "headline": {
+    "whole_utterance_ttfb_s": 6.108,
+    "first_chunk_ttfb_s": 3.545,
+    "time_to_first_audio_speedup": 1.72,
+    "whole_total_s": 35.356,
+    "streamed_total_s": 35.202
+  }
+}

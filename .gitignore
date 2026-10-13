@@ -1,0 +1,21 @@
+# Toolchain and caches: reproducible via scripts, far too large for git.
+.tooling/
+
+# Build outputs
+core/build/
+android/build/
+android/kokoro-tts.apk
+
+# Signing material - never commit a keystore, even a throwaway debug one.
+android/debug.keystore
+
+# Generated from docs/research/token_model.json by tools/gen_cost_model.py.
+# Committed on purpose: it is the artefact the APK ships, and its header records
+# the fit it came from. Regenerate with tools/gen_cost_model.py, do not hand-edit.
+# (Kept tracked - this entry documents the decision, it does not ignore it.)
+
+*.class
+__pycache__/
+
+# apksigner detached signature sidecar
+*.idsig

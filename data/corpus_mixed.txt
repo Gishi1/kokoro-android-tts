@@ -1,0 +1,63 @@
+# Mixed realistic Android TTS corpus
+
+Authored test fixture. Every line is a plausible thing a phone would read aloud.
+The point is coverage of the token-cost classes that break a character-based
+budget, measured in docs/research/calibration.json:
+
+  prose letters      ~1.0  tokens/char
+  digits / money     ~3.2-3.5
+  acronym runs       ~2.1-2.3
+  URLs and paths     ~2.1-2.4
+  CJK                ~13-14
+
+One utterance per line. Blank lines and lines starting with `#` are ignored by
+the harness.
+
+# --- notifications and messages
+Calendar reminder: Team standup at 09:30 in Room 4B, dial-in 555-0134.
+Your order #112-4471903-8827361 has shipped and arrives Thursday, 15 October.
+Bank alert: a payment of $1,284.55 to NORTHWIND TRADING was authorised at 14:07.
+Voicemail from 1-800-555-0199, received yesterday at 18:42, duration 1 minute 37 seconds.
+
+# --- money, dates, measurements
+The invoice total was $1,234,567.89 on 2026-10-12 at 15:45:07 GMT.
+In 1897 the population was 1234567 and by 2025 it reached 98765432.
+It measured 12.5mm by 3.75cm by 0.002km and weighed 1,200.5kg at 98.6F.
+The 1st, 2nd, 3rd, 4th, 21st, 22nd, 23rd and 100th items cost $0.99 each.
+Interest of 4.75% compounded quarterly over 30 years on £250,000 yields £1,043,812.60.
+
+# --- acronyms and identifiers
+The NASA JPL NOAA USGS FBI CIA NSA DHS DOD DOE HHS USDA VA SSA CMS API SDK group met.
+Use HTTPS TLS SSH TCP UDP IPv4 IPv6 DNS DHCP VPN NTP SMTP IMAP POP3 LDAP SSO carefully.
+Serial 9X4-88712-A7, batch 0042, revision 2025.11.003 shipped from the AMS-IX peering fabric.
+Set the GPU UUID and the PCIe BDF before flashing the BMC firmware image to the node.
+
+# --- addresses, directions, navigation
+Turn right onto County Road 42, then continue for 1.5 miles and take exit 17B toward I-95 North.
+Deliver to 1600 Pennsylvania Avenue NW, Apartment 12B, Washington, DC 20500-0003.
+The venue is at 52.5200 degrees north, 13.4050 degrees east, near Alexanderplatz.
+
+# --- URLs, paths, code
+Visit https://example.com/a/b/c?x=1&y=2#frag or ftp://files.example.org/pub/x.tar.gz
+Open C:/Users/name/AppData/Local/Temp/file_2026_10_12_final_v3.zip now.
+@user123 check #Release2026 with getInputStreamFromNetworkAsync() and my_var_name_x.
+Solve x^2 + 3y <= 42 && (a != b) || c >= 10% per unit, approx 3.14159.
+
+# --- prose with natural punctuation
+Elizabeth could not help noticing how frequently the conversation returned to the same subject.
+It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.
+However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families.
+
+# --- walls with no terminal punctuation
+the quick brown fox jumps over the lazy dog and then keeps running without any pause because there is no punctuation here at all so the splitter must fall back to words
+warning the backup job failed three times in a row and the disk is now ninety two percent full please free space before the next scheduled run or data loss may occur
+
+# --- CJK (no spaces; every glyph is roughly a syllable)
+这是一个用于测试语音合成系统的很长的中文句子它包含了很多汉字用来验证分词逻辑是否正确
+北京大学的研究团队在今天发布了一份关于语音合成技术的报告报告指出分句策略对合成质量影响很大
+日本語のテキストを音声合成システムで読み上げるためのテスト文です区切りがないため注意が必要です
+안녕하세요 이 문장은 한국어 음성 합성을 테스트하기 위한 긴 문장입니다 띄어쓰기가 있어도 토큰 계산이 필요합니다
+
+# --- mixed script in one utterance
+The station 東京 is 3.2 km away, arriving at 08:15 on platform 4.
+Call 010-1234-5678 or email support@example.co.jp before 2026年10月12日.

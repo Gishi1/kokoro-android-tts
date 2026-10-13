@@ -1,0 +1,97 @@
+{
+  "mode": "chars",
+  "lang": "a",
+  "budget_chars": 400,
+  "hard_cap": 360,
+  "target_min": 240,
+  "target_max": 360,
+  "corpora": [
+    "data/corpus_longform.txt"
+  ],
+  "runs": [
+    {
+      "run": 0,
+      "n_chunks": 1189,
+      "over_450": 0,
+      "over_510": 0,
+      "median_tokens": 303,
+      "max_tokens": 416,
+      "total_tokens": 333972
+    },
+    {
+      "run": 1,
+      "n_chunks": 1189,
+      "over_450": 0,
+      "over_510": 0,
+      "median_tokens": 303,
+      "max_tokens": 416,
+      "total_tokens": 333972
+    },
+    {
+      "run": 2,
+      "n_chunks": 1189,
+      "over_450": 0,
+      "over_510": 0,
+      "median_tokens": 303,
+      "max_tokens": 416,
+      "total_tokens": 333972
+    }
+  ],
+  "deterministic_across_runs": false,
+  "n_chunks": 1189,
+  "over_limit_rate_450": 0.0,
+  "hard_fail_rate_510": 0.0,
+  "median_tokens": 303,
+  "mean_tokens": 280.8847771236333,
+  "max_tokens": 416,
+  "p95_tokens": 395,
+  "total_tokens": 333972,
+  "lossless": {
+    "input_chars": 277170,
+    "output_chars": 277170,
+    "identical": true,
+    "first_diff": null
+  },
+  "worst_chunks": [
+    {
+      "true": 416,
+      "est": 400,
+      "text": "Lydia’s intention of walking to Meryton was not forgotten: every sister except Mary agreed to go wit"
+    },
+    {
+      "true": 412,
+      "est": 400,
+      "text": "But when the gentlemen entered, Jane was no longer the first object; Miss Bingley’s eyes were instan"
+    },
+    {
+      "true": 412,
+      "est": 398,
+      "text": "Mr. Bingley does not know the whole of his history, and is quite ignorant of the circumstances which"
+    },
+    {
+      "true": 412,
+      "est": 400,
+      "text": "But why Mr. Darcy came so often to the Parsonage it was more difficult to understand. It could not b"
+    },
+    {
+      "true": 408,
+      "est": 400,
+      "text": "“Nay,” said Elizabeth, “this is not fair. _You_ wish to think all the world respectable, and are hur"
+    },
+    {
+      "true": 407,
+      "est": 397,
+      "text": "_Darcy has always seemed to me by far the best and most interesting of Miss Austen’s heroes; the onl"
+    },
+    {
+      "true": 407,
+      "est": 400,
+      "text": "Their party in the dining-room was large, for almost all the Lucases came to meet Maria and hear the"
+    },
+    {
+      "true": 407,
+      "est": 395,
+      "text": "I take up my pen again to do, what I have just told you I would not; but circumstances are such, tha"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "mode": "chars",
+  "lang": "a",
+  "budget_chars": 400,
+  "hard_cap": 360,
+  "target_min": 240,
+  "target_max": 360,
+  "corpora": [
+    "<repo>/data/corpus_pride_prejudice.txt",
+    "<repo>/data/corpus_mixed.txt"
+  ],
+  "runs": [
+    {
+      "run": 0,
+      "n_chunks": 11615,
+      "over_450": 3,
+      "over_510": 3,
+      "median_tokens": 68,
+      "max_tokens": 672,
+      "total_tokens": 717016
+    },
+    {
+      "run": 1,
+      "n_chunks": 11615,
+      "over_450": 3,
+      "over_510": 3,
+      "median_tokens": 68,
+      "max_tokens": 672,
+      "total_tokens": 717016
+    },
+    {
+      "run": 2,
+      "n_chunks": 11615,
+      "over_450": 3,
+      "over_510": 3,
+      "median_tokens": 68,
+      "max_tokens": 672,
+      "total_tokens": 717016
+    }
+  ],
+  "deterministic_across_runs": false,
+  "n_chunks": 11615,
+  "over_limit_rate_450": 0.0002582866982350409,
+  "hard_fail_rate_510": 0.0002582866982350409,
+  "median_tokens": 68,
+  "mean_tokens": 61.73189840723203,
+  "max_tokens": 672,
+  "p95_tokens": 75,
+  "total_tokens": 717016,
+  "lossless": {
+    "input_chars": 593792,
+    "output_chars": 593792,
+    "identical": true,
+    "first_diff": null
+  },
+  "worst_chunks": [
+    {
+      "true": 672,
+      "est": 47,
+      "text": "日本語のテキストを音声合成システムで読み上げるためのテスト文です区切りがないため注意が必要です"
+    },
+    {
+      "true": 584,
+      "est": 45,
+      "text": "北京大学的研究团队在今天发布了一份关于语音合成技术的报告报告指出分句策略对合成质量影响很大"
+    },
+    {
+      "true": 545,
+      "est": 42,
+      "text": "这是一个用于测试语音合成系统的很长的中文句子它包含了很多汉字用来验证分词逻辑是否正确"
+    },
+    {
+      "true": 336,
+      "est": 62,
+      "text": "안녕하세요 이 문장은 한국어 음성 합성을 테스트하기 위한 긴 문장입니다 띄어쓰기가 있어도 토큰 계산이 필요합니다"
+    },
+    {
+      "true": 237,
+      "est": 67,
+      "text": "In 1897 the population was 1234567 and by 2025 it reached 98765432."
+    },
+    {
+      "true": 209,
+      "est": 66,
+      "text": "The invoice total was $1,234,567.89 on 2026-10-12 at 15:45:07 GMT."
+    },
+    {
+      "true": 208,
+      "est": 86,
+      "text": "Interest of 4.75% compounded quarterly over 30 years on £250,000 yields £1,043,812.60."
+    },
+    {
+      "true": 202,
+      "est": 84,
+      "text": "Visit https://example.com/a/b/c?x=1&y=2#frag or ftp://files.example.org/pub/x.tar.gz"
+    }
+  ]
+}

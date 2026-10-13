@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Engine metadata. The framework reads this to find the settings screen.
+  settingsActivity is intentionally omitted for now: this engine is configured
+  through SharedPreferences so it can be driven from adb during testing.
+-->
+<tts-engine xmlns:android="http://schemas.android.com/apk/res/android" />

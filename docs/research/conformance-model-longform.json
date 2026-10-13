@@ -1,0 +1,97 @@
+{
+  "mode": "model",
+  "lang": "a",
+  "budget_chars": null,
+  "hard_cap": 360,
+  "target_min": 240,
+  "target_max": 360,
+  "corpora": [
+    "data/corpus_longform.txt"
+  ],
+  "runs": [
+    {
+      "run": 0,
+      "n_chunks": 1826,
+      "over_450": 0,
+      "over_510": 0,
+      "median_tokens": 194.0,
+      "max_tokens": 284,
+      "total_tokens": 333354
+    },
+    {
+      "run": 1,
+      "n_chunks": 1826,
+      "over_450": 0,
+      "over_510": 0,
+      "median_tokens": 194.0,
+      "max_tokens": 284,
+      "total_tokens": 333354
+    },
+    {
+      "run": 2,
+      "n_chunks": 1826,
+      "over_450": 0,
+      "over_510": 0,
+      "median_tokens": 194.0,
+      "max_tokens": 284,
+      "total_tokens": 333354
+    }
+  ],
+  "deterministic_across_runs": false,
+  "n_chunks": 1826,
+  "over_limit_rate_450": 0.0,
+  "hard_fail_rate_510": 0.0,
+  "median_tokens": 194.0,
+  "mean_tokens": 182.55969331872947,
+  "max_tokens": 284,
+  "p95_tokens": 250,
+  "total_tokens": 333354,
+  "lossless": {
+    "input_chars": 277170,
+    "output_chars": 277170,
+    "identical": true,
+    "first_diff": null
+  },
+  "worst_chunks": [
+    {
+      "true": 284,
+      "est": 360,
+      "text": "In no countenance was attentive curiosity so strongly marked as in Miss Bingley’s, in spite of the s"
+    },
+    {
+      "true": 278,
+      "est": 360,
+      "text": "Mr. Collins, however, was not discouraged from speaking again, and Mr. Darcy’s contempt seemed abund"
+    },
+    {
+      "true": 278,
+      "est": 354,
+      "text": "Many stared--many smiled; but no one looked more amused than Mr. Bennet himself, while his wife seri"
+    },
+    {
+      "true": 276,
+      "est": 355,
+      "text": "The subjection in which his father had brought him up had given him originally great humility of man"
+    },
+    {
+      "true": 276,
+      "est": 355,
+      "text": "I need not explain myself farther; and though _we_ know this anxiety to be quite needless, yet if sh"
+    },
+    {
+      "true": 276,
+      "est": 359,
+      "text": "It was some consolation to think that his visit to Rosings was to end on the day after the next, and"
+    },
+    {
+      "true": 276,
+      "est": 355,
+      "text": "They had not been long together before Darcy told her that Bingley was also coming to wait on her; a"
+    },
+    {
+      "true": 275,
+      "est": 351,
+      "text": "Such a change in a man of so much pride excited not only astonishment but gratitude--for to love, ar"
+    }
+  ]
+}

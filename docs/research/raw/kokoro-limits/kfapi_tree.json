@@ -1,0 +1,3909 @@
+{
+  "sha": "61797914e5f8da0baf1d0b97d9d0b15c66625615",
+  "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/61797914e5f8da0baf1d0b97d9d0b15c66625615",
+  "tree": [
+    {
+      "path": ".claude",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e543ca012ccdf5bdbbda328814169b5d882d8d66",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/e543ca012ccdf5bdbbda328814169b5d882d8d66"
+    },
+    {
+      "path": ".claude/skills",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f441cf132e3295720d81a08122e79aa4312be9d1",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/f441cf132e3295720d81a08122e79aa4312be9d1"
+    },
+    {
+      "path": ".claude/skills/adding-normalizer",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ad09306ce5e734fcfd3998cc55d61843c716313c",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/ad09306ce5e734fcfd3998cc55d61843c716313c"
+    },
+    {
+      "path": ".claude/skills/adding-normalizer/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "10fb900e537c25d73c7c71852046f9fb7471bf27",
+      "size": 2183,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/10fb900e537c25d73c7c71852046f9fb7471bf27"
+    },
+    {
+      "path": ".claude/skills/api-contrib",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f54108999f52736619b67574927022e247d5421c",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/f54108999f52736619b67574927022e247d5421c"
+    },
+    {
+      "path": ".claude/skills/api-contrib/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ea1b51876defbd270b38367d79ddc484932ef17",
+      "size": 2764,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1ea1b51876defbd270b38367d79ddc484932ef17"
+    },
+    {
+      "path": ".claude/skills/integration-tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9843baa41b3f978a0aeda9334bb58e87e9716f61",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/9843baa41b3f978a0aeda9334bb58e87e9716f61"
+    },
+    {
+      "path": ".claude/skills/integration-tests/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f66f20b1cbba628a73bbbd1579e411e19df6d92",
+      "size": 1671,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7f66f20b1cbba628a73bbbd1579e411e19df6d92"
+    },
+    {
+      "path": ".claude/skills/readme-benchmarks",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6dcd041c2556dba891a5ea5d68850145f97a23af",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/6dcd041c2556dba891a5ea5d68850145f97a23af"
+    },
+    {
+      "path": ".claude/skills/readme-benchmarks/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08043f43ef0618db165246e9a7b396058e4a30a4",
+      "size": 6842,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/08043f43ef0618db165246e9a7b396058e4a30a4"
+    },
+    {
+      "path": ".claude/skills/web-contrib",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f34efadf3048dafcaa8fda70f042114648b53465",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/f34efadf3048dafcaa8fda70f042114648b53465"
+    },
+    {
+      "path": ".claude/skills/web-contrib/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "466453eceedcde42124775f9ef8fe9a183435eb3",
+      "size": 3317,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/466453eceedcde42124775f9ef8fe9a183435eb3"
+    },
+    {
+      "path": ".codeql-config.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b28c3beed7adeb0ca186f6e820c83bc1d5d7c44e",
+      "size": 129,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b28c3beed7adeb0ca186f6e820c83bc1d5d7c44e"
+    },
+    {
+      "path": ".coveragerc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f983cd6ecda43181644b6a553905b20ebd9a2597",
+      "size": 283,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f983cd6ecda43181644b6a553905b20ebd9a2597"
+    },
+    {
+      "path": ".dockerignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a4a4388d71c3f4b839cc4f5ea526d7b22a7fe005",
+      "size": 369,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a4a4388d71c3f4b839cc4f5ea526d7b22a7fe005"
+    },
+    {
+      "path": ".gitattributes",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0c261bcdf6e37738a92ec7fa30ff3d145ea900a9",
+      "size": 130,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0c261bcdf6e37738a92ec7fa30ff3d145ea900a9"
+    },
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ea3c1564dc2071df76128668fbc483e1b55d8e10",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/ea3c1564dc2071df76128668fbc483e1b55d8e10"
+    },
+    {
+      "path": ".github/FUNDING.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a472c86f4fb3d71d3f2970f040c0180b753626ed",
+      "size": 879,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a472c86f4fb3d71d3f2970f040c0180b753626ed"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d128807ebdf88b2dc956aa34b3e1bdd738c1c60d",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/d128807ebdf88b2dc956aa34b3e1bdd738c1c60d"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d522d8517c9c892dd720a15210ea5b1a88e627d",
+      "size": 976,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2d522d8517c9c892dd720a15210ea5b1a88e627d"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature_request.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9434b9090a95ddaf33a1a4a1d66933123ce3342",
+      "size": 571,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f9434b9090a95ddaf33a1a4a1d66933123ce3342"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "478231b3a296874028f1c24a997dbbef44cee84c",
+      "size": 164,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/478231b3a296874028f1c24a997dbbef44cee84c"
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a3c0505ee7faeabc1487577d2a6b06b840527dfd",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/a3c0505ee7faeabc1487577d2a6b06b840527dfd"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ec9fce12644272eddf8a753192a334ed96fa7d6",
+      "size": 2443,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1ec9fce12644272eddf8a753192a334ed96fa7d6"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "334beabd84af5d61abae9fc482e07e718c2d3095",
+      "size": 12482,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/334beabd84af5d61abae9fc482e07e718c2d3095"
+    },
+    {
+      "path": ".github/workflows/test_build.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3737927a5172cbbea47c5f2ee5c73ad7a0b4ba44",
+      "size": 3189,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3737927a5172cbbea47c5f2ee5c73ad7a0b4ba44"
+    },
+    {
+      "path": ".github/workflows/test_client_image.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d7f856f0acc02ce84bac92906783cc264e00f68",
+      "size": 3007,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8d7f856f0acc02ce84bac92906783cc264e00f68"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78d1c867d59873dbd617ae0551f1fda94cae78a2",
+      "size": 2446,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/78d1c867d59873dbd617ae0551f1fda94cae78a2"
+    },
+    {
+      "path": ".python-version",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4fba2183587225f216eeada4c78dfab6b2e65f5",
+      "size": 5,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e4fba2183587225f216eeada4c78dfab6b2e65f5"
+    },
+    {
+      "path": ".ruff.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "402f71ceb818033cd343b78e3587d97c240e58a7",
+      "size": 259,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/402f71ceb818033cd343b78e3587d97c240e58a7"
+    },
+    {
+      "path": "AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30e266a00663c12988684a0eea092b351b154f4c",
+      "size": 3658,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/30e266a00663c12988684a0eea092b351b154f4c"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f24fd1a46cf6df075c442878beb12a932609e7c0",
+      "size": 28655,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f24fd1a46cf6df075c442878beb12a932609e7c0"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b9385b3cf10e2b02a1dec885ef919b6204e00a9",
+      "size": 4355,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9b9385b3cf10e2b02a1dec885ef919b6204e00a9"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "size": 11357,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c1d70bb7ecb531420b8c12b58860710f073dd76",
+      "size": 37465,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9c1d70bb7ecb531420b8c12b58860710f073dd76"
+    },
+    {
+      "path": "VERSION",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7ca9e31bb731ab6bd956a40a9046a00ae23ff6e0",
+      "size": 9,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7ca9e31bb731ab6bd956a40a9046a00ae23ff6e0"
+    },
+    {
+      "path": "api",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7c956b185c116fa86db0a910f9837649b7ff69b5",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/7c956b185c116fa86db0a910f9837649b7ff69b5"
+    },
+    {
+      "path": "api/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d4d39849baa9210560611a1bc8280ddc2ae0b910",
+      "size": 38,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d4d39849baa9210560611a1bc8280ddc2ae0b910"
+    },
+    {
+      "path": "api/src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e32baa27713d43690ba776a954acc32039ce6f48",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/e32baa27713d43690ba776a954acc32039ce6f48"
+    },
+    {
+      "path": "api/src/builds",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "109d0a26bdd62ec080b8cd83880969e73c143951",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/109d0a26bdd62ec080b8cd83880969e73c143951"
+    },
+    {
+      "path": "api/src/builds/v1_0",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0cba2b1df17e03fd2bb30c886c4377f54392f4e1",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/0cba2b1df17e03fd2bb30c886c4377f54392f4e1"
+    },
+    {
+      "path": "api/src/builds/v1_0/config.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25f35b9cebee10cc937b3a407e1347276dbed7fa",
+      "size": 2500,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/25f35b9cebee10cc937b3a407e1347276dbed7fa"
+    },
+    {
+      "path": "api/src/core",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1fce36b98f5c340a20e693c4e66ae47c111dd0a6",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/1fce36b98f5c340a20e693c4e66ae47c111dd0a6"
+    },
+    {
+      "path": "api/src/core/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9554f9b18a874f8122b12607fcca955a53912ab",
+      "size": 53,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a9554f9b18a874f8122b12607fcca955a53912ab"
+    },
+    {
+      "path": "api/src/core/config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a46bdd171a3cd0ba1b6069e579ca0ccd64230513",
+      "size": 5217,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a46bdd171a3cd0ba1b6069e579ca0ccd64230513"
+    },
+    {
+      "path": "api/src/core/don_quixote.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a32a3a6b6cded97faba36b6d2201e86794b4ca5b",
+      "size": 577,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a32a3a6b6cded97faba36b6d2201e86794b4ca5b"
+    },
+    {
+      "path": "api/src/core/model_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "47544c12f522e05d3cfc927590c6d23e27103c0e",
+      "size": 1363,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/47544c12f522e05d3cfc927590c6d23e27103c0e"
+    },
+    {
+      "path": "api/src/core/openai_mappings.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20597fb7b3916902c6dc16bb6f8f3396f55abcfd",
+      "size": 448,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/20597fb7b3916902c6dc16bb6f8f3396f55abcfd"
+    },
+    {
+      "path": "api/src/core/paths.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9308e104a8d850fa502f0ebbc545687c5ef7e76",
+      "size": 11302,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c9308e104a8d850fa502f0ebbc545687c5ef7e76"
+    },
+    {
+      "path": "api/src/core/voice_grades.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "53f736676395991f02958813f40a0c454f6e7276",
+      "size": 5018,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/53f736676395991f02958813f40a0c454f6e7276"
+    },
+    {
+      "path": "api/src/inference",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1ca44f78ca83a59aec949cd1411d1b8ee948855a",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/1ca44f78ca83a59aec949cd1411d1b8ee948855a"
+    },
+    {
+      "path": "api/src/inference/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "68c7ce384352d6eee057e27d0a3f6d2580eaf4ae",
+      "size": 246,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/68c7ce384352d6eee057e27d0a3f6d2580eaf4ae"
+    },
+    {
+      "path": "api/src/inference/base.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17aa03ccaca5a3ad4561d99ff43072e251e73f22",
+      "size": 2709,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/17aa03ccaca5a3ad4561d99ff43072e251e73f22"
+    },
+    {
+      "path": "api/src/inference/decode_clip.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d09fe791e8640c085614d92b543c89f0c8938709",
+      "size": 1479,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d09fe791e8640c085614d92b543c89f0c8938709"
+    },
+    {
+      "path": "api/src/inference/inno_tuner.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3294e921184e6ede5ab61a4acd54f0ed96d22573",
+      "size": 3037,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3294e921184e6ede5ab61a4acd54f0ed96d22573"
+    },
+    {
+      "path": "api/src/inference/kokoro_v1.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c559fc9907b1214560b5479badb88f9745ecfc7a",
+      "size": 20500,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c559fc9907b1214560b5479badb88f9745ecfc7a"
+    },
+    {
+      "path": "api/src/inference/model_manager.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "538cc3725f8fbe5751ad0e894b0cfc20261f75f5",
+      "size": 10773,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/538cc3725f8fbe5751ad0e894b0cfc20261f75f5"
+    },
+    {
+      "path": "api/src/inference/voice_manager.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a700073e959e3878cf951308bc34faa3bdaa09ce",
+      "size": 2808,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a700073e959e3878cf951308bc34faa3bdaa09ce"
+    },
+    {
+      "path": "api/src/main.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "898af5ba4af30e355fa54f22a84405c896a64c5d",
+      "size": 5337,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/898af5ba4af30e355fa54f22a84405c896a64c5d"
+    },
+    {
+      "path": "api/src/models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6cf2396d86ea8eb20cd28552f87189bbc031e92e",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/6cf2396d86ea8eb20cd28552f87189bbc031e92e"
+    },
+    {
+      "path": "api/src/models/v1_0",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9b0b89deb54e93ae85b9c8c4eb61e849338ee48b",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/9b0b89deb54e93ae85b9c8c4eb61e849338ee48b"
+    },
+    {
+      "path": "api/src/models/v1_0/config.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14a726edd3718279eac426630879ff743955b16a",
+      "size": 2351,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/14a726edd3718279eac426630879ff743955b16a"
+    },
+    {
+      "path": "api/src/routers",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2f6a18a99275953aa8ad1597383c784b4c94ea9f",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/2f6a18a99275953aa8ad1597383c784b4c94ea9f"
+    },
+    {
+      "path": "api/src/routers/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "792d6005489ebee62cde02066f19c5521e620451",
+      "size": 2,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/792d6005489ebee62cde02066f19c5521e620451"
+    },
+    {
+      "path": "api/src/routers/debug.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c34767658d09acb73e6450ff1078e4cf2afe1abf",
+      "size": 4620,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c34767658d09acb73e6450ff1078e4cf2afe1abf"
+    },
+    {
+      "path": "api/src/routers/development.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "afbf88c6d92932cf436b33819b5cab254bb45211",
+      "size": 20300,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/afbf88c6d92932cf436b33819b5cab254bb45211"
+    },
+    {
+      "path": "api/src/routers/openai_compatible.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41216846c44c1bc5594240dc4be7d4981aa0c823",
+      "size": 29147,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/41216846c44c1bc5594240dc4be7d4981aa0c823"
+    },
+    {
+      "path": "api/src/routers/ssml.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5357616f97fcbd22c99f21bc8cd53266381866c4",
+      "size": 3400,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/5357616f97fcbd22c99f21bc8cd53266381866c4"
+    },
+    {
+      "path": "api/src/routers/tune.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c66d5a0dae3d45c3d2762db5af63656b09517d94",
+      "size": 7079,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c66d5a0dae3d45c3d2762db5af63656b09517d94"
+    },
+    {
+      "path": "api/src/routers/web_player.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78247260678489b3540e464bcf84943ed3f2cde5",
+      "size": 2119,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/78247260678489b3540e464bcf84943ed3f2cde5"
+    },
+    {
+      "path": "api/src/services",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d06a30ceb2ac4ae4cb441685f804c70ea778c2a3",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/d06a30ceb2ac4ae4cb441685f804c70ea778c2a3"
+    },
+    {
+      "path": "api/src/services/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82cf76eeae00425e08856bca227a9b60cabc7083",
+      "size": 62,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/82cf76eeae00425e08856bca227a9b60cabc7083"
+    },
+    {
+      "path": "api/src/services/audio.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8c6f8cf0e58e4f9972e4c4c24a90f996ae832d9c",
+      "size": 8382,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8c6f8cf0e58e4f9972e4c4c24a90f996ae832d9c"
+    },
+    {
+      "path": "api/src/services/streaming_audio_writer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f9b5980cf9b3c85e559067f7ee8db49add9ed84",
+      "size": 4197,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/5f9b5980cf9b3c85e559067f7ee8db49add9ed84"
+    },
+    {
+      "path": "api/src/services/temp_manager.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee8ede8e47e710c6c90e6073cced44a754bf6c49",
+      "size": 6976,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ee8ede8e47e710c6c90e6073cced44a754bf6c49"
+    },
+    {
+      "path": "api/src/services/text_processing",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b4efdfe3c1e459a973a3428b2dd32605aefe41fa",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/b4efdfe3c1e459a973a3428b2dd32605aefe41fa"
+    },
+    {
+      "path": "api/src/services/text_processing/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e957f48371762d171c81bd386a8077be9d11d905",
+      "size": 355,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e957f48371762d171c81bd386a8077be9d11d905"
+    },
+    {
+      "path": "api/src/services/text_processing/normalization",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2a8a3325693838a7d36e5d4385cdfa48c7a95c54",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/2a8a3325693838a7d36e5d4385cdfa48c7a95c54"
+    },
+    {
+      "path": "api/src/services/text_processing/normalization/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "367d820e6f518343874fc383cb699b59e14bae50",
+      "size": 730,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/367d820e6f518343874fc383cb699b59e14bae50"
+    },
+    {
+      "path": "api/src/services/text_processing/normalization/base.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f53db6816a3fdeb686ba88472aa4208260f29386",
+      "size": 3226,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f53db6816a3fdeb686ba88472aa4208260f29386"
+    },
+    {
+      "path": "api/src/services/text_processing/normalization/english.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8098965744f0c2ea102b5bf3fcd7145505bdd809",
+      "size": 13353,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8098965744f0c2ea102b5bf3fcd7145505bdd809"
+    },
+    {
+      "path": "api/src/services/text_processing/normalization/english_data.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "27dff7b1cde5de707f4401088d3f0626b67d61b9",
+      "size": 2817,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/27dff7b1cde5de707f4401088d3f0626b67d61b9"
+    },
+    {
+      "path": "api/src/services/text_processing/phonemizer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ec6cf849c11d1ebeefa28f04398623c1a526066",
+      "size": 2815,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2ec6cf849c11d1ebeefa28f04398623c1a526066"
+    },
+    {
+      "path": "api/src/services/text_processing/ssml.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c00013b456c038e6df5fc6180ed84f532949cdc9",
+      "size": 5829,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c00013b456c038e6df5fc6180ed84f532949cdc9"
+    },
+    {
+      "path": "api/src/services/text_processing/text_processor.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f65a722c4a96fc2230aa24346bf23c8b5f9d0f8",
+      "size": 13586,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8f65a722c4a96fc2230aa24346bf23c8b5f9d0f8"
+    },
+    {
+      "path": "api/src/services/text_processing/vocabulary.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1dc827356da4f9ab4a0a835b65447f96815f4174",
+      "size": 1062,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1dc827356da4f9ab4a0a835b65447f96815f4174"
+    },
+    {
+      "path": "api/src/services/tts_service.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cdb09733764744e31e3be43320d676d5e57ddbf4",
+      "size": 26236,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/cdb09733764744e31e3be43320d676d5e57ddbf4"
+    },
+    {
+      "path": "api/src/structures",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e3d7c0525afe1258c3c9808ea36b639480287aa8",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/e3d7c0525afe1258c3c9808ea36b639480287aa8"
+    },
+    {
+      "path": "api/src/structures/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f382756e31bbe7ba9796f6a7eb8e49a45cf68be6",
+      "size": 364,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f382756e31bbe7ba9796f6a7eb8e49a45cf68be6"
+    },
+    {
+      "path": "api/src/structures/custom_responses.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f83882945dea5939caf1f4fa40b028a3f1367f8",
+      "size": 1661,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0f83882945dea5939caf1f4fa40b028a3f1367f8"
+    },
+    {
+      "path": "api/src/structures/model_schemas.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4897ec8d8b4b64434daa9781c2ff0212f690e25",
+      "size": 466,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b4897ec8d8b4b64434daa9781c2ff0212f690e25"
+    },
+    {
+      "path": "api/src/structures/schemas.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "043d640ebc2bde1f344020444e5cf81b44db0c14",
+      "size": 15350,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/043d640ebc2bde1f344020444e5cf81b44db0c14"
+    },
+    {
+      "path": "api/src/structures/text_schemas.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0ed004afa6797b411af22bcccc6ce4a9ba689875",
+      "size": 2470,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0ed004afa6797b411af22bcccc6ce4a9ba689875"
+    },
+    {
+      "path": "api/src/voices",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "618ad1dea361a63bb95d8c43efb2a89aea99ec4e",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/618ad1dea361a63bb95d8c43efb2a89aea99ec4e"
+    },
+    {
+      "path": "api/src/voices/v1_0",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7d1289f9db39066b5b55bb20f233a31d83317215",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/7d1289f9db39066b5b55bb20f233a31d83317215"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_alloy.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36981f4235961aef478d49e3649cce9274af277d",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/36981f4235961aef478d49e3649cce9274af277d"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_amelia_inno.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2233a688cabae55d79a6bfdb9008a68809492325",
+      "size": 523866,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2233a688cabae55d79a6bfdb9008a68809492325"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_aoede.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df19f3b73257a7e799e9dd28f22164b0f15ec13b",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/df19f3b73257a7e799e9dd28f22164b0f15ec13b"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_bella.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02e687473f3f264b62189b78b938113ae2e66f9d",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/02e687473f3f264b62189b78b938113ae2e66f9d"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_goodall_inno.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f1d480313d5703e56007205933e83694e3eb2a44",
+      "size": 523852,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f1d480313d5703e56007205933e83694e3eb2a44"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_heart.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "508d04af178bce67520acae4cb82ff4964d26f9c",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/508d04af178bce67520acae4cb82ff4964d26f9c"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_jadzia.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a96fbecf27b1fac565ed7d6ee2ed51d4bcbdcbaf",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a96fbecf27b1fac565ed7d6ee2ed51d4bcbdcbaf"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_jessica.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "728ab1b15b9aebe440db301f1c2d27d3c133a923",
+      "size": 523435,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/728ab1b15b9aebe440db301f1c2d27d3c133a923"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_kore.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd7524696885fb28aaf3ee7e51465bdaf9e87d74",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/dd7524696885fb28aaf3ee7e51465bdaf9e87d74"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_nicole.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "207da10703d354c2da0a73b0999902f41f59372b",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/207da10703d354c2da0a73b0999902f41f59372b"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_nova.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc0cb9e3845a8cf73a629dc7be4208f52a24c6ec",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/bc0cb9e3845a8cf73a629dc7be4208f52a24c6ec"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_river.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc044777209219d025b9f66e67fc8260d9c8acb2",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/dc044777209219d025b9f66e67fc8260d9c8acb2"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_sarah.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b488607d7e5b9daaeb01a6281f0a8e0200c110dc",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b488607d7e5b9daaeb01a6281f0a8e0200c110dc"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_sky.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a047bc6b45a7b547e65e98775963f98a2d48246c",
+      "size": 523351,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a047bc6b45a7b547e65e98775963f98a2d48246c"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_v0.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6702c91af5ccd17fadd33d333b92b54a7020020f",
+      "size": 524370,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6702c91af5ccd17fadd33d333b92b54a7020020f"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_v0bella.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "daed550f127831c5cde0e1bb9680aeacec5848cb",
+      "size": 524464,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/daed550f127831c5cde0e1bb9680aeacec5848cb"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_v0irulan.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d3ccc2ac46361c9043434a5e2dcdfc08181a253",
+      "size": 524469,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3d3ccc2ac46361c9043434a5e2dcdfc08181a253"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_v0nicole.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "914738c6ef9697b536fa61f8bf32d8e4c97c79b7",
+      "size": 524469,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/914738c6ef9697b536fa61f8bf32d8e4c97c79b7"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_v0sarah.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25032faab51ff12c915edf400d76753a9524ffab",
+      "size": 524464,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/25032faab51ff12c915edf400d76753a9524ffab"
+    },
+    {
+      "path": "api/src/voices/v1_0/af_v0sky.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f697680f88787c31343e1baa6d95d567ed51fef",
+      "size": 524454,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6f697680f88787c31343e1baa6d95d567ed51fef"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_adam.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f36cd12528fd3b55ca2c2d5ef0474066f1899215",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f36cd12528fd3b55ca2c2d5ef0474066f1899215"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_echo.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0607cbee88eeaaeaa4bda0827b83ac05079054a9",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0607cbee88eeaaeaa4bda0827b83ac05079054a9"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_eric.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d63fab28bef81e93280af93cd4f32c28dd3b7e3",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3d63fab28bef81e93280af93cd4f32c28dd3b7e3"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_fenrir.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e83cfb9f248ec9c275cba2622e83b4a2a2f42ad",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7e83cfb9f248ec9c275cba2622e83b4a2a2f42ad"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_liam.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7aeeb0f3fe7c8319d6feba5b9c98fdab522d94ac",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7aeeb0f3fe7c8319d6feba5b9c98fdab522d94ac"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_michael.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b755169debb4c8a0f99cf83f14f5e53a58e3cfa9",
+      "size": 523435,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b755169debb4c8a0f99cf83f14f5e53a58e3cfa9"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_onyx.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90c3a3d0f5413ca58402898c90913d852cc53488",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/90c3a3d0f5413ca58402898c90913d852cc53488"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_price_inno.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69e4bc5df71002b756f2aed8ef3ef8279bfcf92b",
+      "size": 523859,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/69e4bc5df71002b756f2aed8ef3ef8279bfcf92b"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_puck.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "837740e41a46ac01bbbcb3f94be324741a73dc58",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/837740e41a46ac01bbbcb3f94be324741a73dc58"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_santa.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26b612a01a9156055c6b3c50d296ea9e3590c6dd",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/26b612a01a9156055c6b3c50d296ea9e3590c6dd"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_v0adam.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aaa66af9e2ec566ad14e3e5f64d7c89663497d3b",
+      "size": 524459,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/aaa66af9e2ec566ad14e3e5f64d7c89663497d3b"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_v0gurney.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e830733a9fecd67559ef97812f54f18c925e5fb",
+      "size": 524469,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1e830733a9fecd67559ef97812f54f18c925e5fb"
+    },
+    {
+      "path": "api/src/voices/v1_0/am_v0michael.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0d5a2b8b77ed4e105368d44cadbc82820c22032",
+      "size": 524474,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e0d5a2b8b77ed4e105368d44cadbc82820c22032"
+    },
+    {
+      "path": "api/src/voices/v1_0/bf_alice.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81c3819480cd99c006b29b42ce19d63c9f91df08",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/81c3819480cd99c006b29b42ce19d63c9f91df08"
+    },
+    {
+      "path": "api/src/voices/v1_0/bf_emma.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c020e8546bf59a99be537cdfe0a8e1ffea214d45",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c020e8546bf59a99be537cdfe0a8e1ffea214d45"
+    },
+    {
+      "path": "api/src/voices/v1_0/bf_isabella.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9e2d731d517f24b13827389bb2381834c4acc75",
+      "size": 523440,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c9e2d731d517f24b13827389bb2381834c4acc75"
+    },
+    {
+      "path": "api/src/voices/v1_0/bf_lily.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f6019fe61b3fef36e37192ec422d7331dbf4c2e",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3f6019fe61b3fef36e37192ec422d7331dbf4c2e"
+    },
+    {
+      "path": "api/src/voices/v1_0/bf_v0emma.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26b04662a6820c22d3219bd72ee860f189505def",
+      "size": 524459,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/26b04662a6820c22d3219bd72ee860f189505def"
+    },
+    {
+      "path": "api/src/voices/v1_0/bf_v0isabella.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91c100b099872ad430d09914d890707753c6a4fe",
+      "size": 524479,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/91c100b099872ad430d09914d890707753c6a4fe"
+    },
+    {
+      "path": "api/src/voices/v1_0/bm_atten_inno.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e31ebf71d8919126096205ab65d95bd22731823",
+      "size": 523894,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6e31ebf71d8919126096205ab65d95bd22731823"
+    },
+    {
+      "path": "api/src/voices/v1_0/bm_daniel.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "babba456cb54854e0931f4b0e35949a660c434c7",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/babba456cb54854e0931f4b0e35949a660c434c7"
+    },
+    {
+      "path": "api/src/voices/v1_0/bm_fable.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "97ab30b543771f53dfc13d24dab447d2f16d0004",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/97ab30b543771f53dfc13d24dab447d2f16d0004"
+    },
+    {
+      "path": "api/src/voices/v1_0/bm_george.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30773413008d04b19772eb2548ed1229fca2fe63",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/30773413008d04b19772eb2548ed1229fca2fe63"
+    },
+    {
+      "path": "api/src/voices/v1_0/bm_lewis.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "529102a4d9ccaa2fea712e69a5e4fccdb568a138",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/529102a4d9ccaa2fea712e69a5e4fccdb568a138"
+    },
+    {
+      "path": "api/src/voices/v1_0/bm_v0george.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24e81f1f26b844bf69bd684c01d80e727eec3309",
+      "size": 524469,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/24e81f1f26b844bf69bd684c01d80e727eec3309"
+    },
+    {
+      "path": "api/src/voices/v1_0/bm_v0lewis.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9e054c6625480c9dfd8e46e09b60a97fe773d3a",
+      "size": 524464,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f9e054c6625480c9dfd8e46e09b60a97fe773d3a"
+    },
+    {
+      "path": "api/src/voices/v1_0/ef_dora.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c2ec76452c70b68950a4f1d7ef868931c4bd453",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3c2ec76452c70b68950a4f1d7ef868931c4bd453"
+    },
+    {
+      "path": "api/src/voices/v1_0/em_alex.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bee55357ec537c285cfcdabf6ed5bb5dbaadf6a7",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/bee55357ec537c285cfcdabf6ed5bb5dbaadf6a7"
+    },
+    {
+      "path": "api/src/voices/v1_0/em_santa.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d8a09c30b79dab1c429da92f2d9d61740fcc94a",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8d8a09c30b79dab1c429da92f2d9d61740fcc94a"
+    },
+    {
+      "path": "api/src/voices/v1_0/ff_siwis.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5910d6a296f1e4713b426b18b3625ac4481bd952",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/5910d6a296f1e4713b426b18b3625ac4481bd952"
+    },
+    {
+      "path": "api/src/voices/v1_0/hf_alpha.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3adbf3f7bf9ee1a0314a14899d497eb1924c43d8",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3adbf3f7bf9ee1a0314a14899d497eb1924c43d8"
+    },
+    {
+      "path": "api/src/voices/v1_0/hf_beta.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "410c5cc0a368c4bfa638f21ff98f2d281b63a4e1",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/410c5cc0a368c4bfa638f21ff98f2d281b63a4e1"
+    },
+    {
+      "path": "api/src/voices/v1_0/hm_omega.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b1979a890e1f9c61f16eeeaf56ff5a212c4c26d",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6b1979a890e1f9c61f16eeeaf56ff5a212c4c26d"
+    },
+    {
+      "path": "api/src/voices/v1_0/hm_psi.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7172b5aef56c392600e5a6a333851279608f8c45",
+      "size": 523351,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7172b5aef56c392600e5a6a333851279608f8c45"
+    },
+    {
+      "path": "api/src/voices/v1_0/if_sara.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92dc90ad39115a76691827c94a04bca6680d9d6f",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/92dc90ad39115a76691827c94a04bca6680d9d6f"
+    },
+    {
+      "path": "api/src/voices/v1_0/im_nicola.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "935172f1add49063a1b51814fb94f559b3309a9b",
+      "size": 523341,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/935172f1add49063a1b51814fb94f559b3309a9b"
+    },
+    {
+      "path": "api/src/voices/v1_0/jf_alpha.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "28077d0f9ec6f7b3058b10786d840dffbfe5a4fb",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/28077d0f9ec6f7b3058b10786d840dffbfe5a4fb"
+    },
+    {
+      "path": "api/src/voices/v1_0/jf_gongitsune.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "832500d5804ceea1fb77d495d8dc6b2381a45ffe",
+      "size": 523351,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/832500d5804ceea1fb77d495d8dc6b2381a45ffe"
+    },
+    {
+      "path": "api/src/voices/v1_0/jf_nezumi.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9d02df9a1e4f0e7a379bce191aa80008b422f52",
+      "size": 523420,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e9d02df9a1e4f0e7a379bce191aa80008b422f52"
+    },
+    {
+      "path": "api/src/voices/v1_0/jf_tebukuro.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11f71f819a7db2c7cab685b5d2c3a522719d58ad",
+      "size": 523435,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/11f71f819a7db2c7cab685b5d2c3a522719d58ad"
+    },
+    {
+      "path": "api/src/voices/v1_0/jm_kumo.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb31d22a8105b91bbac2d7986167bb7af7ec8af5",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/eb31d22a8105b91bbac2d7986167bb7af7ec8af5"
+    },
+    {
+      "path": "api/src/voices/v1_0/pf_dora.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67c5d40fa1eb77fb5b8d8756c3dbf60e083521c9",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/67c5d40fa1eb77fb5b8d8756c3dbf60e083521c9"
+    },
+    {
+      "path": "api/src/voices/v1_0/pm_alex.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21642f0b915a769369b8443364cfbfa9d113e54a",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/21642f0b915a769369b8443364cfbfa9d113e54a"
+    },
+    {
+      "path": "api/src/voices/v1_0/pm_santa.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5906fe4590c11495600b2c8987390cd0e902aaca",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/5906fe4590c11495600b2c8987390cd0e902aaca"
+    },
+    {
+      "path": "api/src/voices/v1_0/zf_xiaobei.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fba4240b8dccb86bc8aa5fed7eb02559563ed240",
+      "size": 523435,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/fba4240b8dccb86bc8aa5fed7eb02559563ed240"
+    },
+    {
+      "path": "api/src/voices/v1_0/zf_xiaoni.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df30374b4ecfaee810399023f82d787f0d98bdab",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/df30374b4ecfaee810399023f82d787f0d98bdab"
+    },
+    {
+      "path": "api/src/voices/v1_0/zf_xiaoxiao.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8be88c7dc9fdcf3b70600ee4495a5d50910f6601",
+      "size": 523440,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8be88c7dc9fdcf3b70600ee4495a5d50910f6601"
+    },
+    {
+      "path": "api/src/voices/v1_0/zf_xiaoyi.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3c02bb55d9ffdfb98b7fe69713dbcffffffd0fa",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e3c02bb55d9ffdfb98b7fe69713dbcffffffd0fa"
+    },
+    {
+      "path": "api/src/voices/v1_0/zm_yunjian.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11bbcea273dd84eb976b0178823ad333270676a7",
+      "size": 523435,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/11bbcea273dd84eb976b0178823ad333270676a7"
+    },
+    {
+      "path": "api/src/voices/v1_0/zm_yunxi.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "faaa4fa10af6f6988ef8e8eba08b5f8f2763ec7c",
+      "size": 523425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/faaa4fa10af6f6988ef8e8eba08b5f8f2763ec7c"
+    },
+    {
+      "path": "api/src/voices/v1_0/zm_yunxia.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4aa15aee4b877856448ab6cfad49fe9b212f6a88",
+      "size": 523430,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4aa15aee4b877856448ab6cfad49fe9b212f6a88"
+    },
+    {
+      "path": "api/src/voices/v1_0/zm_yunyang.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4c44a0d3ece29af086d4ed0e0d71b648dc814faa",
+      "size": 523435,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4c44a0d3ece29af086d4ed0e0d71b648dc814faa"
+    },
+    {
+      "path": "api/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1fe2030cd02303bab186505735692a34d2664eef",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/1fe2030cd02303bab186505735692a34d2664eef"
+    },
+    {
+      "path": "api/tests/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9911d8f331d96ea4dc50886f4c1550ea2cc56e3",
+      "size": 40,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b9911d8f331d96ea4dc50886f4c1550ea2cc56e3"
+    },
+    {
+      "path": "api/tests/conftest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "188cabc5c35d8c9e25736b431ca842b7352a16a4",
+      "size": 2324,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/188cabc5c35d8c9e25736b431ca842b7352a16a4"
+    },
+    {
+      "path": "api/tests/integration",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "067e45344d0cd7fa5d097e4250b9cf3e24395a61",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/067e45344d0cd7fa5d097e4250b9cf3e24395a61"
+    },
+    {
+      "path": "api/tests/integration/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "api/tests/integration/conftest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9872a4d202128c1111f5a4474e103cb02a32942c",
+      "size": 3190,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9872a4d202128c1111f5a4474e103cb02a32942c"
+    },
+    {
+      "path": "api/tests/integration/test_rate_durations.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2d460ea5c6718cdf8be6d39ff43bb88ae2581b3",
+      "size": 3611,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c2d460ea5c6718cdf8be6d39ff43bb88ae2581b3"
+    },
+    {
+      "path": "api/tests/integration/test_tts_roundtrip.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2497e252e4b89bf23b6dad78cb690a164d58e73",
+      "size": 7400,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d2497e252e4b89bf23b6dad78cb690a164d58e73"
+    },
+    {
+      "path": "api/tests/integration/test_voices_endpoint.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65fe036d5f6e83625e23d04a52c2c45e07e969dd",
+      "size": 1729,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/65fe036d5f6e83625e23d04a52c2c45e07e969dd"
+    },
+    {
+      "path": "api/tests/test_audio_service.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9920cdc84dc7c70597b1b8c83f7fb55fe9458f54",
+      "size": 7247,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9920cdc84dc7c70597b1b8c83f7fb55fe9458f54"
+    },
+    {
+      "path": "api/tests/test_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0809bbd922b5fd9416df1644fdf5da446485a188",
+      "size": 1441,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0809bbd922b5fd9416df1644fdf5da446485a188"
+    },
+    {
+      "path": "api/tests/test_data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f24dca5c55b0091a7bea69ba65dbd3ce2dad2a87",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/f24dca5c55b0091a7bea69ba65dbd3ce2dad2a87"
+    },
+    {
+      "path": "api/tests/test_data/generate_test_data.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f6b7cf96a12b296f961210f6ca39ee8770d7d73",
+      "size": 617,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3f6b7cf96a12b296f961210f6ca39ee8770d7d73"
+    },
+    {
+      "path": "api/tests/test_data/ssml",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "42dc8a1f957eb4b4396aebd94c28336a9e64017a",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/42dc8a1f957eb4b4396aebd94c28336a9e64017a"
+    },
+    {
+      "path": "api/tests/test_data/ssml/azure-mstts-silence.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c04ba56faafd74164eda734fb4a6837464796d40",
+      "size": 616,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c04ba56faafd74164eda734fb4a6837464796d40"
+    },
+    {
+      "path": "api/tests/test_data/ssml/azure-paragraphs-bookmark.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a3b61b46ece59bb283bad5289169d260a5512ea",
+      "size": 506,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8a3b61b46ece59bb283bad5289169d260a5512ea"
+    },
+    {
+      "path": "api/tests/test_data/ssml/azure-structure.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e8b15ab57d52ddaf982a9930a4cd5a8436271fe",
+      "size": 781,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0e8b15ab57d52ddaf982a9930a4cd5a8436271fe"
+    },
+    {
+      "path": "api/tests/test_data/ssml/google-kitchen-sink.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24bb8acaa64136c38acce71493ed54003cebe980",
+      "size": 729,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/24bb8acaa64136c38acce71493ed54003cebe980"
+    },
+    {
+      "path": "api/tests/test_data/ssml/google-media-par-seq.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d3158b057f3ac6518d6625929550e516bab5df9",
+      "size": 669,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9d3158b057f3ac6518d6625929550e516bab5df9"
+    },
+    {
+      "path": "api/tests/test_data/ssml/google-say-as.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7609efc0fff48a21050aac258c25a18836c6f459",
+      "size": 748,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7609efc0fff48a21050aac258c25a18836c6f459"
+    },
+    {
+      "path": "api/tests/test_data/ssml/google-voice-lang-mark.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57f060c812167aa2d9dc8c63ce5969e0bdb5c2da",
+      "size": 609,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/57f060c812167aa2d9dc8c63ce5969e0bdb5c2da"
+    },
+    {
+      "path": "api/tests/test_data/ssml/polly-tags.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da4b9e2a70082fb954e5afb0e508af680f4b8f2f",
+      "size": 831,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/da4b9e2a70082fb954e5afb0e508af680f4b8f2f"
+    },
+    {
+      "path": "api/tests/test_data/ssml/w3c-desc-audio.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69adc45f38462099fab5a6cf95f0e00161065e2f",
+      "size": 924,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/69adc45f38462099fab5a6cf95f0e00161065e2f"
+    },
+    {
+      "path": "api/tests/test_data/test_audio.npy",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2e06aa9fb23da8358abc9ce914785de23c9b1358",
+      "size": 96128,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2e06aa9fb23da8358abc9ce914785de23c9b1358"
+    },
+    {
+      "path": "api/tests/test_debug_endpoints.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7483a3a706273c28fa7550f57f2661376c30fbc",
+      "size": 3084,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e7483a3a706273c28fa7550f57f2661376c30fbc"
+    },
+    {
+      "path": "api/tests/test_development.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85a2de313caa9e24438fc819a38b5b6dfe4a6d87",
+      "size": 4627,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/85a2de313caa9e24438fc819a38b5b6dfe4a6d87"
+    },
+    {
+      "path": "api/tests/test_download_model.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b33113737a86a5e9afd91a06075751c4af631ff6",
+      "size": 1765,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b33113737a86a5e9afd91a06075751c4af631ff6"
+    },
+    {
+      "path": "api/tests/test_inno_tuner.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85c70776d8b1647b7e5fa7787715bd5702c8f248",
+      "size": 16261,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/85c70776d8b1647b7e5fa7787715bd5702c8f248"
+    },
+    {
+      "path": "api/tests/test_kokoro_v1.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc35d0ac7270a3af05b42a900fffe76c2061aa15",
+      "size": 11217,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/cc35d0ac7270a3af05b42a900fffe76c2061aa15"
+    },
+    {
+      "path": "api/tests/test_model_unload.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6767a30610b27d6db86fb3a9c6a52ba3b82a1753",
+      "size": 14233,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6767a30610b27d6db86fb3a9c6a52ba3b82a1753"
+    },
+    {
+      "path": "api/tests/test_normalizer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07aa1ce39d58004a306782157d6ac36ab0d16cb9",
+      "size": 12823,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/07aa1ce39d58004a306782157d6ac36ab0d16cb9"
+    },
+    {
+      "path": "api/tests/test_normalizer_contract.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "014fe9e89952de5bdb2e1d2dae5ebd6beea402de",
+      "size": 1704,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/014fe9e89952de5bdb2e1d2dae5ebd6beea402de"
+    },
+    {
+      "path": "api/tests/test_normalizer_properties.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03c33e42448d75d39249bda215a0922540b5dd63",
+      "size": 3502,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/03c33e42448d75d39249bda215a0922540b5dd63"
+    },
+    {
+      "path": "api/tests/test_normalizer_redos.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a6aa66d01876b3fdfe916490bdd032323d76cab",
+      "size": 5539,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/5a6aa66d01876b3fdfe916490bdd032323d76cab"
+    },
+    {
+      "path": "api/tests/test_openai_endpoints.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "75961e56c7f51298c8e21a74f42e1af250606ed6",
+      "size": 61207,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/75961e56c7f51298c8e21a74f42e1af250606ed6"
+    },
+    {
+      "path": "api/tests/test_paths.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "250e83d1998b0ca378e3cd17080ddae9c3f4ca9a",
+      "size": 11106,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/250e83d1998b0ca378e3cd17080ddae9c3f4ca9a"
+    },
+    {
+      "path": "api/tests/test_pause_bounds.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0321123232ef829d71f07f53792b71340cb73676",
+      "size": 1605,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0321123232ef829d71f07f53792b71340cb73676"
+    },
+    {
+      "path": "api/tests/test_real_model.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "43589a91d79bc9dfdcab63132cd1badd58bb8d4c",
+      "size": 6996,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/43589a91d79bc9dfdcab63132cd1badd58bb8d4c"
+    },
+    {
+      "path": "api/tests/test_request_bounds.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce3e18a1b469a522f766c4a2055d91688ad6da02",
+      "size": 1952,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ce3e18a1b469a522f766c4a2055d91688ad6da02"
+    },
+    {
+      "path": "api/tests/test_ssml.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0561f9a93a02ac5c38d24087d2ab22388a90eab4",
+      "size": 7832,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0561f9a93a02ac5c38d24087d2ab22388a90eab4"
+    },
+    {
+      "path": "api/tests/test_temp_manager.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "312b2f32946aebdf8986fa5bdb97f23a3cdd2112",
+      "size": 1170,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/312b2f32946aebdf8986fa5bdb97f23a3cdd2112"
+    },
+    {
+      "path": "api/tests/test_text_processor.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7baabf374d3bf6277b8b9c491cda8db8c56e87e9",
+      "size": 22489,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7baabf374d3bf6277b8b9c491cda8db8c56e87e9"
+    },
+    {
+      "path": "api/tests/test_text_processor_properties.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec233ce580e0cd488d949720a692fac1d363dd3a",
+      "size": 5793,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ec233ce580e0cd488d949720a692fac1d363dd3a"
+    },
+    {
+      "path": "api/tests/test_tts_service.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6270955b7dd5383168438b5d086c9b022a70e21",
+      "size": 20055,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f6270955b7dd5383168438b5d086c9b022a70e21"
+    },
+    {
+      "path": "api/tests/test_web_player.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a848a1015969b6b80ba9687469e01bf25b08b29a",
+      "size": 1555,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a848a1015969b6b80ba9687469e01bf25b08b29a"
+    },
+    {
+      "path": "assets",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8776e051a0639d825fc98de51694f8d9cc26260b",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/8776e051a0639d825fc98de51694f8d9cc26260b"
+    },
+    {
+      "path": "assets/banner.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "639b2b6043eda109af3677f8686471b0feb17388",
+      "size": 332910,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/639b2b6043eda109af3677f8686471b0feb17388"
+    },
+    {
+      "path": "assets/cpu_first_token_timeline_stream_openai.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e136cc3bc3bca9066614d15f81ddbc5fec6f6329",
+      "size": 222866,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e136cc3bc3bca9066614d15f81ddbc5fec6f6329"
+    },
+    {
+      "path": "assets/docs-screenshot.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "572f2c9f23a8ce63a8054dd5a52cfc7bde91bb16",
+      "size": 89490,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/572f2c9f23a8ce63a8054dd5a52cfc7bde91bb16"
+    },
+    {
+      "path": "assets/format_comparison.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f1669bca53a3b469ccf24923dc6022661c3063b4",
+      "size": 792499,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f1669bca53a3b469ccf24923dc6022661c3063b4"
+    },
+    {
+      "path": "assets/gpu_dialogue_text_length.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14e9cede71656c89ced22cdabe899acfa5591138",
+      "size": 277983,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/14e9cede71656c89ced22cdabe899acfa5591138"
+    },
+    {
+      "path": "assets/gpu_dialogue_turn_length.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1006f5717e445d607f173feadacb910c87576fe",
+      "size": 378401,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b1006f5717e445d607f173feadacb910c87576fe"
+    },
+    {
+      "path": "assets/gpu_first_token_latency_direct.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ac20b96be409014ae52a476cfda6c3759f17107",
+      "size": 222067,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6ac20b96be409014ae52a476cfda6c3759f17107"
+    },
+    {
+      "path": "assets/gpu_first_token_latency_openai.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1be68ec9c8e21c71d0ffba4116350f995c367bf1",
+      "size": 222031,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1be68ec9c8e21c71d0ffba4116350f995c367bf1"
+    },
+    {
+      "path": "assets/gpu_first_token_timeline_direct.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1b8cd548281bdbbd4232c947936a7184d3e3685",
+      "size": 218077,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b1b8cd548281bdbbd4232c947936a7184d3e3685"
+    },
+    {
+      "path": "assets/gpu_first_token_timeline_openai.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7dedd2f9b7ebd5172f1db7522ce4b2b2799090bc",
+      "size": 223902,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7dedd2f9b7ebd5172f1db7522ce4b2b2799090bc"
+    },
+    {
+      "path": "assets/gpu_model_unload_longform.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9fb4c673dbb27502d8e0933d0e2862dd1b966b5c",
+      "size": 259181,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9fb4c673dbb27502d8e0933d0e2862dd1b966b5c"
+    },
+    {
+      "path": "assets/gpu_model_unload_short.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8f62c65a456050df6d34f220b6ca7c51a47e47a",
+      "size": 252231,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e8f62c65a456050df6d34f220b6ca7c51a47e47a"
+    },
+    {
+      "path": "assets/gpu_processing_time.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6367a65152bce714b91bdef1bf3abcf974923a59",
+      "size": 220759,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6367a65152bce714b91bdef1bf3abcf974923a59"
+    },
+    {
+      "path": "assets/gpu_realtime_factor.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb225ec029374c2b50ba42a3998394cd57b49b27",
+      "size": 175349,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/cb225ec029374c2b50ba42a3998394cd57b49b27"
+    },
+    {
+      "path": "assets/gpu_total_time_latency_direct.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abab9596528758d9f56090df9c6cd8b1eebdd04f",
+      "size": 243613,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/abab9596528758d9f56090df9c6cd8b1eebdd04f"
+    },
+    {
+      "path": "assets/gpu_total_time_latency_openai.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca1d642adbe62cd6507f3f4af2a3641457966f67",
+      "size": 251501,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ca1d642adbe62cd6507f3f4af2a3641457966f67"
+    },
+    {
+      "path": "assets/voice_analysis.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "401c7189095447d045370299ff5fbaeabffd8c57",
+      "size": 980485,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/401c7189095447d045370299ff5fbaeabffd8c57"
+    },
+    {
+      "path": "assets/webui-screenshot.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed6775c63c5dacff14567085f33f7f4315225d7f",
+      "size": 740940,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ed6775c63c5dacff14567085f33f7f4315225d7f"
+    },
+    {
+      "path": "charts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a7e2d35b5cd68b04570860b89e2a43786c5ebc6a",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/a7e2d35b5cd68b04570860b89e2a43786c5ebc6a"
+    },
+    {
+      "path": "charts/kokoro-fastapi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "74f983bca3b4ae6502152d17f336058ecddccd23",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/74f983bca3b4ae6502152d17f336058ecddccd23"
+    },
+    {
+      "path": "charts/kokoro-fastapi/.helmignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e8a0eb36f4ca2c939201c0d54b5d82a1ea34778",
+      "size": 349,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0e8a0eb36f4ca2c939201c0d54b5d82a1ea34778"
+    },
+    {
+      "path": "charts/kokoro-fastapi/Chart.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c13e57f28263e22917936587054c669c77d9ab6",
+      "size": 224,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9c13e57f28263e22917936587054c669c77d9ab6"
+    },
+    {
+      "path": "charts/kokoro-fastapi/examples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b6b389eb11a13a030d6661a98b7a8314b58f73cc",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/b6b389eb11a13a030d6661a98b7a8314b58f73cc"
+    },
+    {
+      "path": "charts/kokoro-fastapi/examples/aks-tls-values.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "236af0a809c19e9c56147ab9f4a061151ecdf88b",
+      "size": 1596,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/236af0a809c19e9c56147ab9f4a061151ecdf88b"
+    },
+    {
+      "path": "charts/kokoro-fastapi/examples/gpu-operator-values.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b74667f982ba2467cb3d5dab68aba0da21431e0f",
+      "size": 1545,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b74667f982ba2467cb3d5dab68aba0da21431e0f"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6c9268ed3805f27395e4da7c072453c5e74fd5bf",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/6c9268ed3805f27395e4da7c072453c5e74fd5bf"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/NOTES.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc009b803366e51c07819242b110929ea8b748c1",
+      "size": 1777,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/bc009b803366e51c07819242b110929ea8b748c1"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/_helpers.tpl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "849bcd751a8731b3235596a9830bf3f216ab7183",
+      "size": 1852,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/849bcd751a8731b3235596a9830bf3f216ab7183"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/hpa.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45ba60bd948bf2f39aa285586f3243c9d861f838",
+      "size": 937,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/45ba60bd948bf2f39aa285586f3243c9d861f838"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/ingress.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9c9f4e8d5cbd6626ade55c5be48d7dd577b5804",
+      "size": 1130,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a9c9f4e8d5cbd6626ade55c5be48d7dd577b5804"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/kokoro-tts-deployment.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2178a08a64f3b2fdde728532f69b20e56750f93a",
+      "size": 2466,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2178a08a64f3b2fdde728532f69b20e56750f93a"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/kokoro-tts-service.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79c789039681da8a4d662065769a098be478aef0",
+      "size": 425,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/79c789039681da8a4d662065769a098be478aef0"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/serviceaccount.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f062f72d65bbc9035617c401b44cb4a43b63b3a8",
+      "size": 334,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f062f72d65bbc9035617c401b44cb4a43b63b3a8"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6042efe299c4432044153d8bea79bec4df36d4cb",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/6042efe299c4432044153d8bea79bec4df36d4cb"
+    },
+    {
+      "path": "charts/kokoro-fastapi/templates/tests/test-connection.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b912c6a42f56f8e1d4225b0c7a64d3b910565d7",
+      "size": 402,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8b912c6a42f56f8e1d4225b0c7a64d3b910565d7"
+    },
+    {
+      "path": "charts/kokoro-fastapi/values.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2e37e44c0597e209366db8cb7b8a04d2a6a268f",
+      "size": 1662,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e2e37e44c0597e209366db8cb7b8a04d2a6a268f"
+    },
+    {
+      "path": "codecov.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c78d2c3bdc88f7659f10aebbe105b835d70b37d",
+      "size": 67,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2c78d2c3bdc88f7659f10aebbe105b835d70b37d"
+    },
+    {
+      "path": "debug.http",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fcd2df8cc59d427cd982d17779cb7c05f2146953",
+      "size": 680,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/fcd2df8cc59d427cd982d17779cb7c05f2146953"
+    },
+    {
+      "path": "docker-bake.hcl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49bc020856c978769f1002422619c32ed9e5a93a",
+      "size": 7681,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/49bc020856c978769f1002422619c32ed9e5a93a"
+    },
+    {
+      "path": "docker",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "93f4904dcc7985e1042aed1fd48381c0718aa44c",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/93f4904dcc7985e1042aed1fd48381c0718aa44c"
+    },
+    {
+      "path": "docker/build.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "c00212718fc0d1ecc23545dde40701cf9c8da5ba",
+      "size": 294,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c00212718fc0d1ecc23545dde40701cf9c8da5ba"
+    },
+    {
+      "path": "docker/cpu",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "57c24e499d95e0304920e9c102216b520c7a80ca",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/57c24e499d95e0304920e9c102216b520c7a80ca"
+    },
+    {
+      "path": "docker/cpu/.dockerignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70be74700a818bf72a2627198c664934500717cd",
+      "size": 321,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/70be74700a818bf72a2627198c664934500717cd"
+    },
+    {
+      "path": "docker/cpu/Dockerfile.optimized",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f2edfb2d9ca3452f466594d879104da9f65e621",
+      "size": 2976,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0f2edfb2d9ca3452f466594d879104da9f65e621"
+    },
+    {
+      "path": "docker/cpu/docker-compose.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b8f61839b2203afba51934a5428b71c25b9701e5",
+      "size": 686,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b8f61839b2203afba51934a5428b71c25b9701e5"
+    },
+    {
+      "path": "docker/docker-compose.test.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58669ca291ba0f25e715145dd1ccb7ba82ec8376",
+      "size": 1852,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/58669ca291ba0f25e715145dd1ccb7ba82ec8376"
+    },
+    {
+      "path": "docker/gpu",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9e43c87ee92c4abb9cfa819d210747c80d486739",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/9e43c87ee92c4abb9cfa819d210747c80d486739"
+    },
+    {
+      "path": "docker/gpu/.dockerignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae4625a700f517b31c3dcb2ea098f8467139ecdf",
+      "size": 322,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ae4625a700f517b31c3dcb2ea098f8467139ecdf"
+    },
+    {
+      "path": "docker/gpu/Dockerfile.optimized",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b435f356328429d8e620de1106a07ffd43e8b14",
+      "size": 4275,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9b435f356328429d8e620de1106a07ffd43e8b14"
+    },
+    {
+      "path": "docker/gpu/docker-compose.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6efb40e4c34fd39575dc1162c3fc0acfd2254a29",
+      "size": 1090,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6efb40e4c34fd39575dc1162c3fc0acfd2254a29"
+    },
+    {
+      "path": "docker/rocm",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "966bf182d98415d0052edc669cea68d2f6616531",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/966bf182d98415d0052edc669cea68d2f6616531"
+    },
+    {
+      "path": "docker/rocm/Dockerfile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1157d45d6d91b9ef6e7605c8666fbfbe351b1a1",
+      "size": 4251,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b1157d45d6d91b9ef6e7605c8666fbfbe351b1a1"
+    },
+    {
+      "path": "docker/rocm/docker-compose.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e499a4fc9a3440ac69e6e7a9df6ff6597b804ff",
+      "size": 2499,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8e499a4fc9a3440ac69e6e7a9df6ff6597b804ff"
+    },
+    {
+      "path": "docker/rocm/kdb_install.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "29f728650d83b6d2a48c4355fbe32d108affce9e",
+      "size": 4351,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/29f728650d83b6d2a48c4355fbe32d108affce9e"
+    },
+    {
+      "path": "docker/rocm/warmup_miopen.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dfc438b50c6662cfaf1994d98bc95395a8832931",
+      "size": 2908,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/dfc438b50c6662cfaf1994d98bc95395a8832931"
+    },
+    {
+      "path": "docker/scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d7d75929594d985837141cb161bab9bd6b6db1ce",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/d7d75929594d985837141cb161bab9bd6b6db1ce"
+    },
+    {
+      "path": "docker/scripts/download_model.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c5559742ebb80bc7f638d1a3545bd903ff538b4b",
+      "size": 5529,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c5559742ebb80bc7f638d1a3545bd903ff538b4b"
+    },
+    {
+      "path": "docker/scripts/download_model.sh",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9ef7014754eed91a28028abaf33c9d8e9d6c2dd",
+      "size": 2504,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a9ef7014754eed91a28028abaf33c9d8e9d6c2dd"
+    },
+    {
+      "path": "docker/scripts/entrypoint.sh",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b2e3de9fb4bd39f00c487554cb4e2aba61cdba5",
+      "size": 236,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4b2e3de9fb4bd39f00c487554cb4e2aba61cdba5"
+    },
+    {
+      "path": "docker/test-client",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "55a9543e8d9783e2cf2e6beaa278afd18c1b5dae",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/55a9543e8d9783e2cf2e6beaa278afd18c1b5dae"
+    },
+    {
+      "path": "docker/test-client/Dockerfile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63f666c8879d042a1a6f5cd92cea01c79d6110f0",
+      "size": 1962,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/63f666c8879d042a1a6f5cd92cea01c79d6110f0"
+    },
+    {
+      "path": "docker/test-client/pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6803d04439c33e5def841bd5d5cae1647387f63b",
+      "size": 478,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6803d04439c33e5def841bd5d5cae1647387f63b"
+    },
+    {
+      "path": "docker/test-client/pytest.ini",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62dd1a8de639369b62af4d5a49ad569460764fed",
+      "size": 141,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/62dd1a8de639369b62af4d5a49ad569460764fed"
+    },
+    {
+      "path": "docker/test-client/uv.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2e0be415337fb1021460ad18917633ab601f708a",
+      "size": 82918,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2e0be415337fb1021460ad18917633ab601f708a"
+    },
+    {
+      "path": "docs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4a9b624734ecad025c776cdf20f92c0428467fe6",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/4a9b624734ecad025c776cdf20f92c0428467fe6"
+    },
+    {
+      "path": "docs/INDEX.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1934e005464bbc47fac98e372cfedbcb60f44253",
+      "size": 599,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1934e005464bbc47fac98e372cfedbcb60f44253"
+    },
+    {
+      "path": "docs/assets",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "68b01cac51ce6ddb4ba790e6bec5750266aebdca",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/68b01cac51ce6ddb4ba790e6bec5750266aebdca"
+    },
+    {
+      "path": "docs/assets/digitalocean-droplet.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ea939036270190b8fe1903031f20ccbcedfacce",
+      "size": 20254,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1ea939036270190b8fe1903031f20ccbcedfacce"
+    },
+    {
+      "path": "docs/assets/digitalocean-firewall.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d90a19bb03b50e190b59a0a9d6857742e17c4ef9",
+      "size": 75324,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d90a19bb03b50e190b59a0a9d6857742e17c4ef9"
+    },
+    {
+      "path": "docs/assets/sillytavern-enable-settings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c3fe4c2d2af63fcf61e676d32b3174d7d842622",
+      "size": 29653,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3c3fe4c2d2af63fcf61e676d32b3174d7d842622"
+    },
+    {
+      "path": "docs/assets/sillytavern-extensions-menu.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee526bf27e08cae953cf17a4ac7d11bd5491377a",
+      "size": 53045,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ee526bf27e08cae953cf17a4ac7d11bd5491377a"
+    },
+    {
+      "path": "docs/assets/sillytavern-final-settings.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab7d5d55373ee2f70b3a56179c17bab1260fc8f9",
+      "size": 29335,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ab7d5d55373ee2f70b3a56179c17bab1260fc8f9"
+    },
+    {
+      "path": "docs/assets/sillytavern-reload-button.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "519c9adecac8af2d34ee13e2f09d043874dd0452",
+      "size": 7842,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/519c9adecac8af2d34ee13e2f09d043874dd0452"
+    },
+    {
+      "path": "docs/assets/sillytavern-tts-provider.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4f664baeac639a79b10d04239946e074cdad0cbd",
+      "size": 56216,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4f664baeac639a79b10d04239946e074cdad0cbd"
+    },
+    {
+      "path": "docs/assets/sillytavern-voice-mapping.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e5ca2412208cb6d0e7564ca84980cb92c31f49b4",
+      "size": 107623,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e5ca2412208cb6d0e7564ca84980cb92c31f49b4"
+    },
+    {
+      "path": "docs/configuration.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d6a28fb7dd52fd3b2996ae8c442625e72a08fa7",
+      "size": 8869,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6d6a28fb7dd52fd3b2996ae8c442625e72a08fa7"
+    },
+    {
+      "path": "docs/deployment",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5f57d88e2433022ab338bbe0846589de77608ebe",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/5f57d88e2433022ab338bbe0846589de77608ebe"
+    },
+    {
+      "path": "docs/deployment/digitalocean.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc3e3353a753f6bd008853960686c3bc95c9ab64",
+      "size": 3202,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/fc3e3353a753f6bd008853960686c3bc95c9ab64"
+    },
+    {
+      "path": "docs/deployment/kubernetes.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5e82db465c4a62cbcdb9233bcd504c3bbdd54a8",
+      "size": 3116,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f5e82db465c4a62cbcdb9233bcd504c3bbdd54a8"
+    },
+    {
+      "path": "docs/inno-tune.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a80a04e59a115f28d0ea89d2543533c401392a9",
+      "size": 5866,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7a80a04e59a115f28d0ea89d2543533c401392a9"
+    },
+    {
+      "path": "docs/integrations",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "09944e35014375665a09ebe63c8a53aa50c91b2a",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/09944e35014375665a09ebe63c8a53aa50c91b2a"
+    },
+    {
+      "path": "docs/integrations/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a585859ba794ce422ceaade1cf7cea35b253e11",
+      "size": 913,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6a585859ba794ce422ceaade1cf7cea35b253e11"
+    },
+    {
+      "path": "docs/integrations/openai.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2e924e005b4e9ea1a08478ed8ac52f218fef45ff",
+      "size": 2048,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2e924e005b4e9ea1a08478ed8ac52f218fef45ff"
+    },
+    {
+      "path": "docs/integrations/openwebui.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b3ef7b4311e0a8920b289b098fb7dcd9cc80b50",
+      "size": 1569,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1b3ef7b4311e0a8920b289b098fb7dcd9cc80b50"
+    },
+    {
+      "path": "docs/integrations/sillytavern.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d2a079bc3d67f3d00dd5a2898f445754a226e1e",
+      "size": 2426,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4d2a079bc3d67f3d00dd5a2898f445754a226e1e"
+    },
+    {
+      "path": "docs/internals",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "abff473bea0560990177eb87fc8cca6acdaa7df2",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/abff473bea0560990177eb87fc8cca6acdaa7df2"
+    },
+    {
+      "path": "docs/internals/espeak-setup-fix.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a236bf2067addcf9f937c71abd4060883da7929a",
+      "size": 3127,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a236bf2067addcf9f937c71abd4060883da7929a"
+    },
+    {
+      "path": "docs/internals/opus-decoding.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "76063c389c40846b15a33d9f8dc136e01a8714dc",
+      "size": 2184,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/76063c389c40846b15a33d9f8dc136e01a8714dc"
+    },
+    {
+      "path": "docs/internals/streaming-audio-writer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e005bc311795f2864110c35dcdc1afee5d7fa460",
+      "size": 6883,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e005bc311795f2864110c35dcdc1afee5d7fa460"
+    },
+    {
+      "path": "docs/troubleshooting.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "140b2aea918ea863f034ccd2bb4a7e26f6f58f0c",
+      "size": 6207,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/140b2aea918ea863f034ccd2bb4a7e26f6f58f0c"
+    },
+    {
+      "path": "examples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "30e810ad5fcaa48796bd7d5b2c7e44f8e72c91ea",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/30e810ad5fcaa48796bd7d5b2c7e44f8e72c91ea"
+    },
+    {
+      "path": "examples/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "examples/ab_split_test.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9ba2ecbc207f47f2aa88dad702c31c7ffebbb02f",
+      "size": 3799,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9ba2ecbc207f47f2aa88dad702c31c7ffebbb02f"
+    },
+    {
+      "path": "examples/assorted_checks",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3231a0501135b58cfe604b637786ef928e575ff4",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/3231a0501135b58cfe604b637786ef928e575ff4"
+    },
+    {
+      "path": "examples/assorted_checks/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "666ef2e4fe3434c99ce9baf6c90857ed85c41d78",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/666ef2e4fe3434c99ce9baf6c90857ed85c41d78"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/benchmark_first_token.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16f94c032cbe5c3c485d3019e1643b6078c1a965",
+      "size": 5607,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/16f94c032cbe5c3c485d3019e1643b6078c1a965"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/benchmark_first_token_lazy_ab.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7242c1cfca2994c16569199b9d975b81aec39334",
+      "size": 5659,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7242c1cfca2994c16569199b9d975b81aec39334"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/benchmark_first_token_stream_unified.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1dd2ea6e8ab63fe8f62327f5fd5b1799c5928e19",
+      "size": 6777,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1dd2ea6e8ab63fe8f62327f5fd5b1799c5928e19"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/benchmark_model_unload.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7209f465479828304641c789b95aeeba3891164",
+      "size": 12260,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e7209f465479828304641c789b95aeeba3891164"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/benchmark_tts_rtf.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21f00e9f8538268c9b17d4ccd72f7edd1ee82aa6",
+      "size": 9134,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/21f00e9f8538268c9b17d4ccd72f7edd1ee82aa6"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/depr_benchmark_tts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fd600e61a4cf6b2194e3322d3bd4d9c33bf2dfc",
+      "size": 6003,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6fd600e61a4cf6b2194e3322d3bd4d9c33bf2dfc"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/lib",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8f1fe5adb3d351f323b8ede5bf194cf0717655cb",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/8f1fe5adb3d351f323b8ede5bf194cf0717655cb"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/lib/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/lib/shared_benchmark_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e9657e404612a19c12418297d088cb50cd002ed",
+      "size": 4312,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4e9657e404612a19c12418297d088cb50cd002ed"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/lib/shared_plotting.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2bad9890574bee0d6d8f87bedd2fea977dee7efb",
+      "size": 12798,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2bad9890574bee0d6d8f87bedd2fea977dee7efb"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/lib/shared_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e3fbdb1641d178c036356439f8e8a2dd357cdb4",
+      "size": 6258,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1e3fbdb1641d178c036356439f8e8a2dd357cdb4"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/lib/stream_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2dececa728230687d4283561873d374ffeb51b0",
+      "size": 6979,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d2dececa728230687d4283561873d374ffeb51b0"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c77cacaf07c184e9268a2ee58a1c6e2712a5773a",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/c77cacaf07c184e9268a2ee58a1c6e2712a5773a"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data/cpu_benchmark_results_rtf.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9d41c9582c9f90ced28b89ce8a62c852772ca4c",
+      "size": 3581,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f9d41c9582c9f90ced28b89ce8a62c852772ca4c"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data/cpu_benchmark_stats_rtf.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37f1cfb5adc531976f25d7e4a375d0f4f4afca98",
+      "size": 566,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/37f1cfb5adc531976f25d7e4a375d0f4f4afca98"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data/first_token_benchmark_stream.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d4aa76c5b4565fdb57538bbfbe0866ef2a8e89f9",
+      "size": 10859,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d4aa76c5b4565fdb57538bbfbe0866ef2a8e89f9"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data/first_token_benchmark_stream_openai.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3272953957ae18693954c24a1e7e7d096f1da155",
+      "size": 11167,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3272953957ae18693954c24a1e7e7d096f1da155"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data/gpu_benchmark_results_rtf.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e72511a913f03adff46e6d52e2a13cad71a30ae",
+      "size": 5638,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/5e72511a913f03adff46e6d52e2a13cad71a30ae"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data/gpu_benchmark_stats_rtf.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41a96d026be8149ed874f3afd323619c6af80b74",
+      "size": 567,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/41a96d026be8149ed874f3afd323619c6af80b74"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data/lazy_ab_base.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9d56a1fcc31e7dbc0aa3cc969e15ab90f0eb36f",
+      "size": 1657,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a9d56a1fcc31e7dbc0aa3cc969e15ab90f0eb36f"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_data/lazy_ab_lazy.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bdb20ec41ad031d9e886a52ec159b93488137175",
+      "size": 1667,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/bdb20ec41ad031d9e886a52ec159b93488137175"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "04d694614652366a2d2f569e0e14f2bb7699d975",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/04d694614652366a2d2f569e0e14f2bb7699d975"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/cpu_processing_time_rtf.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "402e64af7b156ec57504d8cfc9e4b7637d2f266a",
+      "size": 235072,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/402e64af7b156ec57504d8cfc9e4b7637d2f266a"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/cpu_realtime_factor_rtf.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3eb60124946220ac494d592ce27d3a213d7e31fa",
+      "size": 265981,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3eb60124946220ac494d592ce27d3a213d7e31fa"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/cpu_system_usage_rtf.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce25636a88bb98defde0238853dc9b8a7e113c62",
+      "size": 401291,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ce25636a88bb98defde0238853dc9b8a7e113c62"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/first_token_latency_stream.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb0445f49931ff6950bd7641adb01aaec97643a2",
+      "size": 236942,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/fb0445f49931ff6950bd7641adb01aaec97643a2"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/first_token_latency_stream_openai.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32d0768a15b4701c6ffdfcf9e603f8c6d756f7d5",
+      "size": 198356,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/32d0768a15b4701c6ffdfcf9e603f8c6d756f7d5"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/first_token_timeline_stream.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d52ef394176dca6efe2009496d6132cf8c3e56bc",
+      "size": 224941,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d52ef394176dca6efe2009496d6132cf8c3e56bc"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/first_token_timeline_stream_openai.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "879f9f6047763d9dd03f99e37c03f46a43c20645",
+      "size": 229759,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/879f9f6047763d9dd03f99e37c03f46a43c20645"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/gpu_processing_time_rtf.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6367a65152bce714b91bdef1bf3abcf974923a59",
+      "size": 220759,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6367a65152bce714b91bdef1bf3abcf974923a59"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/gpu_realtime_factor_rtf.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb225ec029374c2b50ba42a3998394cd57b49b27",
+      "size": 175349,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/cb225ec029374c2b50ba42a3998394cd57b49b27"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/gpu_system_usage_rtf.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "efb031959bf59aeaf8764f95aa11cd67c1ed5125",
+      "size": 383769,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/efb031959bf59aeaf8764f95aa11cd67c1ed5125"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/lazy_ab_first_token.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6503f8eb8bb0c6e9c1f1ad250b44df73a6f8786e",
+      "size": 56026,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6503f8eb8bb0c6e9c1f1ad250b44df73a6f8786e"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/total_time_latency_stream.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9421efbfbba165c0d10324f7026d3e0754ab68fb",
+      "size": 243037,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/9421efbfbba165c0d10324f7026d3e0754ab68fb"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/output_plots/total_time_latency_stream_openai.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ddba9a642a0777857731b8bcb0be9eef6aac05ff",
+      "size": 253591,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ddba9a642a0777857731b8bcb0be9eef6aac05ff"
+    },
+    {
+      "path": "examples/assorted_checks/benchmarks/the_time_machine_hg_wells.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3381d7a7aa6627753c06a6706aa5a3d52148da32",
+      "size": 180844,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3381d7a7aa6627753c06a6706aa5a3d52148da32"
+    },
+    {
+      "path": "examples/assorted_checks/generate_readme_plots.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6e5da2f57b4e4a9070bfca0f1f27e8a3cec455b",
+      "size": 5892,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a6e5da2f57b4e4a9070bfca0f1f27e8a3cec455b"
+    },
+    {
+      "path": "examples/assorted_checks/test_combinations",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3769abf8921bc5e36314c8bb676eba27595a89c9",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/3769abf8921bc5e36314c8bb676eba27595a89c9"
+    },
+    {
+      "path": "examples/assorted_checks/test_combinations/test_analyze_combined_voices.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11c314286a92212a7644c5db2b18caa727f8a936",
+      "size": 7285,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/11c314286a92212a7644c5db2b18caa727f8a936"
+    },
+    {
+      "path": "examples/assorted_checks/test_combinations/test_download_voice.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2b847cfd93eaa085af7e83735a843a6ed0b17ab",
+      "size": 2226,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d2b847cfd93eaa085af7e83735a843a6ed0b17ab"
+    },
+    {
+      "path": "examples/assorted_checks/test_dialogue",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "08bfb9cbbc9f26ca7b608e4ee6c475c0913c48fb",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/08bfb9cbbc9f26ca7b608e4ee6c475c0913c48fb"
+    },
+    {
+      "path": "examples/assorted_checks/test_dialogue/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff6a937279b95d958fdae61f17fe63cce5064adb",
+      "size": 4510,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ff6a937279b95d958fdae61f17fe63cce5064adb"
+    },
+    {
+      "path": "examples/assorted_checks/test_dialogue/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "examples/assorted_checks/test_dialogue/bench_dialogue.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42bee20aead48164166cd3a0656be26ed12e48a6",
+      "size": 10035,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/42bee20aead48164166cd3a0656be26ed12e48a6"
+    },
+    {
+      "path": "examples/assorted_checks/test_dialogue/caption_dialogue.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "68d7ec94961f81c6987a85425f4400bd5305aa03",
+      "size": 5300,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/68d7ec94961f81c6987a85425f4400bd5305aa03"
+    },
+    {
+      "path": "examples/assorted_checks/test_dialogue/plot_dialogue_bench.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "51589c112b9145b7cc9837c2b179baa144067455",
+      "size": 7016,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/51589c112b9145b7cc9837c2b179baa144067455"
+    },
+    {
+      "path": "examples/assorted_checks/test_dialogue/test_dialogue.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0190f5991e486b29ca104e1d5797cd4536801de",
+      "size": 9220,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f0190f5991e486b29ca104e1d5797cd4536801de"
+    },
+    {
+      "path": "examples/assorted_checks/test_formats",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f101c4fcf9671c160c93e2a73f3c4bc03eaa8172",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/f101c4fcf9671c160c93e2a73f3c4bc03eaa8172"
+    },
+    {
+      "path": "examples/assorted_checks/test_formats/test_audio_formats.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "efd527acf4909eb60d6312e92e432cb1958d35c3",
+      "size": 11244,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/efd527acf4909eb60d6312e92e432cb1958d35c3"
+    },
+    {
+      "path": "examples/assorted_checks/test_normalizer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82a422309a68cf2641260f5d98c2ba13861b0cff",
+      "size": 11531,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/82a422309a68cf2641260f5d98c2ba13861b0cff"
+    },
+    {
+      "path": "examples/assorted_checks/test_openai",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "65a12e827e4e76f3e18e9277c064be6e386e8613",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/65a12e827e4e76f3e18e9277c064be6e386e8613"
+    },
+    {
+      "path": "examples/assorted_checks/test_openai/test_openai_tts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "01124af386e41fba6e80ec30eab29f87007e81e5",
+      "size": 2371,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/01124af386e41fba6e80ec30eab29f87007e81e5"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4eece283cc533671a1184459841f5f091ad69340",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/4eece283cc533671a1184459841f5f091ad69340"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/BASELINE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69d0d32a00b53fa8d59b8e0a8505696c1a6029ec",
+      "size": 1543,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/69d0d32a00b53fa8d59b8e0a8505696c1a6029ec"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e91af2319d924dfc8469c3ad96acf400322ed6ab",
+      "size": 2265,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e91af2319d924dfc8469c3ad96acf400322ed6ab"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/input",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2b726e8afc8c89ab66856b3b65a2f86c16d2d032",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/2b726e8afc8c89ab66856b3b65a2f86c16d2d032"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/input/journey_all.txt.gz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b54e7c53af1d1086ffd06c50cb8daf1494d31ed2",
+      "size": 198483,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b54e7c53af1d1086ffd06c50cb8daf1494d31ed2"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4fb579ddde36ccfda3ce7cf2c9d66df7243268fe",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/4fb579ddde36ccfda3ce7cf2c9d66df7243268fe"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output/report_cpu.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f67f54be07d363cc6871741e1e43f4ca8cb2cf2",
+      "size": 1638,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/5f67f54be07d363cc6871741e1e43f4ca8cb2cf2"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output/report_gpu.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9e9a36a08981b16ecfa7930d33e74db5b383fc6",
+      "size": 1639,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c9e9a36a08981b16ecfa7930d33e74db5b383fc6"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_long_form",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3e586327ed45f5e4a0b06893bef5b20217d5a442",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/3e586327ed45f5e4a0b06893bef5b20217d5a442"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_long_form/long_form_report_cpu.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae297086fe018d97413c2e0711907afd4709fe80",
+      "size": 671,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ae297086fe018d97413c2e0711907afd4709fe80"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_long_form/long_form_report_gpu.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b447a16517d90fbf4dcf86a0ade0d72403f162f",
+      "size": 673,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0b447a16517d90fbf4dcf86a0ade0d72403f162f"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_multilingual",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "09d4190e94dea8c09bd840807770dd76e51c79a9",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/09d4190e94dea8c09bd840807770dd76e51c79a9"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_multilingual/report_cpu.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9e0cb3119f729f87e094e2c70d34f8ae331270a",
+      "size": 4987,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c9e0cb3119f729f87e094e2c70d34f8ae331270a"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_multilingual/report_gpu.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79ccbc1664a5732370d34ebf6b08ddb2baf451ed",
+      "size": 4989,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/79ccbc1664a5732370d34ebf6b08ddb2baf451ed"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_multilingual_cpu_default",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2ad09b64b226dd351c6d444a5be998226aaf0bbf",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/2ad09b64b226dd351c6d444a5be998226aaf0bbf"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_multilingual_cpu_default/report.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1eda685375da7686eef546b17e7e1e014edc7e7d",
+      "size": 4537,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/1eda685375da7686eef546b17e7e1e014edc7e7d"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_multilingual_cpu_noja",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3f8d648f239bb521adad3e959856ac04962c8fae",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/3f8d648f239bb521adad3e959856ac04962c8fae"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/output_multilingual_cpu_noja/report.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec5478851242c411f140657b1ec8c03aecd6e1ac",
+      "size": 4482,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ec5478851242c411f140657b1ec8c03aecd6e1ac"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/run_long_form.bat",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c005d881d06af7ce11d809a60c9b056255488dc1",
+      "size": 2071,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c005d881d06af7ce11d809a60c9b056255488dc1"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/test_long_form.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a1a9721abfec576e43b218a31e7928e3af921365",
+      "size": 12987,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a1a9721abfec576e43b218a31e7928e3af921365"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/test_transcription.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d47e2d427a912c5155129d31c07735443d69fd1e",
+      "size": 5941,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d47e2d427a912c5155129d31c07735443d69fd1e"
+    },
+    {
+      "path": "examples/assorted_checks/test_transcription/test_transcription_multilingual.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "203ca1e59f879e54a38b3c55a2f2cecbb6f62157",
+      "size": 9413,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/203ca1e59f879e54a38b3c55a2f2cecbb6f62157"
+    },
+    {
+      "path": "examples/assorted_checks/test_voices",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "25d55cd8064bc46df875172cbce3be21bf76c78a",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/25d55cd8064bc46df875172cbce3be21bf76c78a"
+    },
+    {
+      "path": "examples/assorted_checks/test_voices/analyze_voice_dimensions.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c7a7f82e4fb13a142a45cbbed4e848001c376b1",
+      "size": 1828,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6c7a7f82e4fb13a142a45cbbed4e848001c376b1"
+    },
+    {
+      "path": "examples/assorted_checks/test_voices/test_all_voices.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4d3531293876b3fa4793f3103ef79695723f3fc",
+      "size": 2088,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e4d3531293876b3fa4793f3103ef79695723f3fc"
+    },
+    {
+      "path": "examples/assorted_checks/test_voices/trim_voice_dimensions.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90f7013f9f1717cea47881ffe5d8b91c9defa48b",
+      "size": 3274,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/90f7013f9f1717cea47881ffe5d8b91c9defa48b"
+    },
+    {
+      "path": "examples/assorted_checks/validate_wav.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2c81e2c3bc1016c191220f539d56cbbf1c5e136",
+      "size": 9703,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a2c81e2c3bc1016c191220f539d56cbbf1c5e136"
+    },
+    {
+      "path": "examples/assorted_checks/validate_wavs.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebf114fc762815ce15999da7923ea822bdc25541",
+      "size": 2595,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ebf114fc762815ce15999da7923ea822bdc25541"
+    },
+    {
+      "path": "examples/audio_analysis.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c3034fff7645b88fd30eee7033b4be02445a108",
+      "size": 5407007,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7c3034fff7645b88fd30eee7033b4be02445a108"
+    },
+    {
+      "path": "examples/captioned_speech_example.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a622b1394c10a2f2e73db61cbccbc09f8ee497b",
+      "size": 4325,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6a622b1394c10a2f2e73db61cbccbc09f8ee497b"
+    },
+    {
+      "path": "examples/openai_streaming_audio.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec3e37160ca5175c527bb84bda7f3661ec54e007",
+      "size": 1531,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ec3e37160ca5175c527bb84bda7f3661ec54e007"
+    },
+    {
+      "path": "examples/phoneme_examples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a309a7e00971b1393304f8ec8a2d6fb924b27970",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/a309a7e00971b1393304f8ec8a2d6fb924b27970"
+    },
+    {
+      "path": "examples/phoneme_examples/examples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "312efbee9fc3f57d934ea2c7a4175e553de9b7c1",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/312efbee9fc3f57d934ea2c7a4175e553de9b7c1"
+    },
+    {
+      "path": "examples/phoneme_examples/examples/phoneme_examples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "62ab4e3256f0303103e1f629804ac06c5f9e00eb",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/62ab4e3256f0303103e1f629804ac06c5f9e00eb"
+    },
+    {
+      "path": "examples/phoneme_examples/examples/phoneme_examples/output",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1800f1d037c420c7d369b221ea5b7754733812c5",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/1800f1d037c420c7d369b221ea5b7754733812c5"
+    },
+    {
+      "path": "examples/phoneme_examples/examples/phoneme_examples/output/phoneme_test.wav",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "857ada9deae717742c849d69e823890f48326994",
+      "size": 56444,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/857ada9deae717742c849d69e823890f48326994"
+    },
+    {
+      "path": "examples/phoneme_examples/generate_phonemes.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb33c5d807e1267131fc0beed25465add855cb27",
+      "size": 3905,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/fb33c5d807e1267131fc0beed25465add855cb27"
+    },
+    {
+      "path": "examples/phoneme_examples/test_phoneme_generation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "47009447205cfe3cae31e66585f7eae5d6dcf5f0",
+      "size": 1599,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/47009447205cfe3cae31e66585f7eae5d6dcf5f0"
+    },
+    {
+      "path": "examples/pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4932ffd6f76a5911909a90452d41aeae1002acc0",
+      "size": 705,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4932ffd6f76a5911909a90452d41aeae1002acc0"
+    },
+    {
+      "path": "examples/requirements.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7914d4cb9d84c566d31cf2b50e32048197232de5",
+      "size": 30,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7914d4cb9d84c566d31cf2b50e32048197232de5"
+    },
+    {
+      "path": "examples/simul_file_test.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c1f14a0154159894312538f8e92be23135fb2d94",
+      "size": 1792,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c1f14a0154159894312538f8e92be23135fb2d94"
+    },
+    {
+      "path": "examples/simul_openai_streaming_audio.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "befae0192ad0d0d04bd15d49db8323bc409d4f6f",
+      "size": 2775,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/befae0192ad0d0d04bd15d49db8323bc409d4f6f"
+    },
+    {
+      "path": "examples/simul_speaker_test.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2e4354e2440f1ff848c148e293bb0bcb9d3c38c",
+      "size": 1973,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d2e4354e2440f1ff848c148e293bb0bcb9d3c38c"
+    },
+    {
+      "path": "examples/speech.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c21bec0a93cef23bf1136edae3f814102ed18c77",
+      "size": 72960,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c21bec0a93cef23bf1136edae3f814102ed18c77"
+    },
+    {
+      "path": "examples/stream_tts_playback.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e5ac5eac66a2e7d018c9753d6c3994938de70e2",
+      "size": 4469,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4e5ac5eac66a2e7d018c9753d6c3994938de70e2"
+    },
+    {
+      "path": "examples/streaming_refactor",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c0459e148b05fe76aa15f0cbb892aa5e9cee4c36",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/c0459e148b05fe76aa15f0cbb892aa5e9cee4c36"
+    },
+    {
+      "path": "examples/streaming_refactor/benchmark_unified_streaming.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "369fb6616e3e46767c014b131e6ac50e899d8cd7",
+      "size": 5378,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/369fb6616e3e46767c014b131e6ac50e899d8cd7"
+    },
+    {
+      "path": "examples/streaming_refactor/test_unified_streaming.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9bc5e5ee583cc8172512cfe9bacfac732276194",
+      "size": 2293,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f9bc5e5ee583cc8172512cfe9bacfac732276194"
+    },
+    {
+      "path": "examples/voice_samples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "72c3ec30f8ebabd0e33a34fae3c01c3b27c37f68",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/72c3ec30f8ebabd0e33a34fae3c01c3b27c37f68"
+    },
+    {
+      "path": "examples/voice_samples/speech_af.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89d07c5684fa520344e6b179153ee69400c0be7e",
+      "size": 133176,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/89d07c5684fa520344e6b179153ee69400c0be7e"
+    },
+    {
+      "path": "examples/voice_samples/speech_af_bella.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "292a7ece0d260da4351b9a3d8dd977a73aa50c45",
+      "size": 126312,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/292a7ece0d260da4351b9a3d8dd977a73aa50c45"
+    },
+    {
+      "path": "examples/voice_samples/speech_af_nicole.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a60dcd92d38e5d7d3edcc5e60e8f81b6df1a1b39",
+      "size": 163608,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a60dcd92d38e5d7d3edcc5e60e8f81b6df1a1b39"
+    },
+    {
+      "path": "examples/voice_samples/speech_af_sarah.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37e031c5c925101ded40db1bb0901e6fa4ccd786",
+      "size": 130344,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/37e031c5c925101ded40db1bb0901e6fa4ccd786"
+    },
+    {
+      "path": "examples/voice_samples/speech_am_adam.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ff04c09249370613c5bd95f21052e38db85599d",
+      "size": 117504,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3ff04c09249370613c5bd95f21052e38db85599d"
+    },
+    {
+      "path": "examples/voice_samples/speech_am_michael.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfed1039afcbb5265e6575b4d3cf7a06d6fcf4aa",
+      "size": 139128,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/cfed1039afcbb5265e6575b4d3cf7a06d6fcf4aa"
+    },
+    {
+      "path": "examples/voice_samples/speech_bf_emma.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3928dcb4a82a17d3774fd8e2e460026741a6c994",
+      "size": 123624,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3928dcb4a82a17d3774fd8e2e460026741a6c994"
+    },
+    {
+      "path": "examples/voice_samples/speech_bf_isabella.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7835419d4a805d2f302d1cf7230ea24ce58114a",
+      "size": 127824,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b7835419d4a805d2f302d1cf7230ea24ce58114a"
+    },
+    {
+      "path": "examples/voice_samples/speech_bm_george.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "181c8028d86f27b807b7d3dc96719dc20e37fd7b",
+      "size": 123120,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/181c8028d86f27b807b7d3dc96719dc20e37fd7b"
+    },
+    {
+      "path": "examples/voice_samples/speech_bm_lewis.mp3",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3bfb868b0b950967f5699e2d49085f407c8341a",
+      "size": 132000,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a3bfb868b0b950967f5699e2d49085f407c8341a"
+    },
+    {
+      "path": "githubbanner.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "692f6422d95478034a4bca97d4f4a438e042001c",
+      "size": 699866,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/692f6422d95478034a4bca97d4f4a438e042001c"
+    },
+    {
+      "path": "package-lock.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e62461e693c5574c9bd36b927ab2b248313b30ff",
+      "size": 2157,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e62461e693c5574c9bd36b927ab2b248313b30ff"
+    },
+    {
+      "path": "package.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d57c075fbbc2b7638c67cf89eaefe5a49e34c693",
+      "size": 841,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d57c075fbbc2b7638c67cf89eaefe5a49e34c693"
+    },
+    {
+      "path": "playwright.config.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "38cd03ae6c1f6ea60e113e89db992b31bcfbfb56",
+      "size": 457,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/38cd03ae6c1f6ea60e113e89db992b31bcfbfb56"
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8acbe3b69e13a9d087dab868e99a34e17929d19",
+      "size": 3884,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f8acbe3b69e13a9d087dab868e99a34e17929d19"
+    },
+    {
+      "path": "pytest.ini",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2e340db680298c53691c542d27b78ca10bd17d7",
+      "size": 364,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d2e340db680298c53691c542d27b78ca10bd17d7"
+    },
+    {
+      "path": "scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "514e3e9830af5e20c77615ed1d993da66c7faf08",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/514e3e9830af5e20c77615ed1d993da66c7faf08"
+    },
+    {
+      "path": "scripts/fix_misaki.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a1df9648a16160803d3894fcbb139bd14a5c700",
+      "size": 1347,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8a1df9648a16160803d3894fcbb139bd14a5c700"
+    },
+    {
+      "path": "scripts/update_badges.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5682b180bcf958968eee34f617772b377024487f",
+      "size": 4509,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/5682b180bcf958968eee34f617772b377024487f"
+    },
+    {
+      "path": "scripts/update_version.py",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "938a634a6d17d2783f46af362016edb7c2270909",
+      "size": 9036,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/938a634a6d17d2783f46af362016edb7c2270909"
+    },
+    {
+      "path": "start-cpu.ps1",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6777119aff964476cdcd7b5e5c40a01b89a52f8e",
+      "size": 488,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6777119aff964476cdcd7b5e5c40a01b89a52f8e"
+    },
+    {
+      "path": "start-cpu.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "4339ce463f900672ef31f5199174a420c74de09d",
+      "size": 844,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4339ce463f900672ef31f5199174a420c74de09d"
+    },
+    {
+      "path": "start-gpu.ps1",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17fbcdbd45dee430318ecfeb57f1540df756ba63",
+      "size": 487,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/17fbcdbd45dee430318ecfeb57f1540df756ba63"
+    },
+    {
+      "path": "start-gpu.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "4ff3d00a7af3cc7e7dcdf99643ed731bf88b3d2a",
+      "size": 574,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4ff3d00a7af3cc7e7dcdf99643ed731bf88b3d2a"
+    },
+    {
+      "path": "start-gpu_mac.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "68e9b50ef9a2c37fb4f6959451b3e564c1ad4fad",
+      "size": 621,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/68e9b50ef9a2c37fb4f6959451b3e564c1ad4fad"
+    },
+    {
+      "path": "uv.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11907ef0f44707ba95626b5ca76ecd514bbd0f36",
+      "size": 971842,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/11907ef0f44707ba95626b5ca76ecd514bbd0f36"
+    },
+    {
+      "path": "web",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4cc4c8c6c38697018181f9250f84dfd972ec3b2e",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/4cc4c8c6c38697018181f9250f84dfd972ec3b2e"
+    },
+    {
+      "path": "web/bmc-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "68c86fa489d4c92a2a57a8d2dd181f1fd8f67566",
+      "size": 8178,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/68c86fa489d4c92a2a57a8d2dd181f1fd8f67566"
+    },
+    {
+      "path": "web/favicon.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae7545d3cf48c514c0beabae313f81278569a6e1",
+      "size": 1402,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ae7545d3cf48c514c0beabae313f81278569a6e1"
+    },
+    {
+      "path": "web/hf-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab959d165fa5b05a953c9d1c5acc6640f9f536b8",
+      "size": 35286,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ab959d165fa5b05a953c9d1c5acc6640f9f536b8"
+    },
+    {
+      "path": "web/index.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32ff18e1d982e30cf2a36b2eb86f00f54562e49e",
+      "size": 20659,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/32ff18e1d982e30cf2a36b2eb86f00f54562e49e"
+    },
+    {
+      "path": "web/siriwave.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6055037590ebc844593b1c71c8c10b91584130a9",
+      "size": 4689,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/6055037590ebc844593b1c71c8c10b91584130a9"
+    },
+    {
+      "path": "web/src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a568f920e425ba546390ee64b675f5a4abf6df9a",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/a568f920e425ba546390ee64b675f5a4abf6df9a"
+    },
+    {
+      "path": "web/src/App.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25e5f94f16e2a39aa3ce9ac265db5bef511a25cf",
+      "size": 43444,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/25e5f94f16e2a39aa3ce9ac265db5bef511a25cf"
+    },
+    {
+      "path": "web/src/components",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1a866ef5642034bdb6b4e5e869f255911a9c6b85",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/1a866ef5642034bdb6b4e5e869f255911a9c6b85"
+    },
+    {
+      "path": "web/src/components/ClipWave.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c415a1c0a5d06d741c25fff3b28c89052a1f271b",
+      "size": 1709,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c415a1c0a5d06d741c25fff3b28c89052a1f271b"
+    },
+    {
+      "path": "web/src/components/PlayerControls.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cab3189fb793eafaa9104178bbcbd3b1efdcd561",
+      "size": 7376,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/cab3189fb793eafaa9104178bbcbd3b1efdcd561"
+    },
+    {
+      "path": "web/src/components/ReadAlong.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9ec57e1de54552c6940d1ae24cf7a78efe2fe8b",
+      "size": 7031,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f9ec57e1de54552c6940d1ae24cf7a78efe2fe8b"
+    },
+    {
+      "path": "web/src/components/TextEditor.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d802f357cdde198cedf0f7778aefde42190fdd3d",
+      "size": 16912,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d802f357cdde198cedf0f7778aefde42190fdd3d"
+    },
+    {
+      "path": "web/src/components/VoiceSelector.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b51cd46a91c3aada5afb2004e057fb7cb3400b41",
+      "size": 23177,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/b51cd46a91c3aada5afb2004e057fb7cb3400b41"
+    },
+    {
+      "path": "web/src/components/WaveVisualizer.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "204aa0e293e521d8cb68bfb3d72d0ba6ba270f32",
+      "size": 4512,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/204aa0e293e521d8cb68bfb3d72d0ba6ba270f32"
+    },
+    {
+      "path": "web/src/config.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a92158295048742bca72015c4bda1da8cf4ffc3c",
+      "size": 2383,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a92158295048742bca72015c4bda1da8cf4ffc3c"
+    },
+    {
+      "path": "web/src/dismiss.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e199a492afc75e96950f2a9dc018a5444ad86869",
+      "size": 351,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e199a492afc75e96950f2a9dc018a5444ad86869"
+    },
+    {
+      "path": "web/src/insertLog.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec5584de4226ed9cee1ec97ba92f9a4bcbd86172",
+      "size": 676,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/ec5584de4226ed9cee1ec97ba92f9a4bcbd86172"
+    },
+    {
+      "path": "web/src/readAlong.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18516dbef5e11e915dd6a9de7ad7691ffdac5e0b",
+      "size": 2522,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/18516dbef5e11e915dd6a9de7ad7691ffdac5e0b"
+    },
+    {
+      "path": "web/src/readAlongTiming.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a273fab058f49016f546753a10aae9654bbb489f",
+      "size": 4078,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/a273fab058f49016f546753a10aae9654bbb489f"
+    },
+    {
+      "path": "web/src/services",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a61264a4435ce7d41743418367f04aab3aab6aa2",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/a61264a4435ce7d41743418367f04aab3aab6aa2"
+    },
+    {
+      "path": "web/src/services/AudioService.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3cb92df290feecb99a4e78ee8e9f8f4a8324df7e",
+      "size": 24061,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3cb92df290feecb99a4e78ee8e9f8f4a8324df7e"
+    },
+    {
+      "path": "web/src/services/TuneService.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32323890b6dd7643896200a714bd1ab98200cc2f",
+      "size": 4386,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/32323890b6dd7643896200a714bd1ab98200cc2f"
+    },
+    {
+      "path": "web/src/services/VoiceService.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "548f71dc6fb9cc4b3484f87c876055b9ea796ea4",
+      "size": 3865,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/548f71dc6fb9cc4b3484f87c876055b9ea796ea4"
+    },
+    {
+      "path": "web/src/services/audio",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "57adb735dddd7ce66e974b65ff63f9c698026f5d",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/57adb735dddd7ce66e974b65ff63f9c698026f5d"
+    },
+    {
+      "path": "web/src/services/audio/BlockLoader.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "94812ee7faeef05118894915880a428316b4ec01",
+      "size": 910,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/94812ee7faeef05118894915880a428316b4ec01"
+    },
+    {
+      "path": "web/src/services/audio/MsePipeline.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "319712930da7353940fbe90d7b1853410309c8dc",
+      "size": 11786,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/319712930da7353940fbe90d7b1853410309c8dc"
+    },
+    {
+      "path": "web/src/state",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "078971d9b0ef8a64af676fdde513f950cf450a31",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/078971d9b0ef8a64af676fdde513f950cf450a31"
+    },
+    {
+      "path": "web/src/state/PlayerState.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4a44f2282be266e4ba3566624fb6405c8f01c60",
+      "size": 2052,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/c4a44f2282be266e4ba3566624fb6405c8f01c60"
+    },
+    {
+      "path": "web/src/voiceTags.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49e33175a74133b01fcfc83a9429dd3933b1c0d1",
+      "size": 8273,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/49e33175a74133b01fcfc83a9429dd3933b1c0d1"
+    },
+    {
+      "path": "web/styles",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bfe710c155075192080f536a5e45c4978953d009",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/bfe710c155075192080f536a5e45c4978953d009"
+    },
+    {
+      "path": "web/styles/base.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ce141b09e792a75c6e2ae469b2e45c1be6277d1",
+      "size": 4675,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8ce141b09e792a75c6e2ae469b2e45c1be6277d1"
+    },
+    {
+      "path": "web/styles/controls.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24da8af7af0dce80dc200cd36f8d8c434e2a08e1",
+      "size": 4833,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/24da8af7af0dce80dc200cd36f8d8c434e2a08e1"
+    },
+    {
+      "path": "web/styles/editor.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "346f3943765575fbb64aad6978c8f8efa43dab09",
+      "size": 11971,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/346f3943765575fbb64aad6978c8f8efa43dab09"
+    },
+    {
+      "path": "web/styles/header.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e478cd8f3d137c7660b49f79db857b2b08e2dcb",
+      "size": 6112,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/7e478cd8f3d137c7660b49f79db857b2b08e2dcb"
+    },
+    {
+      "path": "web/styles/layout.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfd2428b8a8c0a8bb1e49f55184f363dee2ddd27",
+      "size": 2283,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/cfd2428b8a8c0a8bb1e49f55184f363dee2ddd27"
+    },
+    {
+      "path": "web/styles/player.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2287d3e98f46799b8b3b0c8d46dbaf1ed5ca2a8a",
+      "size": 8276,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2287d3e98f46799b8b3b0c8d46dbaf1ed5ca2a8a"
+    },
+    {
+      "path": "web/styles/voices.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69030c2704f7b914cb3af0e6e2dfd55b07667734",
+      "size": 14261,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/69030c2704f7b914cb3af0e6e2dfd55b07667734"
+    },
+    {
+      "path": "web/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8d2ea1a6255b2d3af5f1bcb37f66730cb28b105d",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/8d2ea1a6255b2d3af5f1bcb37f66730cb28b105d"
+    },
+    {
+      "path": "web/tests/e2e",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "86bcc3558e34ec5e08eaafa02ec74dd6c9eba4fa",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/86bcc3558e34ec5e08eaafa02ec74dd6c9eba4fa"
+    },
+    {
+      "path": "web/tests/e2e/editor.spec.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "259d2856161ba827f896b7348224f56542ff2589",
+      "size": 4227,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/259d2856161ba827f896b7348224f56542ff2589"
+    },
+    {
+      "path": "web/tests/e2e/fixtures",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f669659be3ec081fb507aa80ae2b3174bad12d9e",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/f669659be3ec081fb507aa80ae2b3174bad12d9e"
+    },
+    {
+      "path": "web/tests/e2e/fixtures/app.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8284db6925917207dfdb281cffcfbd0cae3e6784",
+      "size": 273,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/8284db6925917207dfdb281cffcfbd0cae3e6784"
+    },
+    {
+      "path": "web/tests/e2e/fixtures/mock-api.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e1923070d0aa55e2e872914356d98bb90f4b490d",
+      "size": 701,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/e1923070d0aa55e2e872914356d98bb90f4b490d"
+    },
+    {
+      "path": "web/tests/e2e/fixtures/static-server.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04dd11c468ab8df368ccc2d73b40ab82d9967b47",
+      "size": 1419,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/04dd11c468ab8df368ccc2d73b40ab82d9967b47"
+    },
+    {
+      "path": "web/tests/e2e/long-playback.spec.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0688df3659a4e215217f3f50c912721d9d6d24dd",
+      "size": 4986,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/0688df3659a4e215217f3f50c912721d9d6d24dd"
+    },
+    {
+      "path": "web/tests/e2e/player-cancel.spec.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "139080c307733988f4050079a3c45583b2b3a8ce",
+      "size": 1324,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/139080c307733988f4050079a3c45583b2b3a8ce"
+    },
+    {
+      "path": "web/tests/e2e/voice-tags.spec.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d553fc6955b24b94889472ff47c964dce0df0987",
+      "size": 30077,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/d553fc6955b24b94889472ff47c964dce0df0987"
+    },
+    {
+      "path": "web/tests/unit",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a9124bf78eb29d853b9c44e2cddb1b6b522774de",
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/trees/a9124bf78eb29d853b9c44e2cddb1b6b522774de"
+    },
+    {
+      "path": "web/tests/unit/audio-service.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "473be2244e9334e525e76c872f269148574c63b5",
+      "size": 6732,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/473be2244e9334e525e76c872f269148574c63b5"
+    },
+    {
+      "path": "web/tests/unit/file-source-swap.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "feaf436d59c297a1ca3d588021d1297cba353aa1",
+      "size": 9051,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/feaf436d59c297a1ca3d588021d1297cba353aa1"
+    },
+    {
+      "path": "web/tests/unit/index.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d7386ead537080c7660be28e69903a0b212fb88",
+      "size": 348,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/3d7386ead537080c7660be28e69903a0b212fb88"
+    },
+    {
+      "path": "web/tests/unit/insert-log.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af7f7db6d3a7d92e2ac1a120849fddf17189314b",
+      "size": 1396,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/af7f7db6d3a7d92e2ac1a120849fddf17189314b"
+    },
+    {
+      "path": "web/tests/unit/mse-pipeline.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "76bd285c89b109d68e9520e1cd340a58be5432d1",
+      "size": 2453,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/76bd285c89b109d68e9520e1cd340a58be5432d1"
+    },
+    {
+      "path": "web/tests/unit/player-controls.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f7a65afe935ed0242e61422d95c1df566485d199",
+      "size": 4192,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/f7a65afe935ed0242e61422d95c1df566485d199"
+    },
+    {
+      "path": "web/tests/unit/read-along-timing.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4c42962a2b493c1e1ac7e8b02e4108791662f0e7",
+      "size": 4708,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/4c42962a2b493c1e1ac7e8b02e4108791662f0e7"
+    },
+    {
+      "path": "web/tests/unit/read-along.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d0ecf0a3e3e98052616233003ab18d0fb647ad1",
+      "size": 2427,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/2d0ecf0a3e3e98052616233003ab18d0fb647ad1"
+    },
+    {
+      "path": "web/tests/unit/tune-service.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19f82f4a93a3bdd2ef24715ca3467ad5f0cbb3ea",
+      "size": 4405,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/19f82f4a93a3bdd2ef24715ca3467ad5f0cbb3ea"
+    },
+    {
+      "path": "web/tests/unit/voice-service.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26c18253046d371b01e8fe0c5cfa22412584b2e2",
+      "size": 2652,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/26c18253046d371b01e8fe0c5cfa22412584b2e2"
+    },
+    {
+      "path": "web/tests/unit/voice-tags.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "369d787c07fdad87a23103eae4b74d0f6f554f4a",
+      "size": 16897,
+      "url": "https://api.github.com/repos/remsky/Kokoro-FastAPI/git/blobs/369d787c07fdad87a23103eae4b74d0f6f554f4a"
+    }
+  ],
+  "truncated": false
+}
