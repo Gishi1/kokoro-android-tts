@@ -52,6 +52,8 @@ public class KokoroTtsService extends TextToSpeechService {
     // Shared with SettingsActivity so keys and defaults cannot drift apart.
     private static final String KEY_ADD_GAPS = SettingsActivity.KEY_ADD_GAPS;
     private static final String KEY_TRIM_SILENCE = SettingsActivity.KEY_TRIM_SILENCE;
+    private static final String KEY_APPS_OVERRIDE_VOICE =
+            SettingsActivity.KEY_APPS_OVERRIDE_VOICE;
     /** Amplitude below which a sample counts as silence, in int16 units (~0.6% FS). */
     private static final int SILENCE_THRESHOLD = 200;
     /** Silence kept either side of speech so a soft release is not clipped. */
@@ -95,24 +97,19 @@ public class KokoroTtsService extends TextToSpeechService {
      * value silently reverted the user's selection, so the voice appeared not to
      * change. The user's choice is now owned by the settings screen alone.
      */
+    /** Last voice an app asked to load; only consulted when apps may override. */
     private volatile String requestedVoice;
-    private volatile long requestedVoiceAtMs;
-    private volatile long voicePrefChangedAtMs;
     private volatile Thread worker;
 
     @Override
     public void onCreate() {
         super.onCreate();
         prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-        // The settings screen writes KEY_VOICE; note when, so a stale voice that
-        // the framework loaded earlier cannot override the newer choice.
         prefs.registerOnSharedPreferenceChangeListener(
                 new SharedPreferences.OnSharedPreferenceChangeListener() {
                     @Override
                     public void onSharedPreferenceChanged(SharedPreferences p, String key) {
                         if (KEY_VOICE.equals(key)) {
-                            voicePrefChangedAtMs = android.os.SystemClock.elapsedRealtime();
-                            requestedVoice = null;
                             Log.i(TAG, "default voice set to '"
                                     + pref(KEY_VOICE, DEFAULT_VOICE) + "'");
                         }
@@ -173,26 +170,31 @@ public class KokoroTtsService extends TextToSpeechService {
     /**
      * Decide which voice this utterance uses.
      *
-     * <p>Precedence: the user's choice in the engine settings screen wins, because
-     * that is the whole point of picking one. An app that explicitly loaded a voice
-     * <em>after</em> that choice is honoured for its own session. A voice the
-     * framework loaded <em>before</em> the choice is treated as a stale default and
-     * ignored — which is the case that made selection appear to do nothing.
+     * <p>By default the engine's own setting wins outright, because that is the
+     * whole point of picking a voice. This used to be inferred from timestamps --
+     * honour an app's voice only if it was loaded after the user's last change --
+     * and that was wrong: the timestamp was per-process, so after any restart it
+     * read as zero and the first voice an app loaded looked newer than the user's
+     * choice. Selection then appeared to work immediately after being set and to
+     * stop working later, which is a confusing way to fail.
+     *
+     * <p>{@code apps_override_voice} turns the classic Android behaviour back on,
+     * where an app's {@code setVoice()} wins. Off by default.
      */
     private String voice(SynthesisRequest request) {
         String prefVoice = pref(KEY_VOICE, DEFAULT_VOICE);
+        boolean appsMayOverride = prefBool(KEY_APPS_OVERRIDE_VOICE, false);
 
         String requested = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                 ? request.getVoiceName() : null;
         if (requested == null || requested.isEmpty()) requested = requestedVoice;
 
-        boolean appChoseItSince = requested != null && !requested.isEmpty()
-                && !requested.equals(prefVoice)
-                && requestedVoiceAtMs > voicePrefChangedAtMs;
+        boolean useApp = appsMayOverride && requested != null && !requested.isEmpty();
+        String chosen = useApp ? requested : prefVoice;
 
-        String chosen = appChoseItSince ? requested : prefVoice;
         Log.i(TAG, "voice: default=" + prefVoice + " requested=" + requested
-                + " -> " + chosen + (appChoseItSince ? " (app choice)" : " (default)"));
+                + " appsOverride=" + appsMayOverride
+                + " -> " + chosen + (useApp ? " (app choice)" : " (engine default)"));
         return chosen;
     }
 
@@ -264,7 +266,6 @@ public class KokoroTtsService extends TextToSpeechService {
         // client that resolved the default before the user changed it hands the
         // old name straight back.
         requestedVoice = voiceName;
-        requestedVoiceAtMs = android.os.SystemClock.elapsedRealtime();
         Log.i(TAG, "voice loaded by client: " + voiceName + " (not persisted)");
         return TextToSpeech.SUCCESS;
     }

@@ -70,6 +70,8 @@ public class SettingsActivity extends Activity {
     static final String KEY_ADD_GAPS = "add_gaps";
     /** Strip the silence Kokoro pads every chunk with. */
     static final String KEY_TRIM_SILENCE = "trim_silence";
+    /** Off by default: the engine's own voice setting wins. */
+    static final String KEY_APPS_OVERRIDE_VOICE = "apps_override_voice";
     static final String KEY_MID_SENTENCE_GAP_MS = "mid_sentence_gap_ms";
     static final String KEY_PARAGRAPH_GAP_MS = "paragraph_gap_ms";
 
@@ -320,6 +322,20 @@ public class SettingsActivity extends Activity {
             }
         });
         pane.addView(reload);
+
+        // ---- voice precedence
+        pane.addView(heading("Voice precedence"));
+        final CheckBox appsOverride = new CheckBox(this);
+        appsOverride.setText("Let apps choose the voice (off: the voice above always wins)");
+        appsOverride.setChecked(prefs.getBoolean(KEY_APPS_OVERRIDE_VOICE, false));
+        appsOverride.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                prefs.edit().putBoolean(KEY_APPS_OVERRIDE_VOICE, isChecked).apply();
+            }
+        });
+
+        pane.addView(appsOverride);
 
         // ---- pauses
         pane.addView(heading("Pauses between chunks"));
