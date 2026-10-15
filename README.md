@@ -189,6 +189,18 @@ synthesised a 105-character input into 5.79 s of audio in two chunks
 Any OpenAI-compatible `/v1/audio/speech` endpoint works — the request is
 `{model, input, voice, response_format}` and the response body is taken as audio.
 
+**`https://` endpoints work too.** The client is built on `HttpURLConnection`, which
+handles TLS transparently, so if your server is behind a reverse proxy with a
+certificate, just give the endpoint as `https://…` and nothing else changes. Nothing in
+the app forces plain HTTP.
+
+The default is `http://` for the common case: a Kokoro server on your own LAN. The
+manifest sets `usesCleartextTraffic="true"` so those work; Android's network security
+config scopes cleartext by domain, which cannot express "whatever private address the
+user types", so narrowing it would break exactly the self-hosted setup this is for.
+That is a deliberate trade: point the app at `https://` if the traffic crosses a
+network you do not control.
+
 ### Verify it end to end
 
 `EngineTestActivity` drives the engine through the ordinary `TextToSpeech` API and

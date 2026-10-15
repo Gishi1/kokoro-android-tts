@@ -24,4 +24,8 @@ Requires a Kokoro server that you run yourself. Any OpenAI-compatible
 Kokoro-FastAPI. The endpoint is configurable, so nothing is tied to one host, and
 the app sends nothing anywhere except to the server you point it at.
 
+Both http:// and https:// endpoints work, so a server behind a reverse proxy with a
+certificate can be reached over TLS. The default is plain http:// because the usual
+case is a Kokoro server on your own network.
+
 No ads, no tracking, no accounts, no network access beyond your own server.
