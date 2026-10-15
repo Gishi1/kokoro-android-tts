@@ -16,7 +16,7 @@ Repo: https://github.com/Gishi1/kokoro-android-tts
 Builds:
   - versionName: '1.0'
     versionCode: 1
-    commit: 4e457255a791fc38f1b254b4d81f344153310b7d
+    commit: fc2c29dc408c2b8fb64362e7eeb4d0fa65c15a68
     output: android/kokoro-tts-unsigned.apk
     prebuild: sdkmanager "platforms;android-34" "build-tools;35.0.0"
     build: APP_VERSION_NAME=$$VERSION$$ APP_VERSION_CODE=$$VERCODE$$ ANDROID_BUILD_TOOLS=35.0.0
